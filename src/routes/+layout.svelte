@@ -7,9 +7,9 @@
 
   <div class="right">
     <a href="/">v1</a>
-    <a href="/v2">v2</a>
   </div>
 </nav>
+<canvas class="webgl" />
 
 <slot />
 
@@ -26,5 +26,12 @@
 
   .right a:not(:last-child) {
     margin-right: 0.5rem;
+  }
+
+  .webgl {
+    position: fixed;
+    top: 0;
+    left: 0;
+    outline: none;
   }
 </style>
