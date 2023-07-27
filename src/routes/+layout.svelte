@@ -1,5 +1,13 @@
 <script>
   import './global.css'
+  import { initialiseThreeJSScene } from '$lib/noise/noise.js'
+  import { onMount } from 'svelte'
+
+  let canvas
+
+  onMount(() => {
+    initialiseThreeJSScene(canvas)
+  })
 </script>
 
 <nav>
@@ -9,7 +17,7 @@
     <a href="/">v1</a>
   </div>
 </nav>
-<canvas class="webgl" />
+<canvas class="webgl" bind:this={canvas} />
 
 <slot />
 
