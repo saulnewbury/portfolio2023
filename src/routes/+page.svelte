@@ -1,11 +1,21 @@
+<script>
+  import arrowRight from '$lib/icons/arrow-right.svg'
+</script>
+
 <section class="hero">
-  <h1 class="gutter-l">
-    I'm a <span class="fw-700 frontend-developer">frontend developer</span> with
-    endless curiosity for how an
-    <span class="fw-700 interactive-ui">interactive UI</span>
-    can
-    <span>move</span> to create exceptional user experiences
-  </h1>
+  <div class="container">
+    <h1 class="light">
+      Hello world! I'm Saul Newbury, a creative developer with endless curiosity
+      for how an interactive UI can move to create exceptional user experiences.
+    </h1>
+    <button
+      >Get in touch <img
+        class="arrow-right"
+        src={arrowRight}
+        alt="arrow right"
+      /></button
+    >
+  </div>
 </section>
 
 <style>
@@ -14,22 +24,31 @@
     display: flex;
     align-items: center;
   }
+
   h1 {
-    max-width: 22em;
-    line-height: 1.35;
+    margin-top: 7vh;
+    max-width: 26em;
+    max-width: 30em;
+    line-height: 1.45;
+    font-size: 30px;
+    margin-bottom: 1.8em;
   }
 
-  span {
-    display: inline-block;
+  button {
+    display: flex;
+    align-items: center;
   }
 
-  .frontend-developer {
-    color: var(--bc-yellow);
+  img.arrow-right {
+    width: 20px;
+    margin-left: 0.6em;
   }
 
-  .interactive-ui {
-    color: var(--bc-blue);
-    transform-origin: center;
-    transform: rotate(-3deg);
+  @media screen and (min-width: 1046px) {
+    .container {
+      margin-left: auto;
+      margin-right: auto;
+      padding-right: var(--gutter-lg);
+    }
   }
 </style>

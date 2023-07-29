@@ -93,12 +93,12 @@ export function initialiseThreeJSScene(canvas) {
     0.1,
     100
   )
-  camera.position.set(0.25, -0.25, 1.2)
+  camera.position.set(0.05, -0.0, 1.3)
   scene.add(camera)
 
   // Controls
-  const controls = new OrbitControls(camera, canvas)
-  controls.enableDamping = true
+  //   const controls = new OrbitControls(camera, canvas)
+  //   controls.enableDamping = true
 
   /**
    * Renderer
@@ -124,7 +124,7 @@ export function initialiseThreeJSScene(canvas) {
     material.uniforms.uTime.value = elapsedTime * 0.3
 
     // Update controls
-    controls.update()
+    // controls.update()
 
     // Update cube camera
     smallSphereMesh.visible = false

@@ -3,6 +3,7 @@
   import { initialiseThreeJSScene } from '$lib/noise/noise.js'
   import { onMount } from 'svelte'
 
+  // Refs
   let canvas
 
   onMount(() => {
@@ -15,16 +16,20 @@
 
   <div class="right">
     <a href="/">v1</a>
+    <a href="/v2">v2</a>
   </div>
 </nav>
+
 <canvas class="webgl" bind:this={canvas} />
 
-<slot />
+<div class="content">
+  <slot />
+</div>
 
 <style>
   /* nav */
   nav {
-    padding: 1rem var(--gutter-sm);
+    padding: 1.5rem var(--gutter-sm);
     display: flex;
     justify-content: space-between;
     position: absolute;
@@ -41,5 +46,13 @@
     top: 0;
     left: 0;
     outline: none;
+  }
+
+  .content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 0 var(--gutter-sm);
   }
 </style>
