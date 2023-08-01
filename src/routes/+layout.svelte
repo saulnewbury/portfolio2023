@@ -14,11 +14,9 @@
 <nav>
   <a href="/">Saul Newbury</a>
 
-  <div class="right">
+  <!-- <div class="right">
     <a href="/">v1</a>
-    <a href="/v2">v2</a>
-    <a href="/v3">v3</a>
-  </div>
+  </div> -->
 </nav>
 
 <canvas class="webgl" bind:this={canvas} />
@@ -31,7 +29,7 @@
 <style>
   /* nav */
   nav {
-    padding: 1.5rem var(--gutter-sm);
+    padding: 3.5rem var(--gutter) 0;
     display: flex;
     justify-content: space-between;
     position: absolute;
@@ -39,9 +37,9 @@
     width: 100vw;
   }
 
-  .right a:not(:last-child) {
+  /* .right a:not(:last-child) {
     margin-right: 0.5rem;
-  }
+  } */
 
   .webgl {
     position: fixed;
@@ -51,15 +49,15 @@
   }
 
   .content {
-    pointer-events: none;
+    /* pointer-events: none; */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    padding: 0 var(--gutter-sm);
+    padding: 0 var(--gutter);
   }
-  /* 
-  .overlay {
+
+  /* .overlay {
     pointer-events: none;
     position: absolute;
     top: 0;
@@ -69,4 +67,10 @@
     background-color: rgb(224, 110, 110);
     mix-blend-mode: exclusion;
   } */
+
+  @media screen and (max-width: 768px) {
+    .content {
+      padding: 0 var(--gutter-mob);
+    }
+  }
 </style>

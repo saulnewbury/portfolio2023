@@ -3,19 +3,17 @@
 </script>
 
 <section class="hero">
-  <div class="container">
-    <h1 class="light">
-      I'm Saul Newbury, a freelance developer passionate about how great design,
-      asthetics and motion come together to make memorable experiences.
-    </h1>
-    <button
-      >Get in touch <img
-        class="arrow-right"
-        src={arrowRight}
-        alt="arrow right"
-      /></button
-    >
-  </div>
+  <h1>
+    I'm Saul Newbury, a freelance developer passionate about how great design,
+    asthetics and motion come together to make memorable experiences.
+  </h1>
+  <button
+    >Get in touch <img
+      class="arrow-right"
+      src={arrowRight}
+      alt="arrow right"
+    /></button
+  >
 </section>
 
 <style>
@@ -26,30 +24,27 @@
   }
 
   h1 {
-    margin-top: 7vh;
-    max-width: 26em;
-    max-width: 30.5em;
-    line-height: 1.45;
-    font-size: 30px;
-    margin-bottom: 1.8em;
-    font-weight: 100;
+    max-width: 23em;
   }
 
   button {
+    position: absolute;
+    bottom: 3.5rem;
+    right: var(--gutter);
     display: flex;
     align-items: center;
   }
 
   img.arrow-right {
-    width: 20px;
-    margin-left: 0.6em;
+    width: 25px;
+    margin-left: 0.5em;
   }
 
-  @media screen and (min-width: 1046px) {
+  /* @media screen and (min-width: 1046px) {
     .container {
       margin-left: auto;
       margin-right: auto;
       padding-right: var(--gutter-lg);
     }
-  }
+  } */
 </style>
