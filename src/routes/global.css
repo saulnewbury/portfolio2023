@@ -34,22 +34,30 @@
       font-display: swap;
   }
 
-        @font-face {
-            font-family: 'GujaratiSangamMN';
-            src: url('$lib/fonts/GujaratiSangamMN.woff2') format('woff2');
-            src: url('$lib/fonts/GujaratiSangamMN.woff') format('woff');
-            font-weight: 500;
-            font-style: normal;
-            font-display: swap;
-        }
-        @font-face {
-            font-family: 'GujaratiSangamMN';
-            src: url('$lib/fonts/GujaratiSangamMN-Bold.woff2') format('woff2');
-            src: url('$lib/fonts/GujaratiSangamMN-Bold.woff') format('woff');
-            font-weight: 700;
-            font-style: normal;
-            font-display: swap;
-        }
+@font-face {
+    font-family: 'GujaratiSangamMN';
+    src: url('$lib/fonts/GujaratiSangamMN.woff2') format('woff2');
+    src: url('$lib/fonts/GujaratiSangamMN.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'GujaratiSangamMN';
+    src: url('$lib/fonts/GujaratiSangamMN-Bold.woff2') format('woff2');
+    src: url('$lib/fonts/GujaratiSangamMN-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Galfego';
+    src: url('$lib/fonts/Galfego-Regular.woff2') format('woff2');
+    src: url('$lib/fonts/Galfego-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
 
  /* global styles */
 
@@ -95,7 +103,7 @@ button {
     border-radius: 1000px;
     border: black solid 1px;
     background: none;
-    font-size: 20px;;
+    font-size: 18px;;
 }
 
  .light {

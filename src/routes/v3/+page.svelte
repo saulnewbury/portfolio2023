@@ -90,39 +90,34 @@
 <style>
   section {
     height: 100vh;
-    font-family: GujaratiSangamMN;
+    font-family: Galfego;
   }
 
   h1 {
-    letter-spacing: -4px;
     position: absolute;
-    line-height: 1.1;
-    font-size: 85px;
-    font-weight: 700;
-    mix-blend-mode: color-burn;
-    opacity: 0.9;
+    line-height: 0.8;
+    font-size: 170px;
+    font-weight: 500;
+    opacity: 0.8;
   }
 
   h1.creative-developer {
     left: var(--gutter-sm);
-    top: 140px;
+    top: 80px;
   }
 
   h1.namesake-brand {
     right: var(--gutter-sm);
-    bottom: 120px;
+    bottom: 20px;
     text-align: right;
   }
 
   .spinner-outer {
-    display: none;
     cursor: pointer;
     position: absolute;
     top: 40%;
-    left: calc(var(--gutter-lg) * 1.5);
     width: 360px;
     height: 360px;
-    /* background-color: palegreen; */
   }
 
   .spinner-inner {

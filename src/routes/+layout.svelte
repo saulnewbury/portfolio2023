@@ -17,11 +17,13 @@
   <div class="right">
     <a href="/">v1</a>
     <a href="/v2">v2</a>
+    <a href="/v3">v3</a>
   </div>
 </nav>
 
 <canvas class="webgl" bind:this={canvas} />
 
+<!-- <div class="overlay" /> -->
 <div class="content">
   <slot />
 </div>
@@ -49,10 +51,22 @@
   }
 
   .content {
+    pointer-events: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     padding: 0 var(--gutter-sm);
   }
+  /* 
+  .overlay {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(224, 110, 110);
+    mix-blend-mode: exclusion;
+  } */
 </style>

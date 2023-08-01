@@ -5,8 +5,8 @@
 <section class="hero">
   <div class="container">
     <h1 class="light">
-      Hello world! I'm Saul Newbury, a creative developer with endless curiosity
-      for how an interactive UI can move to create exceptional user experiences.
+      I'm Saul Newbury, a freelance developer passionate about how great design,
+      asthetics and motion come together to make memorable experiences.
     </h1>
     <button
       >Get in touch <img
@@ -28,10 +28,11 @@
   h1 {
     margin-top: 7vh;
     max-width: 26em;
-    max-width: 30em;
+    max-width: 30.5em;
     line-height: 1.45;
     font-size: 30px;
     margin-bottom: 1.8em;
+    font-weight: 100;
   }
 
   button {

@@ -28,26 +28,16 @@ export function initialiseThreeJSScene(canvas) {
   const smallSphereGeo = new THREE.SphereGeometry(0.4, 100, 100)
 
   // points - (x, y) pairs are rotated around the y-axis
-  let points = []
+  const points = []
 
   const scaleAmount = 0.4
 
   let rad
   let increment = 0.05
 
-  let eggGeometry, eggMesh, materialFresnel
-
-  const cubeRenderTarget = new THREE.WebGLCubeRenderTarget(256, {
-    format: THREE.RGBAFormat,
-    generateMipmaps: true,
-    minFilter: THREE.LinearMipMapLinearFilter,
-    encoding: THREE.SRGBColorSpace
-  })
-
-  const cubeCamera = new THREE.CubeCamera(0.1, 10, cubeRenderTarget)
+  let eggGeometry
 
   function composeEgg() {
-    scene.remove(eggMesh)
     for (let deg = 0; deg <= 180; deg += 6) {
       rad = ((Math.PI * deg) / 180) * increment
 
@@ -62,28 +52,26 @@ export function initialiseThreeJSScene(canvas) {
     }
 
     if (increment <= 1) {
-      const multiplier = increment < 5 ? increment * 2.5 : 0.5
-      increment += 0.005 * multiplier
-      setTimeout(composeEgg, 10)
+      increment += 0.05
+      setTimeout(composeEgg, 1000)
     }
+    console.log(increment)
 
     eggGeometry = new THREE.LatheGeometry(points, 32)
-    materialFresnel = new THREE.ShaderMaterial({
-      vertexShader: noiseVertexShader1,
-      fragmentShader: noiseFragmentShader1,
-      side: THREE.DoubleSide,
-      uniforms: {
-        uTime: { value: 0 },
-        tCube: cubeRenderTarget.texture
-      }
-    })
-
-    eggMesh = new THREE.Mesh(eggGeometry, materialFresnel)
-    scene.add(eggMesh)
-    points = []
   }
 
   composeEgg()
+
+  // console.log(points)
+
+  const cubeRenderTarget = new THREE.WebGLCubeRenderTarget(256, {
+    format: THREE.RGBAFormat,
+    generateMipmaps: true,
+    minFilter: THREE.LinearMipMapLinearFilter,
+    encoding: THREE.SRGBColorSpace
+  })
+
+  const cubeCamera = new THREE.CubeCamera(0.1, 10, cubeRenderTarget)
 
   // Material
   const material = new THREE.ShaderMaterial({
@@ -95,21 +83,22 @@ export function initialiseThreeJSScene(canvas) {
     }
   })
 
-  // const materialFresnel = new THREE.ShaderMaterial({
-  //   vertexShader: noiseVertexShader1,
-  //   fragmentShader: noiseFragmentShader1,
-  //   side: THREE.DoubleSide,
-  //   uniforms: {
-  //     uTime: { value: 0 },
-  //     tCube: cubeRenderTarget.texture
-  //   }
-  // })
+  const materialFresnel = new THREE.ShaderMaterial({
+    vertexShader: noiseVertexShader1,
+    fragmentShader: noiseFragmentShader1,
+    side: THREE.DoubleSide,
+    uniforms: {
+      uTime: { value: 0 },
+      tCube: cubeRenderTarget.texture
+    }
+  })
 
   // Mesh
   const sphereMesh = new THREE.Mesh(sphereGeometry, material)
   const smallSphereMesh = new THREE.Mesh(smallSphereGeo, materialFresnel)
+  const eggMesh = new THREE.Mesh(eggGeometry, materialFresnel)
 
-  scene.add(sphereMesh)
+  scene.add(eggMesh, sphereMesh)
 
   /**
    * Sizes
@@ -184,7 +173,7 @@ export function initialiseThreeJSScene(canvas) {
     const elapsedTime = clock.getElapsedTime()
     // Update Material
     // material.uniforms.uTime.value = elapsedTime * 0.005
-    material.uniforms.uTime.value = elapsedTime * 0.5
+    material.uniforms.uTime.value = elapsedTime * 0.3
 
     // Update controls
     controls.update()

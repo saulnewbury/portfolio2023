@@ -11,14 +11,14 @@
 import { gsap } from 'gsap'
 
 let mouseInTarget = false
+let left, top
 
 export function pull(e, target, portfolioOf, bool) {
+  left = e.clientX
+  top = e.clientY
+
   mouseInTarget = bool
   console.log(mouseInTarget)
-  const cursorPosition = {
-    left: e.clientX,
-    top: e.clientY
-  }
 
   const targetElements = [target]
 
@@ -35,8 +35,8 @@ export function pull(e, target, portfolioOf, bool) {
 
     // Get distance between target instance and mouse (adj & opp)
     const distance = {
-      adj: targetPosition.left - cursorPosition.left,
-      opp: targetPosition.top - cursorPosition.top
+      adj: targetPosition.left - left,
+      opp: targetPosition.top - top
     }
 
     const hypotenuse = Math.sqrt(
@@ -66,7 +66,8 @@ export function release(portfolioOf, bool) {
   gsap.to(portfolioOf, {
     x: 0,
     y: 0,
-    duration: 0.6
+    duration: 2.5,
+    ease: 'elastic'
   })
 }
 

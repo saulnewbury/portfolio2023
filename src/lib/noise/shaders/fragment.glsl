@@ -56,17 +56,69 @@ mat2 rotate2D(float angle) {
 
 void main()
 {
-   vec3 baseFirst = vec3(255./255., 240./255., 250./255.);
-   vec3 accent = vec3(1.0, 1.0, 1.0);
-  //  vec3 baseSecond = vec3(241./255., 240./255., 253./255.);
-  //  vec3 baseSecond = vec3(240./255., 255./255., 237./255.); // green
-   vec3 baseSecond =  vec3(237./255., 245./255., 255./255.); // blue
+  // original
+  //  vec3 baseFirst = vec3(255./255., 240./255., 250./255.);
+  //  vec3 accent = vec3(1.0, 1.0, 1.0);
+  //  vec3 baseSecond =  vec3(237./255., 245./255., 255./255.); // blue
+
+  //  float n = noise(vPosition + uTime);
+  //  n += noise(baseSecond);
+
+  //  vec2 baseUV = rotate2D(n) * vPosition.xy * 0.05;
+  //  float basePattern = lines(baseUV, 0.5);
+  //  float secondPattern = lines(baseUV, 0.1);   
+  //  float thirdPattern = lines(baseUV, 0.4);    
+
+  // Mint
+  //  vec3 baseFirst = vec3(244./255., 210./255., 240./255.);
+  //  vec3 accent = vec3(.3, .45, .34);
+  //  vec3 baseSecond =  vec3(132./255., 231./255., 213./255.); // blue
+
+  //  float n = noise(vPosition + uTime);
+
+  //  vec2 baseUV = rotate2D(n) * vPosition.xy * .005; //.5
+  //  float basePattern = lines(baseUV, 0.1);
+  //  float secondPattern = lines(baseUV, .05); 
+  //  float thirdPattern = lines(baseUV, .005); 
+
+  // Egg
+   vec3 baseFirst = vec3(255./255., 167./255., 117./255.);
+  //  vec3 accent = vec3(255./255., 165./255., 115./255.); // dark
+   vec3 accent = vec3(255./255., 165./255., 135./255.); // dark
+   vec3 baseSecond =  vec3(255./255., 211./255., 198./255.); // main
+
    float n = noise(vPosition + uTime);
 
-   vec2 baseUV = rotate2D(n) * vPosition.xy * 0.1;
-   float basePattern = lines(baseUV, 0.5);
-   float secondPattern = lines(baseUV, 0.1);   
-   float thirdPattern = lines(baseUV, 0.4);   
+   vec2 baseUV = rotate2D(n) * vPosition.xy * .01; //.005
+   float basePattern = lines(baseUV, 0.1);    // .1
+   float secondPattern = lines(baseUV, .5);    // .05
+   float thirdPattern = lines(baseUV, .6);  // .005 
+  
+
+  // Experiment 1 - cool
+  //  vec3 baseFirst = vec3(244./255., 210./255., 240./255.);
+  //  vec3 accent = vec3(.7, .6, 5.0);
+  //  vec3 baseSecond =  vec3(217./255., 225./255., 255./255.); // blue
+
+  //  float n = noise(vPosition + uTime);
+
+  //  vec2 baseUV = rotate2D(n) * vPosition.xy * .05; //.5
+  //  float basePattern = lines(baseUV, 1.9);
+  //  float secondPattern = lines(baseUV, 0.1);    //
+  //  float thirdPattern = lines(baseUV, 1.1);   
+
+  // Experiment 2 - ruddy
+  //  vec3 baseFirst = vec3(245./255., 140./255., 155./255.);
+  //  vec3 accent = vec3(.8, .7, 1.0);
+  //  vec3 baseSecond =  vec3(245./255., 200./255., 203./255.); // blue
+
+  //  float n = noise(vPosition + uTime);
+  //  n += noise(baseSecond);
+
+  //  vec2 baseUV = rotate2D(n) * vPosition.xy * .007; //.5
+  //  float basePattern = lines(baseUV, .01);
+  //  float secondPattern = lines(baseUV, 0.05);    //
+  //  float thirdPattern = lines(baseUV, 9.9);   
 
    vec3 baseColor = mix(baseSecond, baseFirst, basePattern);
    vec3 secondBaseColor = mix(baseColor, accent, secondPattern);
