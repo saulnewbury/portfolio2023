@@ -2,26 +2,34 @@
   import './global.css'
   import { initialiseThreeJSScene } from '$lib/noise/noise.js'
   import { onMount } from 'svelte'
+  import { gsap } from 'gsap'
+  import { SplitText } from 'gsap/dist/SplitText'
+
+  gsap.registerPlugin(SplitText)
 
   // Refs
-  let canvas
+  let canvas, overlayOne, overlayTwo
 
   onMount(() => {
-    initialiseThreeJSScene(canvas)
+    initialiseThreeJSScene(canvas, overlayOne, overlayTwo)
+    gsap.to(canvas, { opacity: 1 })
   })
 </script>
 
 <nav>
-  <a href="/">Saul Newbury</a>
+  <a class="brand-name" href="/">Saul Newbury</a>
 
-  <!-- <div class="right">
+  <div class="right">
     <a href="/">v1</a>
-  </div> -->
+    <a href="/v2">v2</a>
+    <a href="/v3">v3</a>
+  </div>
 </nav>
 
 <canvas class="webgl" bind:this={canvas} />
 
-<!-- <div class="overlay" /> -->
+<div class="overlay one" bind:this={overlayOne} />
+<div class="overlay two" bind:this={overlayTwo} />
 <div class="content">
   <slot />
 </div>
@@ -37,9 +45,14 @@
     width: 100vw;
   }
 
-  /* .right a:not(:last-child) {
+  a.brand-name,
+  .right a {
+    /* opacity: 0; */
+  }
+
+  .right a:not(:last-child) {
     margin-right: 0.5rem;
-  } */
+  }
 
   .webgl {
     position: fixed;
@@ -57,16 +70,29 @@
     padding: 0 var(--gutter);
   }
 
-  /* .overlay {
-    pointer-events: none;
+  canvas {
+    opacity: 0;
+  }
+
+  .overlay {
+    /* pointer-events: none; */
     position: absolute;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgb(224, 110, 110);
-    mix-blend-mode: exclusion;
-  } */
+  }
+
+  .overlay.one {
+    background-color: rgba(0, 0, 0, 0.6);
+    mix-blend-mode: hard-light;
+  }
+
+  .overlay.two {
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    mix-blend-mode: overlay;
+  }
 
   @media screen and (max-width: 768px) {
     .content {

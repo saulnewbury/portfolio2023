@@ -1,6 +1,7 @@
 // NOISE
 
 import * as THREE from 'three'
+import { gsap } from 'gsap'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import noiseVertexShader from '$lib/noise/shaders/vertex.glsl'
 import noiseVertexShader1 from '$lib/noise/shaders/vertex1.glsl'
@@ -12,11 +13,16 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
 
+// THREE.ColorManagement.enabled = false
+
 /**
  * Base
  */
 
-export function initialiseThreeJSScene(canvas) {
+export let eggBuilt = false
+
+// const gui = new GUI()
+export function initialiseThreeJSScene(canvas, overlayOne, overlayTwo) {
   // Scene
   const scene = new THREE.Scene()
   // scene.background = new THREE.Color('#0099ff')
@@ -41,7 +47,7 @@ export function initialiseThreeJSScene(canvas) {
     format: THREE.RGBAFormat,
     generateMipmaps: true,
     minFilter: THREE.LinearMipMapLinearFilter,
-    encoding: THREE.SRGBColorSpace
+    colorSpace: THREE.SRGBColorSpace
   })
 
   const cubeCamera = new THREE.CubeCamera(0.1, 10, cubeRenderTarget)
@@ -63,8 +69,10 @@ export function initialiseThreeJSScene(canvas) {
 
     if (increment <= 1) {
       const multiplier = increment < 5 ? increment * 2.5 : 0.5
-      increment += 0.005 * multiplier
+      increment += 0.01 * multiplier
       setTimeout(composeEgg, 10)
+    } else {
+      eggBuilt = true
     }
 
     eggGeometry = new THREE.LatheGeometry(points, 32)
@@ -108,7 +116,6 @@ export function initialiseThreeJSScene(canvas) {
   // Mesh
   const sphereMesh = new THREE.Mesh(sphereGeometry, material)
   const smallSphereMesh = new THREE.Mesh(smallSphereGeo, materialFresnel)
-
   scene.add(sphereMesh)
 
   /**
@@ -143,7 +150,9 @@ export function initialiseThreeJSScene(canvas) {
     0.1,
     100
   )
-  camera.position.set(0.05, -0.0, 1.3)
+  camera.position.set(0.05, -0.0, 3)
+  // camera.position.set(0.05, -0.0, 1.3)
+  console.log(camera.position)
   scene.add(camera)
 
   // Controls
@@ -156,6 +165,7 @@ export function initialiseThreeJSScene(canvas) {
   const renderer = new THREE.WebGLRenderer({
     canvas: canvas
   })
+  // renderer.outputColorSpace = THREE.LinearSRGBColorSpace
   renderer.setSize(sizes.width, sizes.height)
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
@@ -175,6 +185,28 @@ export function initialiseThreeJSScene(canvas) {
 
   composer.setSize(sizes.width, sizes.height)
 
+  const tl = gsap.timeline()
+  gsap.to(camera.position, {
+    z: 1.3,
+    delay: 3,
+    duration: 1.5,
+    ease: 'power2.inOut'
+  })
+
+  gsap.to(overlayOne, {
+    opacity: 0,
+    delay: 3,
+    duration: 1.5,
+    ease: 'power2.inOut'
+  })
+
+  gsap.to(overlayTwo, {
+    opacity: 1,
+    delay: 3,
+    duration: 1.5,
+    ease: 'power2.inOut'
+  })
+
   /**
    * Animate
    */
@@ -184,7 +216,7 @@ export function initialiseThreeJSScene(canvas) {
     const elapsedTime = clock.getElapsedTime()
     // Update Material
     // material.uniforms.uTime.value = elapsedTime * 0.005
-    material.uniforms.uTime.value = elapsedTime * 0.5
+    material.uniforms.uTime.value = elapsedTime * 0.5 // .5
 
     // Update controls
     controls.update()

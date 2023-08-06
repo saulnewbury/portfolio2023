@@ -5,12 +5,14 @@
   import { gsap } from 'gsap'
   import { SplitText } from 'gsap/dist/SplitText'
 
+  import { eggBuilt } from '$lib/noise/noise.js'
+
   let section
 
   onMount(() => {
     const q = gsap.utils.selector(section)
-    const splitText = new SplitText(q('h1'), { type: 'chars' })
-    const chars = splitText.chars
+    const splitText = new SplitText(q('h1'), { type: 'lines' })
+    const lines = splitText.lines
 
     /**
      *  Animate Characters
@@ -22,36 +24,50 @@
 
       tl.to(q('h1'), { opacity: 1 })
 
-      for (let i = 0; i < chars.length; i++) {
+      for (let i = 0; i < lines.length; i++) {
         tl.from(
-          chars[i],
+          lines[i],
           {
-            opacity: 0.1,
-            duration: 0.5
+            opacity: 0.4,
+            yPercent: 100,
+            duration: 0.7
+            // ease: 'power1.inOut'
           },
-          `<.03`
+          `<.12`
+        ).from(
+          q('.text h1')[i],
+          {
+            y: -20,
+            duration: 0.7
+          },
+          '<'
         )
       }
 
       return tl
     }
 
-    setTimeout(() => {
+    if (eggBuilt) {
       animateText()
-    }, 4500)
+    } else {
+      setTimeout(() => {
+        animateText()
+      }, 3950)
+    }
   })
 </script>
 
 <section class="hero" bind:this={section}>
-  <h1>
-    <!-- I'm Saul Newbury, a freelance developer<br />
+  <!-- I'm Saul Newbury, a freelance developer<br />
     passionate about how great design, <br />
     asthetics and motion come together to <br />
     make memorable experiences. -->
-    I'm Saul Newbury, a freelance developer passionate <br />
-    about how great design, asthetics and motion can come <br />
-    together to make memorable experiences. <br />
-  </h1>
+  <div class="text">
+    <h1>I'm Saul Newbury, a freelance developer passionate</h1>
+    <h1>about how great design, asthetics and motion can come</h1>
+    <h1>together to make memorable experiences.</h1>
+  </div>
+
   <button
     >Get in touch <img
       class="arrow-right"
@@ -69,14 +85,14 @@
   }
 
   h1 {
-    position: absolute;
-    /* bottom: 10vh; */
+    text-transform: uppercase;
+    line-height: 0.8;
+    margin-bottom: 0.3em;
+    font-size: 2.3rem;
+
     opacity: 0;
-    max-width: 24em;
-    font-size: 2rem;
-    font-size: 1.1rem;
-    font-size: 2.5rem;
-    /* color: white; */
+    overflow: hidden;
+    max-width: 32em;
   }
 
   button {
