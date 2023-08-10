@@ -9,6 +9,8 @@ import noiseFragmentShader from '$lib/noise/shaders/fragment.glsl'
 import noiseFragmentShader1 from '$lib/noise/shaders/fragment1.glsl'
 import { DotScreenShader } from '$lib/custom-shader/customShader'
 
+import image from '$lib/images/me.jpg'
+
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
@@ -30,8 +32,8 @@ export function initialiseThreeJSScene(canvas, overlayOne, overlayTwo) {
   /**
    * Geometries
    */
-  const sphereGeometry = new THREE.SphereGeometry(4, 32, 32)
-  const smallSphereGeo = new THREE.SphereGeometry(0.4, 100, 100)
+
+  // EGG
 
   // points - (x, y) pairs are rotated around the y-axis
   let points = []
@@ -62,7 +64,9 @@ export function initialiseThreeJSScene(canvas, overlayOne, overlayTwo) {
         -Math.cos(rad) * scaleAmount
       ) // the "egg equation"
 
-      //console.log( point ); // x-coord should be greater than zero to avoid degenerate triangles; it is not in this formula.
+      //console.log( point );
+      // x-coord should be greater than zero to avoid degenerate
+      // triangles; it is not in this formula.
 
       points.push(point)
     }
@@ -76,6 +80,9 @@ export function initialiseThreeJSScene(canvas, overlayOne, overlayTwo) {
     }
 
     eggGeometry = new THREE.LatheGeometry(points, 32)
+    eggGeometry.transparent = true
+    eggGeometry.opacity = 0.1
+
     materialFresnel = new THREE.ShaderMaterial({
       vertexShader: noiseVertexShader1,
       fragmentShader: noiseFragmentShader1,
@@ -93,6 +100,10 @@ export function initialiseThreeJSScene(canvas, overlayOne, overlayTwo) {
 
   composeEgg()
 
+  // SPHERE
+
+  const sphereGeometry = new THREE.SphereGeometry(4, 32, 32)
+
   // Material
   const material = new THREE.ShaderMaterial({
     vertexShader: noiseVertexShader,
@@ -103,20 +114,26 @@ export function initialiseThreeJSScene(canvas, overlayOne, overlayTwo) {
     }
   })
 
-  // const materialFresnel = new THREE.ShaderMaterial({
-  //   vertexShader: noiseVertexShader1,
-  //   fragmentShader: noiseFragmentShader1,
-  //   side: THREE.DoubleSide,
-  //   uniforms: {
-  //     uTime: { value: 0 },
-  //     tCube: cubeRenderTarget.texture
-  //   }
-  // })
-
   // Mesh
   const sphereMesh = new THREE.Mesh(sphereGeometry, material)
-  const smallSphereMesh = new THREE.Mesh(smallSphereGeo, materialFresnel)
   scene.add(sphereMesh)
+
+  // PLANE
+
+  const loader = new THREE.TextureLoader()
+
+  const imageMaterial = new THREE.MeshLambertMaterial({
+    map: loader.load(image),
+    transparent: true,
+    opacity: 0.0
+  })
+
+  // const planeGeometry = new THREE.PlaneGeometry(0.45, 0.45)
+  const planeGeometry = new THREE.PlaneGeometry(0.45, 0.45)
+
+  const planeMesh = new THREE.Mesh(planeGeometry, imageMaterial)
+  planeMesh.position.z = 0.35
+  scene.add(planeMesh)
 
   /**
    * Sizes
@@ -171,8 +188,6 @@ export function initialiseThreeJSScene(canvas, overlayOne, overlayTwo) {
 
   // materialFresnel.uniforms.tCube.value = cubeRenderTarget.texture
 
-  console.log(smallSphereMesh)
-
   /**
    * Post processing
    */
@@ -185,27 +200,39 @@ export function initialiseThreeJSScene(canvas, overlayOne, overlayTwo) {
 
   composer.setSize(sizes.width, sizes.height)
 
-  const tl = gsap.timeline()
   gsap.to(camera.position, {
     z: 1.3,
-    delay: 3,
-    duration: 1.5,
+    delay: 2.5,
+    duration: 1.8,
     ease: 'power2.inOut'
   })
 
   gsap.to(overlayOne, {
     opacity: 0,
-    delay: 3,
-    duration: 1.5,
+    delay: 2.5,
+    duration: 1.8,
     ease: 'power2.inOut'
   })
 
   gsap.to(overlayTwo, {
-    opacity: 1,
-    delay: 3,
-    duration: 1.5,
+    opacity: 0.6,
+    delay: 2.5,
+    duration: 1.8,
     ease: 'power2.inOut'
   })
+
+  /**
+   * Lights
+   **/
+
+  // Add a point light with #fff color, .7 intensity, and 0 distance
+  var light = new THREE.PointLight(0xffffff, 1, 0)
+
+  // Specify the light's position
+  light.position.set(1, 1, 100)
+
+  // Add the light to the scene
+  scene.add(light)
 
   /**
    * Animate

@@ -5,60 +5,130 @@
   import { gsap } from 'gsap'
   import { SplitText } from 'gsap/dist/SplitText'
 
+  import { eggBuilt } from '$lib/noise/noise.js'
+
+  // Refs
   let section
+
+  // Vars
+  let splitText, lines
+
+  $: isMobile = null
+  $: htmlContent = !isMobile
+    ? "<h1>I'm Saul Newbury, a freelance developer, interested in</h1> <h1>how great design, asthetics and motion can come together</h1> <h1>to enhance user experiences.</h1>"
+    : "<h1>I'm Saul Newbury, a freelance developer,</h1> <h1>interested in how great design, asthetics</h1> <h1>and motion can come together to enhance</h1><h1>user experiences.</h1>"
 
   onMount(() => {
     const q = gsap.utils.selector(section)
-    const splitText = new SplitText(q('h1'), { type: 'chars' })
-    const chars = splitText.chars
+
+    const mm = gsap.matchMedia()
+
+    mm.add(
+      '(max-width: 829px)',
+      () => {
+        console.log('mobile mm')
+        isMobile = true
+        splitTheText()
+        animate()
+      },
+      section
+    )
+
+    mm.add(
+      '(min-width: 830px)',
+      () => {
+        console.log('desktop mm')
+        isMobile = false
+        splitTheText()
+        animate()
+      },
+      section
+    )
+
+    function splitTheText() {
+      splitText = new SplitText(q('h1'), { type: 'lines' })
+      lines = splitText.lines
+    }
 
     /**
      *  Animate Characters
      */
-    function animateText() {
-      const tl = gsap.timeline({
-        // paused: true
-      })
 
-      tl.to(q('h1'), { opacity: 1 })
+    function animate() {
+      const master = gsap.timeline({ paused: true })
 
-      for (let i = 0; i < chars.length; i++) {
-        tl.from(
-          chars[i],
-          {
-            opacity: 0.1,
-            duration: 0.5
-          },
-          `<.03`
-        )
+      function textReveal() {
+        const tl = gsap.timeline()
+
+        tl.to(q('h1'), { opacity: 1 })
+
+        for (let i = 0; i < lines.length; i++) {
+          tl.from(
+            lines[i],
+            {
+              opacity: 0,
+              yPercent: 80,
+              duration: 0.8
+            },
+            `<.2`
+          ).from(
+            q('.text h1')[i],
+            {
+              y: -20,
+              // y: -39,
+              duration: 0.8
+            },
+            '<'
+          )
+        }
+
+        return tl
       }
 
-      return tl
-    }
+      function buttonReveal() {
+        const tl = gsap.timeline()
+        tl.from(q('button span'), { yPercent: 100, duration: 0.8 })
+          .from(q('button'), { y: -15, duration: 0.8 }, '<')
+          .from(
+            q('button img'),
+            {
+              rotateY: 90
+            },
+            '<50%'
+          )
+        return tl
+      }
+      master.add(textReveal()).add(buttonReveal(), '<70%')
 
-    setTimeout(() => {
-      animateText()
-    }, 4500)
+      if (eggBuilt) {
+        master.play()
+      } else {
+        setTimeout(() => {
+          master.play()
+        }, 3000)
+      }
+    }
   })
 </script>
 
 <section class="hero" bind:this={section}>
-  <h1>
-    <!-- I'm Saul Newbury, a freelance developer<br />
-    passionate about how great design, <br />
-    asthetics and motion come together to <br />
-    make memorable experiences. -->
-    I'm Saul Newbury, a freelance developer passionate <br />
-    about how great design, asthetics and motion can come <br />
-    together to make memorable experiences. <br />
-  </h1>
-  <button
-    >Get in touch <img
-      class="arrow-right"
-      src={arrowRight}
-      alt="arrow right"
-    /></button
-  >
+  <!-- <div class={'text desktop ' + !isMobile ? 'show' : ''}> -->
+  <div class="text">
+    {@html htmlContent}
+  </div>
+  <!-- <div class={'text mobile ' + isMobile ? 'show' : ''}>
+    <h1>I'm Saul Newbury, a freelance developer,</h1>
+    <h1>interested in how great design, asthetics</h1>
+    <h1>and motion can come together to enhance</h1>
+    <h1>user experiences.</h1>
+  </div> -->
+
+  <button>
+    <span>Get in touch</span>
+    <span>
+      <img class="arrow-right" src={arrowRight} alt="arrow right" />
+    </span>
+  </button>
 </section>
 
 <style>
@@ -68,35 +138,41 @@
     align-items: center;
   }
 
-  h1 {
-    position: absolute;
-    /* bottom: 10vh; */
+  /* section :global(.text) {
+    display: none;
+  }
+
+  section :global(.text.mobile.show),
+  section :global(.text.desktop.show) {
+    display: block;
+  } */
+
+  section :global(h1) {
     opacity: 0;
-    max-width: 24em;
-    font-size: 2rem;
-    font-size: 1.1rem;
-    font-size: 2.5rem;
-    /* color: white; */
+    overflow: hidden;
+    font-size: clamp(1.8rem, 3.5vw, 3.5vw);
+    margin-bottom: 0.02em;
+    max-width: 32em;
+    line-height: 1.12em;
   }
 
   button {
+    /* opacity: 0; */
+    overflow: hidden;
     position: absolute;
     bottom: 10vh;
     right: var(--gutter);
     display: flex;
     align-items: center;
+    font-size: clamp(1.4rem, 2.4vw, 2.4vw);
+  }
+
+  button span {
+    display: inline-block;
   }
 
   img.arrow-right {
-    width: 25px;
-    margin-left: 0.5em;
+    width: 0.8em;
+    margin-left: 0.4em;
   }
-
-  /* @media screen and (min-width: 1046px) {
-    .container {
-      margin-left: auto;
-      margin-right: auto;
-      padding-right: var(--gutter-lg);
-    }
-  } */
 </style>

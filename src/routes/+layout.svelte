@@ -19,11 +19,11 @@
 <nav>
   <a class="brand-name" href="/">Saul Newbury</a>
 
-  <div class="right">
+  <!-- <div class="right">
     <a href="/">v1</a>
     <a href="/v2">v2</a>
     <a href="/v3">v3</a>
-  </div>
+  </div> -->
 </nav>
 
 <canvas class="webgl" bind:this={canvas} />
@@ -45,9 +45,9 @@
     width: 100vw;
   }
 
-  a.brand-name,
-  .right a {
-    /* opacity: 0; */
+  a.brand-name {
+    /* font-size: 1.2rem;
+    font-weight: 600; */
   }
 
   .right a:not(:last-child) {
@@ -75,7 +75,7 @@
   }
 
   .overlay {
-    /* pointer-events: none; */
+    pointer-events: none;
     position: absolute;
     top: 0;
     left: 0;
