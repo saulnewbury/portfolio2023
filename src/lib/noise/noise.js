@@ -80,8 +80,6 @@ export function initialiseThreeJSScene(canvas, overlayOne, overlayTwo) {
     }
 
     eggGeometry = new THREE.LatheGeometry(points, 32)
-    eggGeometry.transparent = true
-    eggGeometry.opacity = 0.1
 
     materialFresnel = new THREE.ShaderMaterial({
       vertexShader: noiseVertexShader1,
@@ -169,7 +167,6 @@ export function initialiseThreeJSScene(canvas, overlayOne, overlayTwo) {
   )
   camera.position.set(0.05, -0.0, 3)
   // camera.position.set(0.05, -0.0, 1.3)
-  console.log(camera.position)
   scene.add(camera)
 
   // Controls

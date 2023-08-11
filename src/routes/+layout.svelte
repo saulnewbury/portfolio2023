@@ -16,19 +16,28 @@
     setTimeout(() => {
       gsap.to(q('.brand-name'), { opacity: 1, duration: 1 })
     }, 3500)
-    // gsap.set(canvas, { opacity: 0 })
-    gsap.from(canvas, { opacity: 0, duration: 1, delay: 0.7 })
+    gsap.fromTo(
+      overlayOne,
+      {
+        backgroundColor: 'rgba(0, 0, 0, 1)'
+      },
+      {
+        backgroundColor: 'rgba(0, 0, 0, .4)',
+        duration: 2.5,
+        delay: 0.2
+      }
+    )
+    gsap.from(canvas, { opacity: 0, duration: 1, delay: 0.2 })
   })
 </script>
 
 <nav bind:this={nav}>
   <a class="brand-name" href="/">Saul Newbury</a>
 
-  <!-- <div class="right">
-    <a href="/">v1</a>
+  <div class="right">
     <a href="/v2">v2</a>
     <a href="/v3">v3</a>
-  </div> -->
+  </div>
 </nav>
 
 <canvas class="webgl" bind:this={canvas} />
@@ -68,16 +77,12 @@
   }
 
   .content {
-    /* pointer-events: none; */
+    pointer-events: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     padding: 0 var(--gutter);
-  }
-
-  canvas {
-    /* opacity: 0; */
   }
 
   .overlay {
@@ -90,7 +95,7 @@
   }
 
   .overlay.one {
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 1);
     mix-blend-mode: hard-light;
   }
 

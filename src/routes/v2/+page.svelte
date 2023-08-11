@@ -119,14 +119,14 @@
           )
         return tl
       }
-      master.add(textReveal()).add(buttonReveal(), '<50%')
+      master.add(textReveal()).add(buttonReveal(), '<60%')
 
       if (eggBuilt) {
         master.play()
       } else {
         setTimeout(() => {
           master.play()
-        }, 3000) // 3000
+        }, 3300)
       }
     }
   })
