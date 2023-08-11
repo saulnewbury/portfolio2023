@@ -119,7 +119,7 @@
           )
         return tl
       }
-      master.add(textReveal()).add(buttonReveal(), '<70%')
+      master.add(textReveal()).add(buttonReveal(), '<60%')
 
       if (eggBuilt) {
         master.play()
