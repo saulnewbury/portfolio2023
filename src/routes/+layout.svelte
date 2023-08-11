@@ -8,15 +8,19 @@
   gsap.registerPlugin(SplitText)
 
   // Refs
-  let canvas, overlayOne, overlayTwo
+  let nav, canvas, overlayOne, overlayTwo
 
   onMount(() => {
     initialiseThreeJSScene(canvas, overlayOne, overlayTwo)
+    const q = gsap.utils.selector(nav)
+    setTimeout(() => {
+      gsap.to(q('.brand-name'), { opacity: 1 })
+    }, 2500)
     gsap.to(canvas, { opacity: 1 })
   })
 </script>
 
-<nav>
+<nav bind:this={nav}>
   <a class="brand-name" href="/">Saul Newbury</a>
 
   <!-- <div class="right">
@@ -46,6 +50,7 @@
   }
 
   a.brand-name {
+    opacity: 0;
     /* font-size: 1.2rem;
     font-weight: 600; */
   }
