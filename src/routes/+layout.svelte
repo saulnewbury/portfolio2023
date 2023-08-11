@@ -14,8 +14,8 @@
     initialiseThreeJSScene(canvas, overlayOne, overlayTwo)
     const q = gsap.utils.selector(nav)
     setTimeout(() => {
-      gsap.to(q('.brand-name'), { opacity: 1 })
-    }, 2500)
+      gsap.to(q('.brand-name'), { opacity: 1, duration: 1 })
+    }, 3500)
     gsap.to(canvas, { opacity: 1 })
   })
 </script>

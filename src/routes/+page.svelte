@@ -20,7 +20,6 @@
 
   onMount(() => {
     const q = gsap.utils.selector(section)
-
     const mm = gsap.matchMedia()
 
     mm.add(
@@ -108,6 +107,10 @@
 
       function buttonReveal() {
         const tl = gsap.timeline()
+        gsap.set(q('button'), { opacity: 1 })
+        gsap.set(q('button span'), { opacity: 1 })
+        gsap.set(q('button img'), { opacity: 1 })
+
         tl.from(q('button span'), { yPercent: 100, duration: 0.8 })
           .from(q('button'), { y: -15, duration: 0.8 }, '<')
           .from(
@@ -190,7 +193,6 @@
   }
 
   button {
-    /* opacity: 0; */
     opacity: 0;
     overflow: hidden;
     position: absolute;
@@ -202,10 +204,12 @@
   }
 
   button span {
+    opacity: 0;
     display: inline-block;
   }
 
   img.arrow-right {
+    opacity: 0;
     width: 0.8em;
     margin-left: 0.4em;
   }
