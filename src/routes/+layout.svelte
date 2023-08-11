@@ -16,7 +16,8 @@
     setTimeout(() => {
       gsap.to(q('.brand-name'), { opacity: 1, duration: 1 })
     }, 3500)
-    gsap.to(canvas, { opacity: 1 })
+    // gsap.set(canvas, { opacity: 0 })
+    gsap.from(canvas, { opacity: 0, duration: 1, delay: 0.7 })
   })
 </script>
 
@@ -76,7 +77,7 @@
   }
 
   canvas {
-    opacity: 0;
+    /* opacity: 0; */
   }
 
   .overlay {
