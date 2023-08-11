@@ -191,6 +191,7 @@
 
   button {
     /* opacity: 0; */
+    opacity: 0;
     overflow: hidden;
     position: absolute;
     bottom: 10vh;
