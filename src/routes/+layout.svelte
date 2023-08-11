@@ -37,6 +37,7 @@
   <div class="right">
     <a href="/v2">v2</a>
     <a href="/v3">v3</a>
+    <a href="/v4">v4</a>
   </div>
 </nav>
 
