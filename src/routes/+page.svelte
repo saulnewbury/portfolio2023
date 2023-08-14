@@ -23,7 +23,7 @@
     const mm = gsap.matchMedia()
 
     mm.add(
-      '(max-width: 611px)',
+      '(max-width: 768px)',
       () => {
         isMobile = true
         isTablet = false
@@ -34,7 +34,7 @@
     )
 
     mm.add(
-      '(min-width: 612px) and (max-width: 1055px)',
+      '(min-width: 769px) and (max-width: 1055px)',
       () => {
         isMobile = false
         isTablet = true
@@ -126,7 +126,7 @@
       } else {
         setTimeout(() => {
           master.play()
-        }, 3000) // 3000
+        }, 3600) // 3000
       }
     }
   })
@@ -134,23 +134,24 @@
 
 <section class="hero" bind:this={section}>
   <div class={'text desktop ' + (isDesktop ? 'show' : '')}>
-    <h1>I'm Saul Newbury, a freelance developer, interested in</h1>
-    <h1>how great design, asthetics and motion can come together</h1>
-    <h1>to enhance user experiences.</h1>
+    <h1>The humble egg is as beautiful and timeless as it is functional.</h1>
+    <h1>Nestled under its mothers breast, a miraculous process unfolds,</h1>
+    <h1>until at last, a baby website is born!</h1>
   </div>
   <div class={'text tablet ' + (isTablet ? 'show' : '')}>
-    <h1>I'm <span>Saul Newbury</span>, a freelance developer,</h1>
-    <h1>interested in how great design, asthetics</h1>
-    <h1>and motion can come together to enhance</h1>
-    <h1>user experiences.</h1>
+    <h1>The humble egg is as beautiful and timeless as</h1>
+    <h1>it is functional. Nestled under its mothers breast,</h1>
+    <h1>a miraculous process unfolds, until at last, a baby</h1>
+    <h1>website is born!</h1>
   </div>
   <div class={'text mobile ' + (isMobile ? 'show' : '')}>
-    <h1>I'm Saul Newbury, a</h1>
-    <h1>freelance developer,</h1>
-    <h1>interested in how great</h1>
-    <h1>design, asthetics and</h1>
-    <h1>motion can come together</h1>
-    <h1>to enhance user experiences.</h1>
+    <h1>The humble egg is as</h1>
+    <h1>beautiful and timeless</h1>
+    <h1>as it is functional. Nestled</h1>
+    <h1>under its mothers breast,</h1>
+    <h1>a miraculous process</h1>
+    <h1>unfolds until at last,</h1>
+    <h1>a baby website is born.</h1>
   </div>
 
   <button>
@@ -183,7 +184,7 @@
   section :global(h1) {
     opacity: 0;
     overflow: hidden;
-    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    font-size: clamp(1.8rem, 3.1vw, 3rem);
     margin-bottom: 0.02em;
     max-width: 32em;
     line-height: 1.12em;
@@ -213,7 +214,7 @@
 
   @media screen and (max-width: 1055px) {
     section :global(h1) {
-      font-size: clamp(1.8rem, 4.9vw, 2.8rem);
+      font-size: clamp(1.8rem, 4.2vw, 2.4rem);
     }
 
     button {
@@ -221,7 +222,7 @@
     }
   }
 
-  @media screen and (max-width: 611px) {
+  @media screen and (max-width: 768px) {
     section :global(h1) {
       /* font-size: 7vw; */
       font-size: clamp(1.8rem, 7vw, 2.8rem);

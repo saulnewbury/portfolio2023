@@ -14,8 +14,13 @@
     initialiseThreeJSScene(canvas, overlayOne, overlayTwo)
     const q = gsap.utils.selector(nav)
     setTimeout(() => {
-      gsap.to(q('.brand-name'), { opacity: 1, duration: 1 })
+      gsap.to(q('.brand-name, .right a'), {
+        opacity: 1,
+        duration: 1,
+        stagger: 0.1
+      })
     }, 3500)
+
     gsap.fromTo(
       overlayOne,
       {
@@ -35,9 +40,7 @@
   <a class="brand-name" href="/">Saul Newbury</a>
 
   <div class="right">
-    <a href="/v2">v2</a>
-    <a href="/v3">v3</a>
-    <a href="/v4">v4</a>
+    <a href="/projects">Projects</a>
   </div>
 </nav>
 
@@ -64,6 +67,10 @@
     opacity: 0;
     /* font-size: 1.2rem;
     font-weight: 600; */
+  }
+
+  .right a {
+    opacity: 0;
   }
 
   .right a:not(:last-child) {

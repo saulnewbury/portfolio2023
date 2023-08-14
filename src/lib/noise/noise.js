@@ -92,6 +92,7 @@ export function initialiseThreeJSScene(canvas, overlayOne, overlayTwo) {
     })
 
     eggMesh = new THREE.Mesh(eggGeometry, materialFresnel)
+    // eggMesh.rotation.z = Math.PI / 2
     scene.add(eggMesh)
     points = []
   }
