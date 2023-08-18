@@ -55,6 +55,7 @@
  }
 
  body {
+    overscroll-behavior: none;
      --bg-1: hsl(0, 0, 100%);
      --fg-1: hsl(0, 0%, 13%);
      --fg-2: hsl(0, 0%, 20%);
@@ -89,10 +90,14 @@ button {
     background: none;
 }
 
- .gutter {
+.gutter {
     margin-left: var(--gutter-lg);
  }
 
 h1, h2 {
      font-size: 2.7rem;
+ }
+
+ img {
+    display: block
  }

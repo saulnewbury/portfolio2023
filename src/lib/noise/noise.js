@@ -2,6 +2,7 @@
 
 import * as THREE from 'three'
 import { gsap } from 'gsap'
+import { scrollTrigger } from 'gsap/dist/ScrollTrigger'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import noiseVertexShader from '$lib/noise/shaders/vertex.glsl'
 import noiseVertexShader1 from '$lib/noise/shaders/vertex1.glsl'
@@ -9,25 +10,41 @@ import noiseFragmentShader from '$lib/noise/shaders/fragment.glsl'
 import noiseFragmentShader1 from '$lib/noise/shaders/fragment1.glsl'
 import { DotScreenShader } from '$lib/custom-shader/customShader'
 
-import image from '$lib/images/me.jpg'
-
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
 
+import image from '$lib/images/me.jpg'
+
 // THREE.ColorManagement.enabled = false
 
-/**
- * Base
- */
+let mousedown = false
 
 export let eggBuilt = false
 
-// const gui = new GUI()
 export function initialiseThreeJSScene(canvas, overlayOne, overlayTwo) {
+  const cursor = {
+    x: 0,
+    y: 0
+  }
+
+  window.addEventListener('mousedown', (e) => {
+    mousedown = true
+  })
+
+  window.addEventListener('mouseup', (e) => {
+    mousedown = false
+  })
+
+  window.addEventListener('mousemove', (e) => {
+    cursor.x = e.clientX / sizes.width - 0.5
+    cursor.y = -(e.clientY / sizes.height - 0.5)
+
+    handleMousemove()
+  })
+
   // Scene
   const scene = new THREE.Scene()
-  // scene.background = new THREE.Color('#0099ff')
 
   /**
    * Geometries
@@ -88,18 +105,19 @@ export function initialiseThreeJSScene(canvas, overlayOne, overlayTwo) {
       uniforms: {
         uTime: { value: 0 },
         tCube: cubeRenderTarget.texture
-      }
+      },
+      transparent: true,
+      opacity: 0
     })
 
     eggMesh = new THREE.Mesh(eggGeometry, materialFresnel)
-    // eggMesh.rotation.z = Math.PI / 2
     scene.add(eggMesh)
     points = []
   }
 
   composeEgg()
 
-  // SPHERE
+  // Sphere
 
   const sphereGeometry = new THREE.SphereGeometry(4, 32, 32)
 
@@ -116,23 +134,6 @@ export function initialiseThreeJSScene(canvas, overlayOne, overlayTwo) {
   // Mesh
   const sphereMesh = new THREE.Mesh(sphereGeometry, material)
   scene.add(sphereMesh)
-
-  // PLANE
-
-  const loader = new THREE.TextureLoader()
-
-  const imageMaterial = new THREE.MeshLambertMaterial({
-    map: loader.load(image),
-    transparent: true,
-    opacity: 0.0
-  })
-
-  // const planeGeometry = new THREE.PlaneGeometry(0.45, 0.45)
-  const planeGeometry = new THREE.PlaneGeometry(0.45, 0.45)
-
-  const planeMesh = new THREE.Mesh(planeGeometry, imageMaterial)
-  planeMesh.position.z = 0.35
-  scene.add(planeMesh)
 
   /**
    * Sizes
@@ -166,13 +167,12 @@ export function initialiseThreeJSScene(canvas, overlayOne, overlayTwo) {
     0.1,
     100
   )
-  camera.position.set(0.05, -0.0, 3)
-  // camera.position.set(0.05, -0.0, 1.3)
+  camera.position.set(0, -0.0, 3)
   scene.add(camera)
 
   // Controls
-  const controls = new OrbitControls(camera, canvas)
-  controls.enableDamping = true
+  // const controls = new OrbitControls(camera, canvas)
+  // controls.enableDamping = true
 
   /**
    * Renderer
@@ -180,11 +180,8 @@ export function initialiseThreeJSScene(canvas, overlayOne, overlayTwo) {
   const renderer = new THREE.WebGLRenderer({
     canvas: canvas
   })
-  // renderer.outputColorSpace = THREE.LinearSRGBColorSpace
   renderer.setSize(sizes.width, sizes.height)
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-
-  // materialFresnel.uniforms.tCube.value = cubeRenderTarget.texture
 
   /**
    * Post processing
@@ -233,18 +230,44 @@ export function initialiseThreeJSScene(canvas, overlayOne, overlayTwo) {
   scene.add(light)
 
   /**
+   * Animations
+   */
+
+  let toBalance = false
+
+  function handleMousemove() {
+    let xTo = gsap.quickTo(eggMesh.position, 'x')
+    let yTo = gsap.quickTo(eggMesh.position, 'y')
+    if (!toBalance) {
+      scaleEgg()
+      toBalance = true
+    }
+    if (!mousedown) {
+      xTo(-cursor.x * 0.22)
+      yTo(-Math.abs(cursor.x * 0.1) + 0.1)
+    }
+  }
+
+  function scaleEgg() {
+    gsap.to(eggMesh.scale, { x: 0.25, duration: 1.5, ease: 'power4.inOut' })
+    gsap.to(eggMesh.scale, { y: 0.25, duration: 1.5, ease: 'power4.inOut' })
+    gsap.to(eggMesh.scale, { z: 0.25, duration: 1.5, ease: 'power4.inOut' })
+    gsap.to(eggMesh.position, { y: 0.082, duration: 1.5, ease: 'power4.inOut' })
+  }
+
+  /**
    * Animate
    */
+
   const clock = new THREE.Clock()
 
   const tick = () => {
     const elapsedTime = clock.getElapsedTime()
     // Update Material
-    // material.uniforms.uTime.value = elapsedTime * 0.005
     material.uniforms.uTime.value = elapsedTime * 0.5 // .5
 
     // Update controls
-    controls.update()
+    // controls.update()
 
     // Update cube camera
     eggMesh.visible = false
