@@ -247,7 +247,6 @@ function handleMousemove() {
 
 export function heroToHead(section) {
   // console.log(eggMesh)
-  // hi
   const tl = gsap.timeline({
     defaults: { duration: 1.5, ease: 'power4.inOut' }
   })
