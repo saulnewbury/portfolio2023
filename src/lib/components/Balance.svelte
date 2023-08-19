@@ -2,6 +2,12 @@
   import { onMount } from 'svelte'
   import { gsap } from 'gsap/dist/gsap'
   import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
+  import {
+    heroToHead,
+    eggMesh,
+    sphereMesh,
+    eggBuilt
+  } from '$lib/noise/noise.js'
 
   import smootherInstance from '$lib/smoother.js'
 
@@ -14,6 +20,7 @@
   let section
 
   onMount(() => {
+    heroToHead(section)
     const smoother = smootherInstance()
     const q = gsap.utils.selector(section)
     const cursor = {
@@ -38,9 +45,8 @@
     })
 
     /**
-     * Lenis
+     * ScrollTo
      */
-
     ScrollTrigger.normalizeScroll(true)
 
     ScrollTrigger.create({
@@ -48,10 +54,32 @@
       start: 'top 80%',
       end: 'top top',
       onEnter: () => {
-        console.log('start')
+        // console.log('start')
         smoother.scrollTo(section, true)
       }
     })
+
+    /**
+     * Transition hero to heads
+     */
+    // const tl = gsap.timeline({
+    //   defaults: { ease: 'power1.inOut' }
+    // })
+
+    // ScrollTrigger.create({
+    //   animation: heroToHead(section),
+    //   trigger: section,
+    //   start: 'top 80%',
+    //   end: 'top top',
+    //   scrub: 5
+    // })
+
+    // tl.to(sphereMesh.rotation, { y: Math.PI * 2 })
+    //   .to(eggMesh.scale, { x: 0.25, duration: 1 }, '<0%')
+    //   .to(eggMesh.scale, { y: 0.25, duration: 1 }, '<0%')
+    //   .to(eggMesh.scale, { z: 0.25, duration: 1 }, '<0%')
+    //   .to(eggMesh.position, { y: 0.1, duration: 0.5, ease: 'linear' }, '<0%')
+    //   .to(eggMesh.position, { y: 0.082, duration: 0.5, ease: 'linear' })
   })
 </script>
 

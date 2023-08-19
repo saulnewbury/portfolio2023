@@ -1,6 +1,6 @@
 <script>
   import './global.css'
-  import { initialiseThreeJSScene } from '$lib/noise/noise.js'
+  import { initialiseThreeJSScene, introAnim, tick } from '$lib/noise/noise.js'
   import { onMount } from 'svelte'
   import { gsap } from 'gsap'
   import { SplitText } from 'gsap/dist/SplitText'
@@ -14,7 +14,9 @@
   let nav, canvas, overlayOne, overlayTwo
 
   onMount(() => {
-    initialiseThreeJSScene(canvas, overlayOne, overlayTwo)
+    initialiseThreeJSScene(canvas)
+    introAnim(overlayOne, overlayTwo)
+    tick()
 
     const q = gsap.utils.selector(nav)
     setTimeout(() => {
