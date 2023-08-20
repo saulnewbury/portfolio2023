@@ -58,9 +58,8 @@ void main()
 {
   // Egg
    vec3 baseFirst = vec3(255./255., 167./255., 117./255.);
-  //  vec3 accent = vec3(255./255., 165./255., 115./255.); // dark
-   vec3 accent = vec3(255./255., 165./255., 135./255.); // dark
-   vec3 baseSecond =  vec3(255./255., 211./255., 198./255.); // main
+   vec3 accent = vec3(255./255., 165./255., 135./255.); 
+   vec3 baseSecond =  vec3(255./255., 211./255., 198./255.); 
 
    float n = noise(vPosition + uTime);
 

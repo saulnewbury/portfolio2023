@@ -6,9 +6,17 @@
   import { SplitText } from 'gsap/dist/SplitText'
   import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
   import { ScrollSmoother } from 'gsap/dist/ScrollSmoother'
+  import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin'
+  import { GSDevTools } from 'gsap/dist/GSDevTools'
   import smootherInstance from '$lib/smoother.js'
 
-  gsap.registerPlugin(SplitText, ScrollTrigger, ScrollSmoother)
+  gsap.registerPlugin(
+    SplitText,
+    ScrollTrigger,
+    ScrollSmoother,
+    GSDevTools,
+    ScrollToPlugin
+  )
 
   // Refs
   let nav, canvas, overlayOne, overlayTwo

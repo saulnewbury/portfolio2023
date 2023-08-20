@@ -2,10 +2,14 @@
   import { onMount } from 'svelte'
   import { gsap } from 'gsap/dist/gsap'
   import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
+  import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin'
+  import { GSDevTools } from 'gsap/dist/GSDevTools'
   import {
-    heroToHead,
-    eggMesh,
-    sphereMesh,
+    // heroToHead,
+    // eggMesh,
+    // sphereMesh,
+    getEggMesh,
+    getSphereMesh,
     eggBuilt
   } from '$lib/noise/noise.js'
 
@@ -19,8 +23,53 @@
 
   let section
 
+  let eggMesh,
+    sphereMesh,
+    transitionComplete = false,
+    sizes,
+    xToEgg,
+    yToEgg,
+    xToHead,
+    yToHead,
+    rToHead,
+    xToEyes,
+    yToEyes,
+    skewToHead,
+    initial = false,
+    done = false
+
+  gsap.registerPlugin(ScrollToPlugin)
   onMount(() => {
-    heroToHead(section)
+    sizes = {
+      width: window.innerWidth,
+      height: window.innerHeight
+    }
+
+    window.addEventListener('resize', () => {
+      // Update sizes
+      sizes.width = window.innerWidth
+      sizes.height = window.innerHeight
+    })
+
+    setTimeout(() => {
+      //   heroToHead(section)
+      eggMesh = getEggMesh()
+      sphereMesh = getSphereMesh()
+      transitionAnimation()
+
+      // quickTo egg
+      xToEgg = gsap.quickTo(eggMesh.position, 'x')
+      yToEgg = gsap.quickTo(eggMesh.position, 'y')
+      // quickTo head
+      xToHead = gsap.quickTo(q('.container'), 'xPercent')
+      yToHead = gsap.quickTo(q('.container'), 'yPercent')
+      rToHead = gsap.quickTo(q('.container'), 'rotation')
+      skewToHead = gsap.quickTo(q('.neck'), 'skewX')
+      // quickTo eyes
+      xToEyes = gsap.quickTo(q('.pupils'), 'xPercent')
+      yToEyes = gsap.quickTo(q('.pupils'), 'yPercent')
+    }, 5000)
+
     const smoother = smootherInstance()
     const q = gsap.utils.selector(section)
     const cursor = {
@@ -28,62 +77,126 @@
       y: 0
     }
 
-    // Animate Head
-    let xTo = gsap.quickTo(q('.container'), 'xPercent')
-    let yTo = gsap.quickTo(q('.container'), 'yPercent')
-    let rTo = gsap.quickTo(q('.container'), 'rotation')
-    let skewTo = gsap.quickTo(q('.neck'), 'skewX')
-
-    document.addEventListener('mousemove', (e) => {
-      const width = window.innerWidth / 2
-      cursor.x = e.clientX - width
-      cursor.y = e.clientY - width
-      xTo(0 - cursor.x * 0.04)
-      yTo(Math.abs(0 - cursor.x * 0.01))
-      rTo(`${0 - cursor.x * 0.04}`)
-      skewTo(`${0 - cursor.x * 0.03 * -1}`)
-    })
-
     /**
-     * ScrollTo
+     * NormaliseScroll
      */
     ScrollTrigger.normalizeScroll(true)
 
-    ScrollTrigger.create({
-      trigger: section,
-      start: 'top 80%',
-      end: 'top top',
-      onEnter: () => {
-        // console.log('start')
-        smoother.scrollTo(section, true)
-      }
-    })
+    /**
+     * Transition
+     */
+
+    function transitionAnimation() {
+      let tlTransition = gsap.timeline({
+        defaults: { duration: 1.5, ease: 'power4.Out' },
+        onComplete: () => {
+          console.log('complete')
+          transitionComplete = true
+        }
+      })
+
+      ScrollTrigger.create({
+        animation: tlTransition,
+        trigger: section,
+        start: 'top 80%',
+        end: 'top top',
+        scrub: 0.5,
+        markers: true,
+        onEnter: () => {
+          gsap.to(window, {
+            duration: 0.7,
+            scrollTo: section
+          })
+        },
+        onEnterBack: () => {
+          transitionComplete = false
+          gsap.to(window, {
+            duration: 0.7,
+            scrollTo: 0
+          })
+        },
+        onUpdate: (self) => {
+          if (self.progress !== 1) transitionComplete = false
+
+          if (self.progress <= 0.5 && done) {
+            resetHead()
+            xToEgg(0)
+            console.log('spin back')
+            done = false
+            gsap.to(sphereMesh.rotation, {
+              y: 0,
+              duration: 2.5
+            })
+          }
+          if (self.progress > 0.5 && !done) {
+            done = true
+            console.log('fire - spin forward')
+            gsap.to(sphereMesh.rotation, {
+              y: Math.PI * 4,
+              duration: 2.5
+            })
+          }
+        }
+      })
+
+      tlTransition
+        .to(eggMesh.scale, { x: 0.25, duration: 2.5 }, '<')
+        .to(eggMesh.scale, { y: 0.25, duration: 2.5 }, '<')
+        .to(eggMesh.scale, { z: 0.25, duration: 2.5 }, '<')
+        .to(
+          eggMesh.position,
+          {
+            y: 0.18,
+            duration: 2.5,
+            ease: 'power2.out'
+          },
+          '<'
+        )
+        .to(
+          eggMesh.position,
+          {
+            // y: 0.082,
+            y: 0.092,
+            duration: 0.8,
+            ease: 'power2.inOut'
+          },
+          '>'
+        )
+    }
 
     /**
-     * Transition hero to heads
+     * Balance
      */
-    // const tl = gsap.timeline({
-    //   defaults: { ease: 'power1.inOut' }
-    // })
 
-    // ScrollTrigger.create({
-    //   animation: heroToHead(section),
-    //   trigger: section,
-    //   start: 'top 80%',
-    //   end: 'top top',
-    //   scrub: 5
-    // })
+    window.addEventListener('mousemove', (e) => {
+      if (!transitionComplete) return
+      // egg
+      let x = e.clientX / sizes.width - 0.5
+      xToEgg(-x * 0.22)
+      yToEgg(-Math.abs(x * 0.076) + 0.096)
+      // head
+      const width = window.innerWidth / 2
+      cursor.x = e.clientX - width
+      cursor.y = e.clientY - width
+      xToHead(0 - cursor.x * 0.04)
+      yToHead(Math.abs(0 - cursor.x * 0.01))
+      rToHead(`${0 - cursor.x * 0.04}`)
+      skewToHead(`${0 - cursor.x * 0.03 * -1}`)
+      //Eyes
+      xToEyes(cursor.x * 0.0003)
+      yToEyes(-Math.abs(cursor.x * 0.031))
+    })
 
-    // tl.to(sphereMesh.rotation, { y: Math.PI * 2 })
-    //   .to(eggMesh.scale, { x: 0.25, duration: 1 }, '<0%')
-    //   .to(eggMesh.scale, { y: 0.25, duration: 1 }, '<0%')
-    //   .to(eggMesh.scale, { z: 0.25, duration: 1 }, '<0%')
-    //   .to(eggMesh.position, { y: 0.1, duration: 0.5, ease: 'linear' }, '<0%')
-    //   .to(eggMesh.position, { y: 0.082, duration: 0.5, ease: 'linear' })
+    function resetHead() {
+      xToHead(0)
+      yToHead(0)
+      rToHead(0)
+      skewToHead(0)
+    }
   })
 </script>
 
-<section bind:this={section}>
+<section bind:this={section} id="balance">
   <div class="overlay" />
   <div class="me">
     <img class="torso" width="1100" height="341" src={torso} alt="torso" />
@@ -130,6 +243,7 @@
     width: auto;
     aspect-ratio: 556/709;
     max-width: calc(23.5vh * var(--multiplier));
+    z-index: 5;
   }
   .pupils {
     top: 28.3%;

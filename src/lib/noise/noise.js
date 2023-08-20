@@ -1,9 +1,11 @@
 // NOISE
 import { browser } from '$app/environment'
 import { onMount } from 'svelte'
-import * as THREE from 'three'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
+import { GSDevTools } from 'gsap/dist/GSDevTools'
+
+import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import noiseVertexShader from '$lib/noise/shaders/vertex.glsl'
 import noiseVertexShader1 from '$lib/noise/shaders/vertex1.glsl'
@@ -22,10 +24,12 @@ export let sphereMesh
 
 let camera, renderer, composer
 let eggGeometry, materialFresnel
+let tlTransition
 
 let increment = 0.05
 let mousedown = false
 let toBalance = false
+let eggHead = false
 let sizes
 
 const scaleAmount = 0.4
@@ -52,7 +56,6 @@ if (browser) {
   window.addEventListener('mousemove', (e) => {
     cursor.x = e.clientX / sizes.width - 0.5
     cursor.y = -(e.clientY / sizes.height - 0.5)
-
     handleMousemove()
   })
 
@@ -165,6 +168,17 @@ sphereMesh = new THREE.Mesh(sphereGeometry, material)
 scene.add(sphereMesh)
 
 /**
+ * Get eggMesh
+ */
+
+export function getEggMesh() {
+  return eggMesh
+}
+export function getSphereMesh() {
+  return sphereMesh
+}
+
+/**
  * INITIALISE
  */
 export function initialiseThreeJSScene(canvas) {
@@ -193,7 +207,8 @@ export function initialiseThreeJSScene(canvas) {
 export function tick() {
   const elapsedTime = clock.getElapsedTime()
   // Update Material
-  material.uniforms.uTime.value = elapsedTime * 0.5 // .5
+  // material.uniforms.uTime.value = elapsedTime * 0.5 // .5
+  material.uniforms.uTime.value = elapsedTime * 0.7 // .5
 
   // Update controls
   // controls.update()
@@ -237,32 +252,59 @@ export function introAnim(overlayOne, overlayTwo) {
 }
 
 function handleMousemove() {
-  // let xTo = gsap.quickTo(eggMesh.position, 'x')
-  // let yTo = gsap.quickTo(eggMesh.position, 'y')
-  // if (!mousedown) {
-  //   xTo(-cursor.x * 0.22)
-  //   yTo(-Math.abs(cursor.x * 0.1) + 0.1)
-  // }
+  if (!eggHead) return
+  let xTo = gsap.quickTo(eggMesh.position, 'x')
+  let yTo = gsap.quickTo(eggMesh.position, 'y')
+  if (!mousedown) {
+    xTo(-cursor.x * 0.22)
+    yTo(-Math.abs(cursor.x * 0.1) + 0.1)
+  }
 }
 
 export function heroToHead(section) {
-  // console.log(eggMesh)
-  const tl = gsap.timeline({
-    defaults: { duration: 1.5, ease: 'power4.inOut' }
+  tlTransition = gsap.timeline({
+    defaults: { duration: 1.5, ease: 'power4.Out' }
   })
 
   ScrollTrigger.create({
-    animation: tl,
+    animation: tlTransition,
     trigger: section,
     start: 'top 80%',
     end: 'top top',
-    scrub: true
+    onUpdate: (self) => {
+      eggHead = self.progress === 1 ? true : false
+      if (self.progress === 1) gsap.to(eggMesh.position, { y: 0.092 })
+    },
+    scrub: 5,
+    markers: true
   })
 
-  tl.to(eggMesh.scale, { x: 0.25 })
-    .to(eggMesh.scale, { y: 0.25 }, '<')
-    .to(eggMesh.scale, { z: 0.25 }, '<')
-    .to(eggMesh.position, { y: 0.082 }, '<')
-
-  return eggMesh
+  tlTransition
+    .to(sphereMesh.rotation, {
+      y: Math.PI * 4,
+      duration: 3,
+      ease: 'power1.inOut'
+    })
+    .to(eggMesh.scale, { x: 0.25, duration: 2.5 }, '<')
+    .to(eggMesh.scale, { y: 0.25, duration: 2.5 }, '<')
+    .to(eggMesh.scale, { z: 0.25, duration: 2.5 }, '<')
+    .to(
+      eggMesh.position,
+      {
+        y: 0.18,
+        duration: 2.5,
+        ease: 'power2.out'
+      },
+      '<'
+    )
+    .to(
+      eggMesh.position,
+      {
+        // y: 0.082,
+        y: 0.092,
+        duration: 0.5,
+        ease: 'power2.inOut'
+      },
+      '>'
+    )
 }
