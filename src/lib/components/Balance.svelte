@@ -32,8 +32,8 @@
     xToHead,
     yToHead,
     rToHead,
-    xToEyes,
-    yToEyes,
+    xToPupils,
+    yToPupils,
     skewToHead,
     initial = false,
     done = false
@@ -65,9 +65,9 @@
       yToHead = gsap.quickTo(q('.container'), 'yPercent')
       rToHead = gsap.quickTo(q('.container'), 'rotation')
       skewToHead = gsap.quickTo(q('.neck'), 'skewX')
-      // quickTo eyes
-      xToEyes = gsap.quickTo(q('.pupils'), 'xPercent')
-      yToEyes = gsap.quickTo(q('.pupils'), 'yPercent')
+      // quickTo pupils
+      xToPupils = gsap.quickTo(q('.pupils'), 'xPercent')
+      yToPupils = gsap.quickTo(q('.pupils'), 'yPercent')
     }, 5000)
 
     const smoother = smootherInstance()
@@ -130,7 +130,6 @@
           }
           if (self.progress > 0.5 && !done) {
             done = true
-            console.log('fire - spin forward')
             gsap.to(sphereMesh.rotation, {
               y: Math.PI * 4,
               duration: 2.5
@@ -182,9 +181,9 @@
       yToHead(Math.abs(0 - cursor.x * 0.01))
       rToHead(`${0 - cursor.x * 0.04}`)
       skewToHead(`${0 - cursor.x * 0.03 * -1}`)
-      //Eyes
-      xToEyes(cursor.x * 0.0003)
-      yToEyes(-Math.abs(cursor.x * 0.031))
+      // Pupils
+      xToPupils(cursor.x * 0.009)
+      yToPupils(-Math.abs(cursor.x * 0.018))
     })
 
     function resetHead() {
