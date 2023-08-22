@@ -3,14 +3,13 @@
   import { gsap } from 'gsap/dist/gsap'
   import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
   import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin'
-  import { GSDevTools } from 'gsap/dist/GSDevTools'
+  import { CustomEase } from 'gsap/dist/CustomEase'
+
   import {
-    // heroToHead,
-    // eggMesh,
-    // sphereMesh,
     getEggMesh,
     getSphereMesh,
-    eggBuilt
+    eggBuilt,
+    finalMesh as ribbon
   } from '$lib/noise/noise.js'
 
   import smootherInstance from '$lib/smoother.js'
@@ -35,10 +34,10 @@
     xToPupils,
     yToPupils,
     skewToHead,
-    initial = false,
     done = false
 
-  gsap.registerPlugin(ScrollToPlugin)
+  gsap.registerPlugin(ScrollToPlugin, CustomEase)
+
   onMount(() => {
     sizes = {
       width: window.innerWidth,
@@ -52,11 +51,9 @@
     })
 
     setTimeout(() => {
-      //   heroToHead(section)
       eggMesh = getEggMesh()
       sphereMesh = getSphereMesh()
       transitionAnimation()
-
       // quickTo egg
       xToEgg = gsap.quickTo(eggMesh.position, 'x')
       yToEgg = gsap.quickTo(eggMesh.position, 'y')
@@ -87,6 +84,7 @@
      */
 
     function transitionAnimation() {
+      let ribbonIn
       let tlTransition = gsap.timeline({
         defaults: { duration: 1.5, ease: 'power4.Out' },
         onComplete: () => {
@@ -101,7 +99,6 @@
         start: 'top 80%',
         end: 'top top',
         scrub: 0.5,
-        markers: true,
         onEnter: () => {
           gsap.to(window, {
             duration: 0.7,
@@ -114,6 +111,7 @@
             duration: 0.7,
             scrollTo: 0
           })
+          // ribbonIn.kill()
         },
         onUpdate: (self) => {
           if (self.progress !== 1) transitionComplete = false
@@ -127,12 +125,21 @@
               y: 0,
               duration: 2.5
             })
+            gsap.to(ribbon.position, { y: -2, duration: 4 })
           }
           if (self.progress > 0.5 && !done) {
             done = true
             gsap.to(sphereMesh.rotation, {
               y: Math.PI * 4,
               duration: 2.5
+            })
+            ribbonIn = gsap.to(ribbon.position, {
+              y: 0.05,
+              duration: 6,
+              ease: CustomEase.create(
+                'custom',
+                'M0,0,C0,0,0.05,0.228,0.09,0.373,0.12,0.484,0.139,0.547,0.18,0.654,0.211,0.737,0.235,0.785,0.275,0.864,0.291,0.896,0.303,0.915,0.325,0.944,0.344,0.97,0.352,0.979,0.376,1,0.385,1.008,0.426,1.044,0.49,1.06,0.541,1.072,0.594,1.064,0.626,1.06,0.65,1.056,0.747,1.029,0.814,1.018,0.911,1.001,1,1,1,1'
+              )
             })
           }
         }

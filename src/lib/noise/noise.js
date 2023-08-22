@@ -1,12 +1,8 @@
 // NOISE
 import { browser } from '$app/environment'
-import { onMount } from 'svelte'
 import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
-import { GSDevTools } from 'gsap/dist/GSDevTools'
 
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import noiseVertexShader from '$lib/noise/shaders/vertex.glsl'
 import noiseVertexShader1 from '$lib/noise/shaders/vertex1.glsl'
 import noiseFragmentShader from '$lib/noise/shaders/fragment.glsl'
@@ -17,26 +13,19 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
 
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+
+import image from '$lib/images/egg-text.png'
+
 export let eggBuilt = false
 
-export let eggMesh
-export let sphereMesh
-
-let camera, renderer, composer
-let eggGeometry, materialFresnel
-let tlTransition
+let camera, renderer, composer, eggMesh, sphereMesh
+let eggGeometry, materialFresnel, controls, texture
 
 let increment = 0.05
-let mousedown = false
-let toBalance = false
-let eggHead = false
 let sizes
 
 const scaleAmount = 0.4
-const cursor = {
-  x: 0,
-  y: 0
-}
 
 const scene = new THREE.Scene()
 const clock = new THREE.Clock()
@@ -46,23 +35,10 @@ if (browser) {
     width: window.innerWidth,
     height: window.innerHeight
   }
-  window.addEventListener('mousedown', (e) => {
-    mousedown = true
-  })
-
-  window.addEventListener('mouseup', (e) => {
-    mousedown = false
-  })
-  window.addEventListener('mousemove', (e) => {
-    cursor.x = e.clientX / sizes.width - 0.5
-    cursor.y = -(e.clientY / sizes.height - 0.5)
-    handleMousemove()
-  })
 
   /**
    * Sizes
    */
-
   window.addEventListener('resize', () => {
     // Update sizes
     sizes.width = window.innerWidth
@@ -83,6 +59,16 @@ if (browser) {
   camera = new THREE.PerspectiveCamera(40, sizes.width / sizes.height, 0.1, 100)
   camera.position.set(0, -0.0, 3)
   scene.add(camera)
+
+  /**
+   * Get Image
+   */
+  texture = new THREE.TextureLoader().load(image)
+  texture.wrapS = 1000
+  texture.wrapT = 1000
+  texture.repeat.set(1, 1)
+  texture.offset.setX(0.5)
+  texture.flipY = false
 }
 
 /**
@@ -198,26 +184,44 @@ export function initialiseThreeJSScene(canvas) {
   composer.addPass(effect1)
 
   composer.setSize(sizes.width, sizes.height)
+
+  /**
+   * controls
+   */
+  controls = new OrbitControls(camera, canvas)
+  controls.enableDamping = true
+  controls.update()
 }
+
+/**
+ * Lights
+ */
+
+scene.add(new THREE.AmbientLight(0xffffff, 0.86))
+let dirLight = new THREE.DirectionalLight(0x000000, 1)
+dirLight.position.set(10, 10, 10)
+scene.add(dirLight)
 
 /**
  * TICK
  */
-
+// let time = 0.0001
 export function tick() {
   const elapsedTime = clock.getElapsedTime()
+  // time += 0.0001
   // Update Material
-  // material.uniforms.uTime.value = elapsedTime * 0.5 // .5
   material.uniforms.uTime.value = elapsedTime * 0.7 // .5
 
-  // Update controls
-  // controls.update()
+  controls.update()
 
   // Update cube camera
   eggMesh.visible = false
   cubeCamera.update(renderer, scene)
   eggMesh.visible = true
   materialFresnel.uniforms.tCube.value = cubeRenderTarget.texture
+
+  frontMaterial.map.offset.setX(elapsedTime * 0.05)
+  finalMesh.rotateY(0.0059)
 
   // Render
   renderer.render(scene, camera)
@@ -227,8 +231,10 @@ export function tick() {
   window.requestAnimationFrame(tick)
 }
 
+/**
+ * Intro animation
+ */
 export function introAnim(overlayOne, overlayTwo) {
-  // intro
   gsap.to(camera.position, {
     z: 1.3,
     delay: 2.5,
@@ -251,60 +257,84 @@ export function introAnim(overlayOne, overlayTwo) {
   })
 }
 
-function handleMousemove() {
-  if (!eggHead) return
-  let xTo = gsap.quickTo(eggMesh.position, 'x')
-  let yTo = gsap.quickTo(eggMesh.position, 'y')
-  if (!mousedown) {
-    xTo(-cursor.x * 0.22)
-    yTo(-Math.abs(cursor.x * 0.1) + 0.1)
+/**
+ * RIBBON
+ */
+
+const frontMaterial = new THREE.MeshStandardMaterial({
+  map: texture,
+  side: THREE.BackSide,
+  roughness: 0.65,
+  metalness: 0.25,
+  alphaTest: true
+})
+
+// sphere
+let rad = 1.6
+
+// line/curve
+let num = 6
+let curvePoints = []
+
+for (let i = 0; i < num; i++) {
+  let theta = (i / num) * Math.PI * 2
+
+  curvePoints.push(
+    new THREE.Vector3().setFromSphericalCoords(
+      rad,
+      Math.PI / 2 + 0.1 * (Math.random() - 0.5),
+      theta
+    )
+  )
+}
+
+const curve = new THREE.CatmullRomCurve3(curvePoints)
+curve.tension = 10
+curve.closed = true
+
+const points = curve.getPoints(50)
+const geometry = new THREE.BufferGeometry().setFromPoints(points)
+const lineMaterial = new THREE.LineBasicMaterial({
+  color: 0xff0000,
+  transparent: true,
+  opacity: 0
+})
+
+// Create the final object to add to the scene
+const curveObject = new THREE.Line(geometry, lineMaterial)
+
+scene.add(curveObject)
+
+let number = 1000
+// Use curve to compute a number of frenet frames
+let frenetFrames = curve.computeFrenetFrames(number, true)
+// Get sequence of points - points from which the frenet frames are drawn
+let spacedPoints = curve.getSpacedPoints(number)
+// Create a plane with a corresponding number of width segments
+let tempPlane = new THREE.PlaneGeometry(1, 1, number, 1)
+
+// create dimensions
+let dimensions = [-0.022, 0.022]
+
+let point = new THREE.Vector3()
+let binormalShift = new THREE.Vector3()
+
+let finalPoints = []
+
+dimensions.forEach((d) => {
+  for (let i = 0; i <= number; i++) {
+    point = spacedPoints[i]
+    binormalShift.add(frenetFrames.binormals[i]).multiplyScalar(d)
+
+    finalPoints.push(new THREE.Vector3().copy(point).add(binormalShift))
   }
-}
+})
 
-export function heroToHead(section) {
-  tlTransition = gsap.timeline({
-    defaults: { duration: 1.5, ease: 'power4.Out' }
-  })
+finalPoints[0].copy(finalPoints[number])
+finalPoints[number + 1].copy(finalPoints[2 * number + 1])
 
-  ScrollTrigger.create({
-    animation: tlTransition,
-    trigger: section,
-    start: 'top 80%',
-    end: 'top top',
-    onUpdate: (self) => {
-      eggHead = self.progress === 1 ? true : false
-      if (self.progress === 1) gsap.to(eggMesh.position, { y: 0.092 })
-    },
-    scrub: 5,
-    markers: true
-  })
+tempPlane.setFromPoints(finalPoints)
 
-  tlTransition
-    .to(sphereMesh.rotation, {
-      y: Math.PI * 4,
-      duration: 3,
-      ease: 'power1.inOut'
-    })
-    .to(eggMesh.scale, { x: 0.25, duration: 2.5 }, '<')
-    .to(eggMesh.scale, { y: 0.25, duration: 2.5 }, '<')
-    .to(eggMesh.scale, { z: 0.25, duration: 2.5 }, '<')
-    .to(
-      eggMesh.position,
-      {
-        y: 0.18,
-        duration: 2.5,
-        ease: 'power2.out'
-      },
-      '<'
-    )
-    .to(
-      eggMesh.position,
-      {
-        // y: 0.082,
-        y: 0.092,
-        duration: 0.5,
-        ease: 'power2.inOut'
-      },
-      '>'
-    )
-}
+export let finalMesh = new THREE.Mesh(tempPlane, frontMaterial)
+finalMesh.position.set(0, -2, -1.6)
+scene.add(finalMesh)
