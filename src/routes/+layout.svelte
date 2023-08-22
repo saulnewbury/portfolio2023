@@ -22,6 +22,7 @@
   let nav, canvas, overlayOne, overlayTwo
 
   onMount(() => {
+    window.scrollTo(0, 0)
     initialiseThreeJSScene(canvas)
     introAnim(overlayOne, overlayTwo)
     tick()
