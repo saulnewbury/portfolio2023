@@ -270,7 +270,7 @@ const frontMaterial = new THREE.MeshStandardMaterial({
 })
 
 // sphere
-let rad = 1.6
+let rad = 1.4
 
 // line/curve
 let num = 6
@@ -337,4 +337,4 @@ tempPlane.setFromPoints(finalPoints)
 
 export let finalMesh = new THREE.Mesh(tempPlane, frontMaterial)
 finalMesh.position.set(0, -2, -1.6)
-scene.add(finalMesh)
+// scene.add(finalMesh)

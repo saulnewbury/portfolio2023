@@ -31,6 +31,7 @@
     xToHead,
     yToHead,
     rToHead,
+    rToEgg,
     xToPupils,
     yToPupils,
     skewToHead,
@@ -57,6 +58,7 @@
       // quickTo egg
       xToEgg = gsap.quickTo(eggMesh.position, 'x')
       yToEgg = gsap.quickTo(eggMesh.position, 'y')
+      rToEgg = gsap.quickTo(eggMesh.rotation, 'z')
       // quickTo head
       xToHead = gsap.quickTo(q('.container'), 'xPercent')
       yToHead = gsap.quickTo(q('.container'), 'yPercent')
@@ -123,7 +125,8 @@
             done = false
             gsap.to(sphereMesh.rotation, {
               y: 0,
-              duration: 2.5
+              duration: 3,
+              ease: 'power2.out'
             })
             gsap.to(ribbon.position, { y: -2, duration: 4 })
           }
@@ -131,7 +134,8 @@
             done = true
             gsap.to(sphereMesh.rotation, {
               y: Math.PI * 4,
-              duration: 2.5
+              duration: 3,
+              ease: 'power2.out'
             })
             ribbonIn = gsap.to(ribbon.position, {
               y: 0.05,
@@ -146,9 +150,9 @@
       })
 
       tlTransition
-        .to(eggMesh.scale, { x: 0.25, duration: 2.5 }, '<')
-        .to(eggMesh.scale, { y: 0.25, duration: 2.5 }, '<')
-        .to(eggMesh.scale, { z: 0.25, duration: 2.5 }, '<')
+        .to(eggMesh.scale, { x: 0.2, duration: 2.5 }, '<')
+        .to(eggMesh.scale, { y: 0.2, duration: 2.5 }, '<')
+        .to(eggMesh.scale, { z: 0.2, duration: 2.5 }, '<')
         .to(
           eggMesh.position,
           {
@@ -161,8 +165,8 @@
         .to(
           eggMesh.position,
           {
-            // y: 0.082,
-            y: 0.092,
+            y: 0.072,
+            // y: 0.092,
             duration: 0.8,
             ease: 'power2.inOut'
           },
@@ -178,8 +182,9 @@
       if (!transitionComplete) return
       // egg
       let x = e.clientX / sizes.width - 0.5
-      xToEgg(-x * 0.22)
-      yToEgg(-Math.abs(x * 0.076) + 0.096)
+      xToEgg(-x * 0.25)
+      yToEgg(-Math.abs(x * 0.076) + 0.076)
+      rToEgg(-x * 0.24)
       // head
       const width = window.innerWidth / 2
       cursor.x = e.clientX - width
