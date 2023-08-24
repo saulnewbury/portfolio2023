@@ -121,6 +121,7 @@
           if (self.progress <= 0.5 && done) {
             resetHead()
             xToEgg(0)
+            rToEgg(0)
             console.log('spin back')
             done = false
             gsap.to(sphereMesh.rotation, {
