@@ -15,12 +15,10 @@ import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
 
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
-import image from '$lib/images/egg-text.png'
-
 export let eggBuilt = false
 
 let camera, renderer, composer, eggMesh, sphereMesh
-let eggGeometry, materialFresnel, controls, texture
+let eggGeometry, materialFresnel, controls
 
 let increment = 0.05
 let sizes
@@ -59,16 +57,6 @@ if (browser) {
   camera = new THREE.PerspectiveCamera(40, sizes.width / sizes.height, 0.1, 100)
   camera.position.set(0, -0.0, 3)
   scene.add(camera)
-
-  /**
-   * Get Image
-   */
-  texture = new THREE.TextureLoader().load(image)
-  texture.wrapS = 1000
-  texture.wrapT = 1000
-  texture.repeat.set(1, 1)
-  texture.offset.setX(0.5)
-  texture.flipY = false
 }
 
 /**
@@ -197,10 +185,10 @@ export function initialiseThreeJSScene(canvas) {
  * Lights
  */
 
-scene.add(new THREE.AmbientLight(0xffffff, 0.86))
-let dirLight = new THREE.DirectionalLight(0x000000, 1)
-dirLight.position.set(10, 10, 10)
-scene.add(dirLight)
+// scene.add(new THREE.AmbientLight(0xffffff, 0.86))
+// let dirLight = new THREE.DirectionalLight(0x000000, 1)
+// dirLight.position.set(10, 10, 10)
+// scene.add(dirLight)
 
 /**
  * TICK
@@ -219,9 +207,6 @@ export function tick() {
   cubeCamera.update(renderer, scene)
   eggMesh.visible = true
   materialFresnel.uniforms.tCube.value = cubeRenderTarget.texture
-
-  frontMaterial.map.offset.setX(elapsedTime * 0.05)
-  finalMesh.rotateY(0.0059)
 
   // Render
   renderer.render(scene, camera)
@@ -256,85 +241,3 @@ export function introAnim(overlayOne, overlayTwo) {
     ease: 'power2.inOut'
   })
 }
-
-/**
- * RIBBON
- */
-
-const frontMaterial = new THREE.MeshStandardMaterial({
-  map: texture,
-  side: THREE.BackSide,
-  roughness: 0.65,
-  metalness: 0.25,
-  alphaTest: true
-})
-
-// sphere
-let rad = 1.4
-
-// line/curve
-let num = 6
-let curvePoints = []
-
-for (let i = 0; i < num; i++) {
-  let theta = (i / num) * Math.PI * 2
-
-  curvePoints.push(
-    new THREE.Vector3().setFromSphericalCoords(
-      rad,
-      Math.PI / 2 + 0.1 * (Math.random() - 0.5),
-      theta
-    )
-  )
-}
-
-const curve = new THREE.CatmullRomCurve3(curvePoints)
-curve.tension = 10
-curve.closed = true
-
-const points = curve.getPoints(50)
-const geometry = new THREE.BufferGeometry().setFromPoints(points)
-const lineMaterial = new THREE.LineBasicMaterial({
-  color: 0xff0000,
-  transparent: true,
-  opacity: 0
-})
-
-// Create the final object to add to the scene
-const curveObject = new THREE.Line(geometry, lineMaterial)
-
-scene.add(curveObject)
-
-let number = 1000
-// Use curve to compute a number of frenet frames
-let frenetFrames = curve.computeFrenetFrames(number, true)
-// Get sequence of points - points from which the frenet frames are drawn
-let spacedPoints = curve.getSpacedPoints(number)
-// Create a plane with a corresponding number of width segments
-let tempPlane = new THREE.PlaneGeometry(1, 1, number, 1)
-
-// create dimensions
-let dimensions = [-0.022, 0.022]
-
-let point = new THREE.Vector3()
-let binormalShift = new THREE.Vector3()
-
-let finalPoints = []
-
-dimensions.forEach((d) => {
-  for (let i = 0; i <= number; i++) {
-    point = spacedPoints[i]
-    binormalShift.add(frenetFrames.binormals[i]).multiplyScalar(d)
-
-    finalPoints.push(new THREE.Vector3().copy(point).add(binormalShift))
-  }
-})
-
-finalPoints[0].copy(finalPoints[number])
-finalPoints[number + 1].copy(finalPoints[2 * number + 1])
-
-tempPlane.setFromPoints(finalPoints)
-
-export let finalMesh = new THREE.Mesh(tempPlane, frontMaterial)
-finalMesh.position.set(0, -2, -1.6)
-// scene.add(finalMesh)
