@@ -29,12 +29,14 @@
     rToEgg,
     xToPupils,
     yToPupils,
-    skewToHead,
+    skewToNeck,
     done = false
 
   gsap.registerPlugin(ScrollToPlugin, CustomEase)
 
   onMount(() => {
+    const q = gsap.utils.selector(section)
+    const smoother = smootherInstance()
     sizes = {
       width: window.innerWidth,
       height: window.innerHeight
@@ -58,18 +60,11 @@
       xToHead = gsap.quickTo(q('.container'), 'xPercent')
       yToHead = gsap.quickTo(q('.container'), 'yPercent')
       rToHead = gsap.quickTo(q('.container'), 'rotation')
-      skewToHead = gsap.quickTo(q('.neck'), 'skewX')
+      skewToNeck = gsap.quickTo(q('.neck'), 'skewX')
       // quickTo pupils
       xToPupils = gsap.quickTo(q('.pupils'), 'xPercent')
       yToPupils = gsap.quickTo(q('.pupils'), 'yPercent')
     }, 5000)
-
-    const smoother = smootherInstance()
-    const q = gsap.utils.selector(section)
-    const cursor = {
-      x: 0,
-      y: 0
-    }
 
     /**
      * NormaliseScroll
@@ -165,29 +160,27 @@
 
     window.addEventListener('mousemove', (e) => {
       if (!transitionComplete) return
-      // egg
       let x = e.clientX / sizes.width - 0.5
+      // egg
+      console.log(x)
       xToEgg(-x * 0.25)
       yToEgg(-Math.abs(x * 0.076) + 0.076)
       rToEgg(-x * 0.24)
       // head
-      const width = window.innerWidth / 2
-      cursor.x = e.clientX - width
-      cursor.y = e.clientY - width
-      xToHead(0 - cursor.x * 0.04)
-      yToHead(Math.abs(0 - cursor.x * 0.01))
-      rToHead(`${0 - cursor.x * 0.04}`)
-      skewToHead(`${0 - cursor.x * 0.03 * -1}`)
+      xToHead(0 - x * 60)
+      yToHead(Math.abs(0 - x * 10))
+      rToHead(`${0 - x * 40}`)
+      skewToNeck(`${0 - x * 50 * -1}`)
       // Pupils
-      xToPupils(cursor.x * 0.009)
-      yToPupils(-Math.abs(cursor.x * 0.018))
+      xToPupils(x * 9)
+      yToPupils(-Math.abs(x * 18))
     })
 
     function resetHead() {
       xToHead(0)
       yToHead(0)
       rToHead(0)
-      skewToHead(0)
+      skewToNeck(0)
     }
   })
 </script>
