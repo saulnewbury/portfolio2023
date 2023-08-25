@@ -193,10 +193,9 @@ export function initialiseThreeJSScene(canvas) {
 /**
  * TICK
  */
-// let time = 0.0001
+
 export function tick() {
   const elapsedTime = clock.getElapsedTime()
-  // time += 0.0001
   // Update Material
   material.uniforms.uTime.value = elapsedTime * 0.7 // .5
 

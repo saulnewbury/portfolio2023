@@ -107,9 +107,7 @@
           if (self.progress !== 1) transitionComplete = false
 
           if (self.progress <= 0.5 && done) {
-            resetHead()
-            xToEgg(0)
-            rToEgg(0)
+            reset()
             console.log('spin back')
             done = false
             gsap.to(sphereMesh.rotation, {
@@ -162,7 +160,6 @@
       if (!transitionComplete) return
       let x = e.clientX / sizes.width - 0.5
       // egg
-      console.log(x)
       xToEgg(-x * 0.25)
       yToEgg(-Math.abs(x * 0.076) + 0.076)
       rToEgg(-x * 0.24)
@@ -176,7 +173,9 @@
       yToPupils(-Math.abs(x * 18))
     })
 
-    function resetHead() {
+    function reset() {
+      xToEgg(0)
+      rToEgg(0)
       xToHead(0)
       yToHead(0)
       rToHead(0)
