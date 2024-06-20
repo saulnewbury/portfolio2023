@@ -1,6 +1,6 @@
 import { ScrollSmoother } from 'gsap/dist/ScrollSmoother'
 
-export default function smootherInstance() {
+export default function scrollSmoother() {
   let smoother = ScrollSmoother.create({
     smooth: 2,
     speed: 1,

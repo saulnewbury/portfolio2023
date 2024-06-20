@@ -1,6 +1,6 @@
 <script>
   import './global.css'
-  import { initialiseThreeJSScene, introAnim, tick } from '$lib/noise/noise.js'
+  import { initialiseThreeJSScene } from '$lib/noise/noise.js'
   import { onMount } from 'svelte'
   import { gsap } from 'gsap'
   import { SplitText } from 'gsap/dist/SplitText'
@@ -8,7 +8,7 @@
   import { ScrollSmoother } from 'gsap/dist/ScrollSmoother'
   import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin'
   import { GSDevTools } from 'gsap/dist/GSDevTools'
-  import smootherInstance from '$lib/smoother.js'
+  import scrollSmoother from '$lib/smoother.js'
 
   gsap.registerPlugin(
     SplitText,
@@ -23,9 +23,7 @@
 
   onMount(() => {
     window.scrollTo(0, 0)
-    initialiseThreeJSScene(canvas)
-    introAnim(overlayOne, overlayTwo)
-    tick()
+    initialiseThreeJSScene(canvas, overlayOne, overlayTwo)
 
     const q = gsap.utils.selector(nav)
     setTimeout(() => {

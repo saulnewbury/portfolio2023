@@ -5,9 +5,9 @@
   import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin'
   import { CustomEase } from 'gsap/dist/CustomEase'
 
-  import { getEggMesh, getSphereMesh, eggBuilt } from '$lib/noise/noise.js'
+  import { getEggMesh, getSphereMesh } from '$lib/noise/noise.js'
 
-  import smootherInstance from '$lib/smoother.js'
+  import scrollSmoother from '$lib/smoother.js'
 
   import head from '$lib/images/me/head.png'
   import torso from '$lib/images/me/torso.png'
@@ -35,8 +35,8 @@
   gsap.registerPlugin(ScrollToPlugin, CustomEase)
 
   onMount(() => {
+    const smoother = scrollSmoother()
     const q = gsap.utils.selector(section)
-    const smoother = smootherInstance()
     sizes = {
       width: window.innerWidth,
       height: window.innerHeight
@@ -48,10 +48,11 @@
       sizes.height = window.innerHeight
     })
 
+    // set up
     setTimeout(() => {
       eggMesh = getEggMesh()
       sphereMesh = getSphereMesh()
-      transitionAnimation()
+      transitionSetup()
       // quickTo egg
       xToEgg = gsap.quickTo(eggMesh.position, 'x')
       yToEgg = gsap.quickTo(eggMesh.position, 'y')
@@ -75,7 +76,7 @@
      * Transition
      */
 
-    function transitionAnimation() {
+    function transitionSetup() {
       let tlTransition = gsap.timeline({
         defaults: { duration: 1.5, ease: 'power4.Out' },
         onComplete: () => {
@@ -92,7 +93,7 @@
         scrub: 0.5,
         onEnter: () => {
           gsap.to(window, {
-            duration: 0.7,
+            duration: 0.5,
             scrollTo: section
           })
         },
@@ -164,13 +165,13 @@
       yToEgg(-Math.abs(x * 0.076) + 0.076)
       rToEgg(-x * 0.24)
       // head
-      xToHead(0 - x * 60)
+      xToHead(0 - x * 50)
       yToHead(Math.abs(0 - x * 10))
       rToHead(`${0 - x * 40}`)
       skewToNeck(`${0 - x * 50 * -1}`)
       // Pupils
       xToPupils(x * 9)
-      yToPupils(-Math.abs(x * 18))
+      yToPupils(-Math.abs(x * 16))
     })
 
     function reset() {

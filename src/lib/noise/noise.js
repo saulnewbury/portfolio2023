@@ -15,12 +15,12 @@ import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
 
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
-export let eggBuilt = false
+export let loadingSequenceComplete = false
+export let increment = 0.05
 
 let camera, renderer, composer, eggMesh, sphereMesh
-let eggGeometry, materialFresnel, controls
+let eggGeometry, materialFresnel, controls, ovlyOne, ovlyTwo
 
-let increment = 0.05
 let sizes
 
 const scaleAmount = 0.4
@@ -75,7 +75,7 @@ const cubeCamera = new THREE.CubeCamera(0.1, 10, cubeRenderTarget)
 /**
  * Egg
  */
-function composeEgg() {
+export function composeEgg() {
   // points - (x, y) pairs are rotated around the y-axis
   let rad
   let points = []
@@ -99,7 +99,7 @@ function composeEgg() {
     increment += 0.01 * multiplier
     setTimeout(composeEgg, 10)
   } else {
-    eggBuilt = true
+    zoom()
   }
 
   eggGeometry = new THREE.LatheGeometry(points, 32)
@@ -120,8 +120,6 @@ function composeEgg() {
   scene.add(eggMesh)
   points = []
 }
-
-composeEgg()
 
 /**
  * Sphere
@@ -155,7 +153,10 @@ export function getSphereMesh() {
 /**
  * INITIALISE
  */
-export function initialiseThreeJSScene(canvas) {
+export function initialiseThreeJSScene(canvas, overlayOne, overlayTwo) {
+  ovlyOne = overlayOne
+  ovlyTwo = overlayTwo
+
   // Renderer
   renderer = new THREE.WebGLRenderer({
     canvas: canvas
@@ -179,6 +180,8 @@ export function initialiseThreeJSScene(canvas) {
   controls = new OrbitControls(camera, canvas)
   controls.enableDamping = true
   controls.update()
+  composeEgg()
+  tick()
 }
 
 /**
@@ -218,25 +221,34 @@ export function tick() {
 /**
  * Intro animation
  */
-export function introAnim(overlayOne, overlayTwo) {
+function zoom() {
+  let hasRun = false
+  console.log(camera.position)
   gsap.to(camera.position, {
     z: 1.3,
-    delay: 2.5,
-    duration: 1.8,
+    delay: 0.5,
+    duration: 3,
     ease: 'power2.inOut'
   })
 
-  gsap.to(overlayOne, {
+  gsap.to(ovlyOne, {
     opacity: 0,
-    delay: 2.5,
+    delay: 0.5,
     duration: 1.8,
     ease: 'power2.inOut'
   })
 
-  gsap.to(overlayTwo, {
+  const tween = gsap.to(ovlyTwo, {
     opacity: 0.6,
-    delay: 2.5,
+    delay: 0.5,
     duration: 1.8,
     ease: 'power2.inOut'
+    // onUpdate: () => {
+    //   if (hasRun) return
+    //   if (tween.progress() >= 0.555) {
+    //     loadingSequenceComplete = true
+    //     hasRun = true
+    //   }
+    // }
   })
 }
