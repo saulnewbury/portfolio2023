@@ -28,58 +28,6 @@
 
   onMount(() => {
     const q = gsap.utils.selector(section)
-    const mm = gsap.matchMedia()
-
-    mm.add(
-      '(max-width: 768px)',
-      () => {
-        isMobile = true
-        isTablet = false
-        isDesktop = false
-        splitTheText()
-      },
-      section
-    )
-
-    mm.add(
-      '(min-width: 769px) and (max-width: 1055px)',
-      () => {
-        isMobile = false
-        isTablet = true
-        isDesktop = false
-        splitTheText()
-      },
-      section
-    )
-
-    mm.add(
-      '(min-width: 1056px)',
-      () => {
-        isTablet = false
-        isMobile = false
-        isDesktop = true
-        splitTheText()
-      },
-      section
-    )
-
-    /**
-     *  Animate Main Characters
-     */
-
-    function splitTheText() {
-      mainText = isMobile
-        ? q('.mobile h1')
-        : isTablet
-          ? q('.tablet h1')
-          : q('.desktop h1')
-      splitText = new SplitText(mainText, {
-        type: 'lines, chars'
-      })
-      lines = splitText.lines
-      mainChars = splitText.chars
-      intro()
-    }
 
     /**
      * Main text hover effect
@@ -169,62 +117,6 @@
     /**
      * intro
      */
-    function intro() {
-      master = gsap.timeline({ paused: true })
-
-      function textReveal() {
-        const tl = gsap.timeline()
-        tl.to(mainText, { opacity: 1 })
-        for (let i = 0; i < lines.length; i++) {
-          tl.from(
-            lines[i],
-            {
-              opacity: 0,
-              yPercent: 80,
-              duration: 0.8
-            },
-            `<.2`
-          ).from(
-            mainText[i],
-            {
-              y: -20,
-              // y: -39,
-              duration: 0.8
-            },
-            '<'
-          )
-        }
-        return tl
-      }
-
-      function buttonReveal() {
-        const tl = gsap.timeline()
-        gsap.set(q('button'), { opacity: 1 })
-        gsap.set(q('button span'), { opacity: 1 })
-        gsap.set(q('button img'), { opacity: 1 })
-
-        tl.from(q('button span'), { yPercent: 100, duration: 0.8 })
-          .from(q('button'), { y: -15, duration: 0.8 }, '<')
-          .from(
-            q('button img'),
-            {
-              rotateY: 90
-            },
-            '<50%'
-          )
-        return tl
-      }
-      master.add(textReveal()).add(buttonReveal(), '<50%')
-
-      if (eggBuilt) {
-        console.log('egg built')
-        master.play()
-      } else {
-        setTimeout(() => {
-          master.play()
-        }, 3600) // 3000
-      }
-    }
   })
 
   /**
