@@ -31,7 +31,12 @@
     yToPupils,
     skewToNeck,
     x,
-    fallingEggTween,
+    fallingEggTween1,
+    fallingEggTween2,
+    fallingEggTween3,
+    intercepting1,
+    intercepting2,
+    intercepting3,
     rotation = 0,
     done = false
 
@@ -115,8 +120,6 @@
           if (self.progress !== 1) transitionComplete = false
 
           if (self.progress <= 0.5 && done) {
-            gsap.killTweensOf(eggMesh.rotation)
-            gsap.killTweensOf(eggMesh.position)
             reset()
             console.log('spin back')
             done = false
@@ -169,6 +172,10 @@
     window.addEventListener('mousemove', (e) => {
       if (!transitionComplete) return
 
+      // fallingEggTween1.kill()
+      // fallingEggTween2.kill()
+      // fallingEggTween3.kill()
+
       // if rotation is a positive number and mouse move is positive, then
       x = e.clientX / sizes.width - 0.5
 
@@ -176,18 +183,20 @@
       console.log('working')
       // egg
 
-      // xToEgg(x * 0.25)
-      // yToEgg(-Math.abs(x * 0.076) + 0.076)
-      // rToEgg(x * 0.24)
+      xToEgg(x * 0.25)
+      yToEgg(-Math.abs(x * 0.076) + 0.076)
+      rToEgg(x * 0.24)
       if ((rotation < 0 && x > 0) || (rotation > 0 && x < 0)) {
         // do nothing
       } else {
       }
-      gsap.killTweensOf(eggMesh.rotation)
-      gsap.killTweensOf(eggMesh.position)
-      gsap.to(eggMesh.rotation, { z: x * 0.24 })
-      gsap.to(eggMesh.position, { x: x * 0.25 })
-      gsap.to(eggMesh.position, { y: -Math.abs(x * 0.076) + 0.076 })
+      // gsap.killTweensOf(eggMesh.rotation)
+      // gsap.killTweensOf(eggMesh.position)
+      // intercepting1 = gsap.to(eggMesh.rotation, { z: x * 0.24 })
+      // intercepting2 = gsap.to(eggMesh.position, { x: x * 0.25 })
+      // intercepting3 = gsap.to(eggMesh.position, {
+      //   y: -Math.abs(x * 0.076) + 0.076
+      // })
 
       // head
       xToHead(0 + x * 60)
@@ -225,7 +234,7 @@
       } else {
         console.log('past the guard' + ' ' + x)
         let amount = currentRotation < 0 ? 15 : -15
-        fallingEggTween = gsap.to(eggMesh.rotation, {
+        fallingEggTween1 = gsap.to(eggMesh.rotation, {
           z: amount,
           duration: 4.5,
           ease: 'power1.in',
@@ -238,12 +247,12 @@
           }
         })
 
-        gsap.to(eggMesh.position, {
+        fallingEggTween2 = gsap.to(eggMesh.position, {
           x: amount < 0 ? 50 / 100 : -50 / 100,
           ease: 'power1.in',
           duration: 3.1
         })
-        gsap.to(eggMesh.position, {
+        fallingEggTween3 = gsap.to(eggMesh.position, {
           y: -50 / 100,
           ease: 'power3.in',
           duration: 2.5
@@ -252,8 +261,15 @@
     }
 
     function reset() {
+      fallingEggTween1.kill()
+      fallingEggTween2.kill()
+      fallingEggTween3.kill()
+      // intercepting1.pause().kill(true)
+      // intercepting2.pause().kill(true)
+      // intercepting3.pause().kill(true)
       xToEgg(0)
       rToEgg(0)
+      yToEgg(0)
       xToHead(0)
       yToHead(0)
       rToHead(0)
