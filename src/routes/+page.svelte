@@ -286,6 +286,7 @@
     display: flex;
     align-items: center;
     position: relative;
+    opacity: 0;
   }
 
   section :global(.text) {

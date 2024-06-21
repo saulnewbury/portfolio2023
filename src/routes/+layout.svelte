@@ -65,9 +65,7 @@
 <div class="overlay one" bind:this={overlayOne} />
 <div class="overlay two" bind:this={overlayTwo} />
 
-<!-- <div class="herotext">
-  <HeroText />
-</div> -->
+<HeroText />
 
 <div id="smooth-wrapper">
   <div id="smooth-content">
@@ -109,11 +107,6 @@
     outline: none;
   }
 
-  .herotext {
-    height: 100vh;
-    width: 100vw;
-    /* position: fixed; */
-  }
   .content {
     /* pointer-events: none; */
     top: 0;
