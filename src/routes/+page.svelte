@@ -2,8 +2,7 @@
   import { onMount } from 'svelte'
   import { gsap } from 'gsap'
   import { SplitText } from 'gsap/dist/SplitText'
-  import { loadingSequenceComplete } from '$lib/noise/noise.js'
-  // import scrollSmoother from '$lib/smoother.js'
+  import { eggBuilt } from '$lib/noise/noise.js'
 
   import Balance from '$lib/components/Balance.svelte'
 
@@ -23,6 +22,7 @@
     isMobile = null,
     isTablet = null,
     isDesktop = null,
+    rotation = -405,
     tlA,
     tlB
 
@@ -64,36 +64,21 @@
     )
 
     /**
-     * Compose egg
-     */
-    // Check named export for when the egg has been built
-    let IntervalId
-    function checkEggBuilt() {
-      if (loadingSequenceComplete) {
-        clearInterval(IntervalId)
-        intro()
-      }
-    }
-    IntervalId = setInterval(checkEggBuilt, 300)
-
-    /**
      *  Animate Main Characters
      */
 
     function splitTheText() {
       mainText = isMobile
-        ? q('.mobile span')
+        ? q('.mobile h1')
         : isTablet
-          ? q('.tablet span')
-          : q('.desktop span')
+          ? q('.tablet h1')
+          : q('.desktop h1')
       splitText = new SplitText(mainText, {
         type: 'lines, chars'
       })
       lines = splitText.lines
       mainChars = splitText.chars
-      if (loadingSequenceComplete) {
-        intro()
-      }
+      intro()
     }
 
     /**
@@ -223,8 +208,7 @@
           .from(
             q('button img'),
             {
-              rotateY: 90,
-              onComplete: () => {}
+              rotateY: 90
             },
             '<50%'
           )
@@ -232,7 +216,13 @@
       }
       master.add(textReveal()).add(buttonReveal(), '<50%')
 
-      master.play()
+      if (eggBuilt) {
+        master.play()
+      } else {
+        setTimeout(() => {
+          master.play()
+        }, 3600) // 3000
+      }
     }
   })
 
@@ -250,25 +240,25 @@
 </script>
 
 <section class="hero" bind:this={section}>
-  <h1 class={'text desktop ' + (isDesktop ? 'show' : '')}>
-    <span>I'm Saul Newbury, a Creative Developer, interested in how</span>
-    <span>great design, asthetics and motion can work together to create</span>
-    <span>experiences that are fun, playful and memorable.</span>
-  </h1>
-  <h1 class={'text tablet ' + (isTablet ? 'show' : '')}>
-    <span>Hello world! I'm Saul, a Creative Developer,</span>
-    <span>interested in how great design, asthetics and</span>
-    <span>motion can work together to create experiences</span>
-    <span>that are fun, playful and memorable.</span>
-  </h1>
-  <h1 class={'text mobile ' + (isMobile ? 'show' : '')}>
-    <span>Hello world! I'm Saul,</span>
-    <span>a Creative Developer, interested</span>
-    <span>in how great design, asthetics</span>
-    <span>and motion can work together</span>
-    <span>to create experiences that are</span>
-    <span>fun, playful and memorable.</span>
-  </h1>
+  <div class={'text desktop ' + (isDesktop ? 'show' : '')}>
+    <h1>I'm Saul Newbury, a Creative Developer, interested in how</h1>
+    <h1>great design, asthetics and motion can work together to create</h1>
+    <h1>experiences that are fun, playful and memorable.</h1>
+  </div>
+  <div class={'text tablet ' + (isTablet ? 'show' : '')}>
+    <h1>Hello world! I'm Saul, a Creative Developer,</h1>
+    <h1>interested in how great design, asthetics and</h1>
+    <h1>motion can work together to create experiences</h1>
+    <h1>that are fun, playful and memorable.</h1>
+  </div>
+  <div class={'text mobile ' + (isMobile ? 'show' : '')}>
+    <h1>Hello world! I'm Saul,</h1>
+    <h1>a Creative Developer, interested</h1>
+    <h1>in how great design, asthetics</h1>
+    <h1>and motion can work together</h1>
+    <h1>to create experiences that are</h1>
+    <h1>fun, playful and memorable.</h1>
+  </div>
 
   <button
     bind:this={button}
@@ -309,8 +299,7 @@
     visibility: visible;
   }
 
-  section :global(h1 span) {
-    display: block;
+  section :global(h1) {
     opacity: 0;
     overflow: hidden;
     font-size: clamp(1.8rem, 3.1vw, 3rem);
@@ -358,7 +347,7 @@
   }
 
   @media screen and (max-width: 1055px) {
-    section :global(h1 span) {
+    section :global(h1) {
       font-size: clamp(1.8rem, 3.7vw, 2.2rem);
     }
 
@@ -368,7 +357,7 @@
   }
 
   @media screen and (max-width: 768px) {
-    section :global(h1 span) {
+    section :global(h1) {
       /* font-size: 7vw; */
       font-size: clamp(1.8rem, 6vw, 2.2rem);
     }

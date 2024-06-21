@@ -17,6 +17,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 export let loadingSequenceComplete = false
 export let increment = 0.05
+export let eggBuilt = false
 
 let camera, renderer, composer, eggMesh, sphereMesh
 let eggGeometry, materialFresnel, controls, ovlyOne, ovlyTwo
@@ -227,7 +228,7 @@ function zoom() {
   gsap.to(camera.position, {
     z: 1.3,
     delay: 0.5,
-    duration: 3,
+    duration: 1.8,
     ease: 'power2.inOut'
   })
 
@@ -242,13 +243,13 @@ function zoom() {
     opacity: 0.6,
     delay: 0.5,
     duration: 1.8,
-    ease: 'power2.inOut'
-    // onUpdate: () => {
-    //   if (hasRun) return
-    //   if (tween.progress() >= 0.555) {
-    //     loadingSequenceComplete = true
-    //     hasRun = true
-    //   }
-    // }
+    ease: 'power2.inOut',
+    onUpdate: () => {
+      if (hasRun) return
+      if (tween.progress() >= 0.555) {
+        loadingSequenceComplete = true
+        hasRun = true
+      }
+    }
   })
 }
