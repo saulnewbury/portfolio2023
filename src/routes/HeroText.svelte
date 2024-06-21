@@ -119,7 +119,7 @@
         onUpdate: (self) => {
           if (self.direction === 1 && self.progress > 0.001) {
             master.timeScale(1.8).reverse()
-          } else if (self.direction === -1 && self.progress > 0.5) {
+          } else if (self.direction === -1 && self.progress > 0.7) {
             master.timeScale(1).play()
           }
         }

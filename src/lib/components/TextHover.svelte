@@ -1,8 +1,60 @@
 <script>
+  import { onMount } from 'svelte'
+
   import arrowRight from '$lib/icons/arrow-right.svg'
 
   // refs
-  let button
+  let button, btnCharsA, btnCharsB, tlA, tlB
+
+  onMount(() => {
+    /**
+     * Button hover effect
+     */
+    const qButton = gsap.utils.selector('button')
+
+    const splitBtnTextA = new SplitText(qButton('span:first-child'), {
+      type: 'chars'
+    })
+    const splitBtnTextB = new SplitText(qButton('span:nth-child(2)'), {
+      type: 'chars'
+    })
+
+    btnCharsA = splitBtnTextA.chars
+    btnCharsB = splitBtnTextB.chars
+
+    gsap.set(btnCharsA, { transformOrigin: 'bottom center' })
+
+    tlA = gsap.timeline({ paused: true })
+    tlB = gsap.timeline({ paused: true })
+
+    for (let i = 0; i < btnCharsA.length; i++) {
+      tlA.fromTo(
+        btnCharsA[i],
+        {
+          yPercent: 0
+        },
+        {
+          yPercent: -100,
+          scaleY: 0,
+          // skewX: -45,
+          ease: 'power1.inOut'
+        },
+        '<3%'
+      )
+
+      tlB.fromTo(
+        btnCharsB[i],
+        {
+          yPercent: 100
+        },
+        {
+          yPercent: 0,
+          ease: 'power1.inOut'
+        },
+        '<3%'
+      )
+    }
+  })
 
   // Button hover effect
   function handleMouseEnter() {
