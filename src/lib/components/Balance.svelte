@@ -30,6 +30,9 @@
     xToPupils,
     yToPupils,
     skewToNeck,
+    x,
+    fallingEggTween,
+    rotation = 0,
     done = false
 
   gsap.registerPlugin(ScrollToPlugin, CustomEase)
@@ -37,6 +40,7 @@
   onMount(() => {
     const q = gsap.utils.selector(section)
     const smoother = smootherInstance()
+
     sizes = {
       width: window.innerWidth,
       height: window.innerHeight
@@ -55,7 +59,10 @@
       // quickTo egg
       xToEgg = gsap.quickTo(eggMesh.position, 'x')
       yToEgg = gsap.quickTo(eggMesh.position, 'y')
-      rToEgg = gsap.quickTo(eggMesh.rotation, 'z')
+      rToEgg = gsap.quickTo(eggMesh.rotation, 'z', {
+        duration: 0.4,
+        ease: 'power1.inOut'
+      })
       // quickTo head
       xToHead = gsap.quickTo(q('.container'), 'xPercent')
       yToHead = gsap.quickTo(q('.container'), 'yPercent')
@@ -79,8 +86,9 @@
       let tlTransition = gsap.timeline({
         defaults: { duration: 1.5, ease: 'power4.Out' },
         onComplete: () => {
-          console.log('complete')
           transitionComplete = true
+          rotation = gsap.getProperty(eggMesh.rotation, 'z')
+          startIdleHeadTimer()
         }
       })
 
@@ -107,6 +115,8 @@
           if (self.progress !== 1) transitionComplete = false
 
           if (self.progress <= 0.5 && done) {
+            gsap.killTweensOf(eggMesh.rotation)
+            gsap.killTweensOf(eggMesh.position)
             reset()
             console.log('spin back')
             done = false
@@ -158,20 +168,88 @@
 
     window.addEventListener('mousemove', (e) => {
       if (!transitionComplete) return
-      let x = e.clientX / sizes.width - 0.5
+
+      // if rotation is a positive number and mouse move is positive, then
+      x = e.clientX / sizes.width - 0.5
+
+      console.log(rotation + ' ' + x)
+      console.log('working')
       // egg
-      xToEgg(-x * 0.25)
-      yToEgg(-Math.abs(x * 0.076) + 0.076)
-      rToEgg(-x * 0.24)
+
+      // xToEgg(x * 0.25)
+      // yToEgg(-Math.abs(x * 0.076) + 0.076)
+      // rToEgg(x * 0.24)
+      if ((rotation < 0 && x > 0) || (rotation > 0 && x < 0)) {
+        // do nothing
+      } else {
+      }
+      gsap.killTweensOf(eggMesh.rotation)
+      gsap.killTweensOf(eggMesh.position)
+      gsap.to(eggMesh.rotation, { z: x * 0.24 })
+      gsap.to(eggMesh.position, { x: x * 0.25 })
+      gsap.to(eggMesh.position, { y: -Math.abs(x * 0.076) + 0.076 })
+
       // head
-      xToHead(0 - x * 60)
-      yToHead(Math.abs(0 - x * 10))
-      rToHead(`${0 - x * 40}`)
-      skewToNeck(`${0 - x * 50 * -1}`)
+      xToHead(0 + x * 60)
+      yToHead(Math.abs(0 + x * 10))
+      rToHead(`${0 + x * 40}`)
+      skewToNeck(`${0 + x * 50 * -1}`)
       // Pupils
-      xToPupils(x * 9)
+      xToPupils(-x * 9)
       yToPupils(-Math.abs(x * 18))
     })
+
+    // in 1 second check egg if egg has changed position
+    let timer
+    window.addEventListener('mousemove', () => {
+      if (!transitionComplete) return
+      startIdleHeadTimer()
+    })
+
+    function startIdleHeadTimer() {
+      if (!transitionComplete) return
+      clearInterval(timer)
+      timer = setInterval(rollEgg, 500)
+    }
+
+    function rollEgg() {
+      console.log('rollEgg Fn Fired')
+      if (!transitionComplete) return
+
+      let currentRotation = gsap.getProperty(eggMesh.rotation, 'z')
+      console.log(currentRotation)
+
+      if (rotation !== currentRotation) {
+        rotation = currentRotation
+        return
+      } else {
+        console.log('past the guard' + ' ' + x)
+        let amount = currentRotation < 0 ? 15 : -15
+        fallingEggTween = gsap.to(eggMesh.rotation, {
+          z: amount,
+          duration: 4.5,
+          ease: 'power1.in',
+          onStart: () => {
+            clearInterval(timer)
+          },
+          onComplete: () => {
+            rotation = currentRotation
+            reset()
+          }
+        })
+
+        gsap.to(eggMesh.position, {
+          x: amount < 0 ? 50 / 100 : -50 / 100,
+          ease: 'power1.in',
+          duration: 3.1
+        })
+        gsap.to(eggMesh.position, {
+          y: -50 / 100,
+          ease: 'power3.in',
+          duration: 2.5
+        })
+      }
+    }
 
     function reset() {
       xToEgg(0)
