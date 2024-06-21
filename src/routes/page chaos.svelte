@@ -63,6 +63,8 @@
       section
     )
 
+    intro()
+
     /**
      * Compose egg
      */
@@ -71,7 +73,7 @@
     function checkEggBuilt() {
       if (loadingSequenceComplete) {
         clearInterval(IntervalId)
-        intro()
+        // intro()
       }
     }
     IntervalId = setInterval(checkEggBuilt, 300)
@@ -91,9 +93,11 @@
       })
       lines = splitText.lines
       mainChars = splitText.chars
-      if (loadingSequenceComplete) {
-        intro()
+      for (let i = 0; i < mainChars.length; i++) {
+        gsap.set(mainChars, { opacity: 0 })
       }
+      // if (loadingSequenceComplete) {
+      // }
     }
 
     /**
@@ -188,26 +192,71 @@
       master = gsap.timeline({ paused: true })
 
       function textReveal() {
-        const tl = gsap.timeline()
-        tl.to(mainText, { opacity: 1 })
-        for (let i = 0; i < lines.length; i++) {
-          tl.from(
-            lines[i],
-            {
-              opacity: 0,
-              yPercent: 80,
-              duration: 0.8
-            },
-            `<.2`
-          ).from(
-            mainText[i],
-            {
-              y: -20,
-              // y: -39,
-              duration: 0.8
-            },
-            '<'
-          )
+        gsap.set(mainChars, { opacity: 0 })
+
+        for (let i = 0; i < mainChars.length; i++) {
+          gsap.set(mainChars[i], {
+            xPercent: (Math.random() - 0.5) * 1000,
+            yPercent: (Math.random() - 0.5) * 1000,
+            rotate: (Math.random() - 0.5) * 500
+          })
+
+          const tl = gsap.timeline({ paused: true })
+
+          const tween = gsap.to(mainChars[i], {
+            opacity: 0.1,
+            ease: 'power2.in',
+            delay: Math.random() * 2,
+            onUpdate: () => {
+              if (tween.progress() >= 0.8) {
+                tl.play()
+              }
+            }
+          })
+
+          tl.to(mainChars[i], {
+            opacity: 0.5,
+            xPercent: (Math.random() - 0.5) * 1100,
+            yPercent: (Math.random() - 0.5) * 1100,
+            rotate: (Math.random() - 0.5) * 1000,
+            duration: 0.8
+          }).to(mainChars[i], {
+            opacity: 1,
+            yPercent: 0,
+            xPercent: 0,
+            rotate: 0,
+            ease: 'power1.in',
+            duration: 1
+          })
+          // .to(mainChars[i], {
+          //   scale: 1,
+          //   opacity: 1,
+          //   yPercent: 0,
+          //   xPercent: 0,
+          //   rotate: 0,
+          //   stagger: 0.22,
+          //   duration: Math.random() * 2,
+          //   ease: 'circ.inOut'
+          // })
+          // gsap.fromTo(
+          //   q('h1 span'),
+          //   {
+          //     // rotate: -90,
+          //     // yPercent: Math.random() * 1000
+          //     yPercent: 100
+          //   },
+          //   {
+          //     // rotate: 0,
+          //     yPercent: 0,
+          //     // duration: 3,
+          //     // duration: Math.random() * 2,
+          //     stagger: 0.12,
+          //     // ease: 'power1.inOut'
+          //     // ease: 'bounce.out'
+          //     // ease: 'circ.inOut'
+          //     ease: 'circ.in'
+          //   }
+          // )
         }
         return tl
       }
@@ -308,11 +357,15 @@
     position: unset;
     visibility: visible;
   }
+  section :global(h1) {
+    /* transform-origin: center center; */
+    /* transform: rotate(-90deg); */
+  }
 
   section :global(h1 span) {
     display: block;
-    opacity: 0;
-    overflow: hidden;
+    /* opacity: 0; */
+    /* overflow: hidden; */
     font-size: clamp(1.8rem, 3.1vw, 3rem);
     margin-bottom: 0.02em;
     max-width: 32em;
