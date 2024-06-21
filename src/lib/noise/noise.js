@@ -81,6 +81,7 @@ export function composeEgg() {
   let rad
   let points = []
   scene.remove(eggMesh)
+
   for (let deg = 0; deg <= 180; deg += 6) {
     rad = ((Math.PI * deg) / 180) * increment
 
@@ -120,6 +121,7 @@ export function composeEgg() {
   eggMesh = new THREE.Mesh(eggGeometry, materialFresnel)
   scene.add(eggMesh)
   points = []
+  eggBuilt = true
 }
 
 /**

@@ -217,6 +217,7 @@
       master.add(textReveal()).add(buttonReveal(), '<50%')
 
       if (eggBuilt) {
+        console.log('egg built')
         master.play()
       } else {
         setTimeout(() => {
