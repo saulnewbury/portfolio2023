@@ -34,9 +34,8 @@
     fallingEggTween1,
     fallingEggTween2,
     fallingEggTween3,
-    intercepting1,
-    intercepting2,
-    intercepting3,
+    elapsedTime = 0,
+    balancing = false,
     rotation = 0,
     done = false
 
@@ -172,32 +171,43 @@
     window.addEventListener('mousemove', (e) => {
       if (!transitionComplete) return
 
-      // fallingEggTween1.kill()
-      // fallingEggTween2.kill()
-      // fallingEggTween3.kill()
-
-      // if rotation is a positive number and mouse move is positive, then
+      // if rotation is a positive number and mouse move is positive
       x = e.clientX / sizes.width - 0.5
 
-      console.log(rotation + ' ' + x)
-      console.log('working')
       // egg
 
       // xToEgg(x * 0.25)
       // yToEgg(-Math.abs(x * 0.076) + 0.076)
       // rToEgg(x * 0.24)
-      if ((rotation < 0 && x > 0) || (rotation > 0 && x < 0)) {
-        // do nothing
-      } else {
+      console.log(elapsedTime)
+      if (elapsedTime !== 0 && elapsedTime < 0.8) {
+        fallingEggTween1?.kill()
+        fallingEggTween2?.kill()
+        fallingEggTween3?.kill()
+        const t = elapsedTime / 0.2
+
+        gsap.to(eggMesh.rotation, {
+          z: x * 0.24,
+          duration: 1
+        })
+        gsap.to(eggMesh.position, { x: x * 0.25, duration: 0.5 })
+        gsap.to(eggMesh.position, {
+          y: -Math.abs(x * 0.076) + 0.076,
+          duration: 0.5,
+          onStart: () => {
+            balancing = true
+          },
+          onComplete: () => {
+            balancing = false
+          }
+        })
+        elapsedTime = 0
+      } else if (!balancing) {
+        console.log(balancing)
+        xToEgg(x * 0.25)
+        yToEgg(-Math.abs(x * 0.076) + 0.076)
+        rToEgg(x * 0.24)
       }
-      fallingEggTween1.kill()
-      fallingEggTween2.kill()
-      fallingEggTween3.kill()
-      intercepting1 = gsap.to(eggMesh.rotation, { z: x * 0.24 })
-      intercepting2 = gsap.to(eggMesh.position, { x: x * 0.25 })
-      intercepting3 = gsap.to(eggMesh.position, {
-        y: -Math.abs(x * 0.076) + 0.076
-      })
 
       // head
       xToHead(0 + x * 60)
@@ -233,7 +243,7 @@
         rotation = currentRotation
         return
       } else {
-        let amount = currentRotation < 0 ? 15 : -15
+        let amount = Math.random() < 0.5 ? 15 : -15
         fallingEggTween1 = gsap.to(eggMesh.rotation, {
           z: amount,
           duration: 4.5,
@@ -243,7 +253,12 @@
           },
           onComplete: () => {
             rotation = currentRotation
+            elapsedTime = 0
             reset()
+          },
+          onUpdate: () => {
+            elapsedTime += 0.01
+            console.log(elapsedTime)
           }
         })
 
@@ -264,6 +279,9 @@
       fallingEggTween1.kill()
       fallingEggTween2.kill()
       fallingEggTween3.kill()
+      // intercepting1.pause().kill(true)
+      // intercepting2.pause().kill(true)
+      // intercepting3.pause().kill(true)
       xToEgg(0)
       rToEgg(0)
       yToEgg(0)
