@@ -1,54 +1,36 @@
 <script>
   import { onMount } from 'svelte'
+  import { gsap } from 'gsap'
+  import { ScrollSmoother } from 'gsap/dist/ScrollSmoother'
+  import Balance from '../lib/components/Balance.svelte'
+  import Projects from '../lib/components/Projects.svelte'
+
+  gsap.registerPlugin(ScrollSmoother)
 
   // Vars
   // let mainChars
 
   onMount(() => {
-    /**
-     * Main text hover effect
-     */
-    // for (let i = 0; i < mainChars.length; i++) {
-    //   mainChars[i].addEventListener('mouseenter', () => {
-    //     gsap.to(mainChars[i], {
-    //       filter: 'blur(2px)',
-    //       scaleX: 0.95,
-    //       opacity: 0.9,
-    //       color: '#AD775B',
-    //       duration: 0.8,
-    //       onComplete: () => {
-    //         gsap.to(mainChars[i], {
-    //           filter: 'blur(0px)',
-    //           opacity: 1,
-    //           scaleX: 1,
-    //           color: 'black',
-    //           duration: 1.5
-    //         })
-    //       }
-    //     })
-    //   })
-    // }
-    // for (let i = 0; i < mainChars.length; i++) {
-    //   mainChars[i].addEventListener('mouseleave', () => {
-    //     gsap.to(mainChars[i], {
-    //       filter: 'blur(0px)',
-    //       opacity: 1,
-    //       scaleX: 1,
-    //       color: 'black',
-    //       duration: 1,
-    //       delay: 0.5
-    //     })
-    //   })
-    // }
+    ScrollSmoother.create({
+      smooth: 0.2, // how long (in seconds) it takes to "catch up" to the native scroll position
+      effects: true, // looks for data-speed and data-lag attributes on elements
+      smoothTouch: 0.1 // much shorter smoothing time on touch devices (default is NO smoothing on touch devices)
+    })
   })
 </script>
 
 <section class="hero"></section>
 
-<!-- <Balance /> -->
+<!-- <Projects /> -->
+
+<Balance />
 
 <style>
   section {
+    height: 100vh;
+  }
+  .hero {
+    /* height: 30vh;  */
     height: 100vh;
     display: flex;
     align-items: center;

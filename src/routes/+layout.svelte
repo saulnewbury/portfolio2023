@@ -67,6 +67,7 @@
 
 <HeroText />
 
+<div class="content-container"></div>
 <div id="smooth-wrapper">
   <div id="smooth-content">
     <div class="content">
@@ -133,6 +134,10 @@
     opacity: 0;
     background-color: rgba(0, 0, 0, 0.6);
     mix-blend-mode: overlay;
+  }
+
+  #smooth-wrapper {
+    position: relative;
   }
 
   @media screen and (max-width: 768px) {
