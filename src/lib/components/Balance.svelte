@@ -31,11 +31,15 @@
     yToPupils,
     skewToNeck,
     x,
-    fallingEggTween1,
-    fallingEggTween2,
-    fallingEggTween3,
+    v = null,
+    mouseDirection,
+    timer2,
+    fallingEggTweenR,
+    fallingEggTweenX,
+    fallingEggTweenY,
+    directionAmount,
     elapsedTime = 0,
-    balancing = false,
+    reBalancing = false,
     rotation = 0,
     done = false
 
@@ -170,44 +174,48 @@
 
     window.addEventListener('mousemove', (e) => {
       if (!transitionComplete) return
-
       // if rotation is a positive number and mouse move is positive
       x = e.clientX / sizes.width - 0.5
 
-      // egg
+      if (v === null) {
+        v = gsap.getProperty(eggMesh.position, x)
+      } else {
+        clearInterval(timer2)
+        timer2 = setInterval(() => {
+          if (v < gsap.getProperty(eggMesh.position, x)) {
+            mouseDirection = 1
+          } else {
+            mouseDirection = -1
+          }
+        }, 50)
+      }
 
-      // xToEgg(x * 0.25)
-      // yToEgg(-Math.abs(x * 0.076) + 0.076)
-      // rToEgg(x * 0.24)
-      console.log(elapsedTime)
-      if (elapsedTime !== 0 && elapsedTime < 0.8) {
-        fallingEggTween1?.kill()
-        fallingEggTween2?.kill()
-        fallingEggTween3?.kill()
-        const t = elapsedTime / 0.2
+      // if elapsed time is equal to 0, there is nothing to rebalance
+      // if mouseDirection and amountDirection are both negative or both positive do rebalance. Otherwise let the egg fall!
+      if (elapsedTime !== 0) {
+        reBalancing = true
+        fallingEggTweenR?.kill()
+        fallingEggTweenX?.kill()
+        fallingEggTweenY?.kill()
+
+        const t = elapsedTime / 0.6
 
         gsap.to(eggMesh.rotation, {
+          delay: 0.1,
           z: x * 0.24,
-          duration: 1
-        })
-        gsap.to(eggMesh.position, { x: x * 0.25, duration: 0.5 })
-        gsap.to(eggMesh.position, {
-          y: -Math.abs(x * 0.076) + 0.076,
-          duration: 0.5,
-          onStart: () => {
-            balancing = true
-          },
+          duration: t,
           onComplete: () => {
-            balancing = false
+            reBalancing = false
           }
+          // duration: 1
         })
         elapsedTime = 0
-      } else if (!balancing) {
-        console.log(balancing)
-        xToEgg(x * 0.25)
-        yToEgg(-Math.abs(x * 0.076) + 0.076)
+      } else if (!reBalancing) {
+        console.log(reBalancing)
         rToEgg(x * 0.24)
+        xToEgg(x * 0.25)
       }
+      yToEgg(-Math.abs(x * 0.076) + 0.076)
 
       // head
       xToHead(0 + x * 60)
@@ -233,19 +241,17 @@
     }
 
     function rollEgg() {
-      console.log('rollEgg Fn Fired')
       if (!transitionComplete) return
 
       let currentRotation = gsap.getProperty(eggMesh.rotation, 'z')
-      console.log(currentRotation)
 
       if (rotation !== currentRotation) {
         rotation = currentRotation
         return
       } else {
-        let amount = Math.random() < 0.5 ? 15 : -15
-        fallingEggTween1 = gsap.to(eggMesh.rotation, {
-          z: amount,
+        directionAmount = Math.random() < 0.5 ? 15 : -15
+        fallingEggTweenR = gsap.to(eggMesh.rotation, {
+          z: directionAmount,
           duration: 4.5,
           ease: 'power1.in',
           onStart: () => {
@@ -258,30 +264,26 @@
           },
           onUpdate: () => {
             elapsedTime += 0.01
-            console.log(elapsedTime)
           }
         })
 
-        fallingEggTween2 = gsap.to(eggMesh.position, {
-          x: amount < 0 ? 50 / 100 : -50 / 100,
+        fallingEggTweenX = gsap.to(eggMesh.position, {
+          x: directionAmount < 0 ? 50 / 100 : -50 / 100,
           ease: 'power1.in',
           duration: 3.1
         })
-        fallingEggTween3 = gsap.to(eggMesh.position, {
+        fallingEggTweenY = gsap.to(eggMesh.position, {
           y: -50 / 100,
           ease: 'power3.in',
-          duration: 2.5
+          duration: 2.9
         })
       }
     }
 
     function reset() {
-      fallingEggTween1.kill()
-      fallingEggTween2.kill()
-      fallingEggTween3.kill()
-      // intercepting1.pause().kill(true)
-      // intercepting2.pause().kill(true)
-      // intercepting3.pause().kill(true)
+      fallingEggTweenR.kill()
+      fallingEggTweenX.kill()
+      fallingEggTweenY.kill()
       xToEgg(0)
       rToEgg(0)
       yToEgg(0)
