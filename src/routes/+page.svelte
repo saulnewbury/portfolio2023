@@ -30,7 +30,7 @@
     height: 100vh;
   }
   .hero {
-    /* height: 30vh;  */
+    /* height: 30vh; */
     height: 100vh;
     display: flex;
     align-items: center;
