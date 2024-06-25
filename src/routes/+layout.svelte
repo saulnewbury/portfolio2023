@@ -12,6 +12,7 @@
   // components
   import HeroText from './HeroText.svelte'
   import scrollSmoother from '$lib/smoother.js'
+  import Countdown from '../lib/components/Countdown.svelte'
 
   gsap.registerPlugin(
     SplitText,
@@ -66,6 +67,8 @@
 <div class="overlay two" bind:this={overlayTwo} />
 
 <HeroText />
+
+<!-- <Countdown /> -->
 
 <div class="content-container"></div>
 <div id="smooth-wrapper">

@@ -15,7 +15,7 @@
   import pupils from '$lib/images/me/pupils.png'
   import neck from '$lib/images/me/neck.png'
 
-  let section
+  let section, countdown
 
   let eggMesh,
     sphereMesh,
@@ -182,6 +182,26 @@
       rToHead(0)
       skewToNeck(0)
     }
+
+    const countdownTl = gsap.timeline({ defaults: { duration: 0.5 } })
+
+    countdownTl
+      .to('.countdown span:nth-child(1)', { delay: 0.1, opacity: 1 })
+      .to('.countdown span:nth-child(1)', { opacity: 0 })
+      .to('.countdown span:nth-child(2)', { opacity: 1 })
+      .to('.countdown span:nth-child(2)', { opacity: 0 })
+      .to('.countdown span:nth-child(3)', { opacity: 1 })
+      .to('.countdown span:nth-child(3)', { opacity: 0 })
+      .to('.countdown span:nth-child(4)', { opacity: 1 })
+      .to('.countdown span:nth-child(4)', { opacity: 0 })
+
+    ScrollTrigger.create({
+      animation: countdownTl,
+      trigger: countdown,
+      start: 'top 3%',
+      markers: true,
+      onLeaveBack: 
+    })
   })
 </script>
 
@@ -196,6 +216,12 @@
       <img class="head" width="556" height="709" src={head} alt="head" />
     </div>
   </div>
+  <div bind:this={countdown} class="countdown">
+    <span>1</span>
+    <span>2</span>
+    <span>3</span>
+    <span>Do it!</span>
+  </div>
 </section>
 
 <style>
@@ -205,6 +231,29 @@
     position: relative;
     overflow: hidden;
   }
+  .countdown {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 900;
+  }
+  .countdown span {
+    opacity: 0;
+    font-size: 100px;
+    text-align: center;
+    /* display: inline-block; */
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    /* width: 1em; */
+  }
+
   .me {
     position: absolute;
     bottom: 0;
