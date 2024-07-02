@@ -22,7 +22,7 @@
   )
 
   // Refs
-  let nav, canvas, overlayOne, overlayTwo
+  let nav, canvas, overlayOne, overlayTwo, overlayColor
 
   onMount(() => {
     window.scrollTo(0, 0)
@@ -65,7 +65,10 @@
 <div class="overlay one" bind:this={overlayOne} />
 <div class="overlay two" bind:this={overlayTwo} />
 
+<!-- <div class="overlay color" bind:this={overlayColor}></div> -->
+
 <HeroText />
+<!-- <div class="title">Bloomingdale</div> -->
 
 <div class="content-container"></div>
 <div id="smooth-wrapper">
@@ -134,6 +137,26 @@
     opacity: 0;
     background-color: rgba(0, 0, 0, 0.6);
     mix-blend-mode: overlay;
+  }
+  .title {
+    font-size: 20vw;
+    font-size: 12vw;
+    position: fixed;
+    /* top: 10vh; */
+    bottom: 10vh;
+    left: var(--gutter);
+    z-index: 909;
+    mix-blend-mode: color-burn;
+    color: black;
+    line-height: 0.8;
+  }
+
+  .overlay.color {
+    position: fixed;
+    height: 100vh;
+    background-color: rgb(72, 71, 71);
+    opacity: 0.8;
+    mix-blend-mode: difference;
   }
 
   #smooth-wrapper {

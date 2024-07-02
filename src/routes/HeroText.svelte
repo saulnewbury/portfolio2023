@@ -115,11 +115,17 @@
 
       ScrollTrigger.create({
         start: 1,
+        end: '90%',
         scrub: true,
+        markers: true,
         onUpdate: (self) => {
-          if (self.direction === 1 && self.progress > 0.001) {
+          console.log(self)
+          if (self.direction === 1 && self.progress > 0.1) {
             master.timeScale(1.8).reverse()
-          } else if (self.direction === -1 && self.progress > 0.7) {
+          } else if (self.direction === -1 && self.progress < 0.4) {
+            console.log(
+              'backwards' + ' ' + self.direction + ' ' + self.progress
+            )
             master.timeScale(1).play()
           }
         }
@@ -158,6 +164,7 @@
     display: flex;
     align-items: center;
     position: fixed;
+    /* mix-blend-mode: color-burn; */
   }
 
   .container :global(.text) {

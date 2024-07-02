@@ -4,6 +4,7 @@
   import { ScrollSmoother } from 'gsap/dist/ScrollSmoother'
   import Balance from '../lib/components/Balance.svelte'
   import Projects from '../lib/components/Projects.svelte'
+  import SpinTransition from '../lib/components/SpinTransition.svelte'
 
   gsap.registerPlugin(ScrollSmoother)
 
@@ -21,16 +22,16 @@
 
 <section class="hero"></section>
 
-<!-- <Projects /> -->
-
-<Balance />
+<!-- <Balance /> -->
+<SpinTransition />
+<Projects />
 
 <style>
   section {
     height: 100vh;
   }
+
   .hero {
-    /* height: 30vh; */
     height: 100vh;
     display: flex;
     align-items: center;
