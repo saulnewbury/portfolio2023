@@ -20,7 +20,7 @@
   )
 
   // Refs
-  let nav, canvas, overlayOne, overlayTwo, overlayColor
+  let nav, canvas, overlayOne, overlayTwo
 
   onMount(() => {
     window.scrollTo(0, 0)
@@ -50,11 +50,12 @@
   })
 </script>
 
-<nav bind:this={nav}>
-  <a class="brand-name" href="/">Saul Newbury</a>
+<nav bind:this={nav} class="text-[2.3rem] justify-between">
+  <a class="uppercase" href="/">Saul Newbury</a>
 
-  <div class="right">
-    <a href="/projects">Projects</a>
+  <div class="right relative h-[1.6rem] w-[3rem] mt-[10px]">
+    <div class="absolute bg-black w-[3rem] h-[.5rem] rounded-sm"></div>
+    <div class="absolute bg-black w-[3rem] h-[.5rem] bottom-0 rounded-sm"></div>
   </div>
 </nav>
 
@@ -75,7 +76,7 @@
 <style>
   /* nav */
   nav {
-    padding: 3.5rem var(--gutter) 0;
+    padding: 1.5rem var(--gutter) 0;
     display: flex;
     justify-content: space-between;
     position: fixed;
@@ -89,13 +90,13 @@
     font-weight: 600; */
   }
 
-  .right a {
+  /* .right a {
     opacity: 0;
   }
 
   .right a:not(:last-child) {
     margin-right: 0.5rem;
-  }
+  } */
 
   .webgl {
     position: fixed;
@@ -105,7 +106,6 @@
   }
 
   .content {
-    /* pointer-events: none; */
     top: 0;
     left: 0;
     width: 100%;

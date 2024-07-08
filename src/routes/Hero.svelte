@@ -1,9 +1,42 @@
 <script>
+  import { onMount } from 'svelte'
+  import { gsap } from 'gsap'
+  import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
+
   import Peace from '../lib/images/peace.svg'
   import Star from '../lib/images/wiggly-circle.svg'
+
+  // refs
+  let wigglyCircle
+  onMount(() => {
+    let time = 25
+    let velo
+
+    const action = gsap.to(wigglyCircle, {
+      transformOrigin: 'center',
+      rotate: 360,
+      repeat: -1,
+      // ease: 'Power0.easeNone',
+      ease: 'linear',
+      duration: time
+    })
+
+    let limit = 15
+
+    const scrollMeter = ScrollTrigger.create({
+      trigger: '.hero',
+      start: 'top top',
+      end: '+=10000px',
+      onUpdate: (self) => {
+        velo = self.getVelocity()
+        let speed = Math.max(Math.abs(velo * 0.01), 1)
+        gsap.to(action, { timeScale: speed, duration: 1 })
+      }
+    })
+  })
 </script>
 
-<section class="min-h-full">
+<section class="hero min-h-full">
   <h1 class="text-[12.8vw] leading-[1] uppercase mt-[20px] mx-[4vw]">
     <div class="line w-[max-content] mb-[3.5vw] ml-[4.6vw]">
       <span class="inline-block"
@@ -30,7 +63,12 @@
     </div>
     <div class="flex justify-between justif-self-[unset]">
       <div class="relative w-[15vw] h-full m-auto">
-        <img src={Star} alt="wiggly circle" class="w-[15vw] h-[auto]" />
+        <img
+          src={Star}
+          alt="wiggly circle"
+          class="w-[15vw] h-[auto]"
+          bind:this={wigglyCircle}
+        />
         <span
           class="hire-text text-[4vw] absolute top-[45%] left-[50%] -translate-y-[50%] -translate-x-[50%] -rotate-[25deg]"
           >hire me :)</span
