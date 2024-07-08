@@ -9,7 +9,7 @@
   // refs
   let wigglyCircle
   onMount(() => {
-    let time = 25
+    let time = 20
     let velo
 
     const action = gsap.to(wigglyCircle, {
@@ -30,7 +30,7 @@
       onUpdate: (self) => {
         velo = self.getVelocity()
         let speed = Math.max(Math.abs(velo * 0.01), 1)
-        gsap.to(action, { timeScale: speed, duration: 1 })
+        gsap.to(action, { timeScale: speed, duration: 2 })
       }
     })
   })
