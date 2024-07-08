@@ -50,14 +50,12 @@
   })
 </script>
 
-<nav bind:this={nav} class="text-[2.3rem] justify-between">
-  <a class="uppercase" href="/">Saul Newbury</a>
+<a class="uppercase text-[2.3rem]" href="/">Saul Newbury</a>
 
-  <div class="right relative h-[1.6rem] w-[3rem] mt-[10px]">
-    <div class="absolute bg-black w-[3rem] h-[.5rem] rounded-sm"></div>
-    <div class="absolute bg-black w-[3rem] h-[.5rem] bottom-0 rounded-sm"></div>
-  </div>
-</nav>
+<div class="relative h-[1.4rem] w-[3rem] mt-[10px]">
+  <div class="absolute bg-black w-[3rem] h-[.35rem] rounded-sm"></div>
+  <div class="absolute bg-black w-[3rem] h-[.35rem] bottom-0 rounded-sm"></div>
+</div>
 
 <canvas class="webgl" bind:this={canvas} />
 
@@ -74,30 +72,6 @@
 </div>
 
 <style>
-  /* nav */
-  nav {
-    padding: 1.5rem var(--gutter) 0;
-    display: flex;
-    justify-content: space-between;
-    position: fixed;
-    z-index: 100;
-    width: 100vw;
-  }
-
-  a.brand-name {
-    opacity: 0;
-    /* font-size: 1.2rem;
-    font-weight: 600; */
-  }
-
-  /* .right a {
-    opacity: 0;
-  }
-
-  .right a:not(:last-child) {
-    margin-right: 0.5rem;
-  } */
-
   .webgl {
     position: fixed;
     top: 0;
@@ -130,26 +104,6 @@
     background-color: rgba(0, 0, 0, 0.6);
     mix-blend-mode: overlay;
   }
-  .title {
-    font-size: 20vw;
-    font-size: 12vw;
-    position: fixed;
-    /* top: 10vh; */
-    bottom: 10vh;
-    left: var(--gutter);
-    z-index: 909;
-    mix-blend-mode: color-burn;
-    color: black;
-    line-height: 0.8;
-  }
-
-  .overlay.color {
-    position: fixed;
-    height: 100vh;
-    background-color: rgb(72, 71, 71);
-    opacity: 0.8;
-    mix-blend-mode: difference;
-  }
 
   #smooth-wrapper {
     position: relative;
@@ -158,10 +112,6 @@
   @media screen and (max-width: 768px) {
     .content {
       padding: 0 var(--gutter-mob);
-    }
-
-    nav {
-      padding: 2rem var(--gutter-mob) 0;
     }
   }
 </style>

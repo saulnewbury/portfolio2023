@@ -3,6 +3,8 @@
   import { gsap } from 'gsap'
   import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
 
+  import BouncyLine from '../lib/components/ BouncyLine.svelte'
+
   import Peace from '../lib/images/peace.svg'
   import Star from '../lib/images/wiggly-circle.svg'
 
@@ -38,7 +40,8 @@
 
 <section class="hero min-h-full">
   <h1 class="text-[12.8vw] leading-[1] uppercase mt-[20px] mx-[4vw]">
-    <div class="line w-[max-content] mb-[3.5vw] ml-[4.6vw]">
+    <div class="w-[max-content] mb-[3.5vw] ml-[4.6vw]">
+      <BouncyLine />
       <span class="inline-block"
         >hello <span>&nbsp; &nbsp; &nbsp; </span>world<span class="exclamation"
           >!</span
@@ -46,7 +49,8 @@
       >
     </div>
     <div class=" w-[max-content] mb-[3.5vw] flex">
-      <div class="line w-[max-content]">
+      <div class="w-[max-content]">
+        <BouncyLine />
         <span class="inline-block">folio of saul newbury</span>
       </div>
       <div class="self-center inline-block relative h-full w-[15vw]">
@@ -74,7 +78,8 @@
           >hire me :)</span
         >
       </div>
-      <div class=" line w-[max-content]">
+      <div class="w-[max-content] mb-[3.5vw]">
+        <BouncyLine />
         <span class="inline-block">front end developer</span>
       </div>
     </div>
@@ -92,16 +97,6 @@
     grid-row-start: 0;
   }
 
-  h1 .line::before {
-    content: '';
-    display: block;
-    background-color: black;
-    height: 1px;
-    width: 100%;
-    position: absolute;
-    top: -0.5vw;
-    left: 0px;
-  }
   h1 div:first-child {
     justify-self: center;
   }
