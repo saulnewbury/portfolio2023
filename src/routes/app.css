@@ -110,6 +110,10 @@ button {
   background: none;
 }
 
+section {
+  padding: 75px 4vw 0;
+}
+
 .gutter {
   margin-left: var(--gutter-lg);
 }

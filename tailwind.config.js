@@ -3,7 +3,17 @@ export default {
   content: ['./src/**/*.{html,js,svelte,ts}'],
 
   theme: {
-    extend: {}
+    fontFamily: {
+      body: ['ui-sans-serif', 'system-ui']
+    },
+    fontSize: {
+      base: '1rem'
+    },
+    extend: {
+      colors: {
+        red: ' hsl(0, 100%, 50%)'
+      }
+    }
   },
   plugins: []
 }
