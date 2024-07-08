@@ -1,5 +1,5 @@
 <script>
-  import './global.css'
+  import './app.css'
   import { initialiseThreeJSScene } from '$lib/noise/noise.js'
   import { onMount } from 'svelte'
   import { gsap } from 'gsap'
@@ -10,8 +10,6 @@
   import { GSDevTools } from 'gsap/dist/GSDevTools'
 
   // components
-  import HeroText from './HeroText.svelte'
-  import scrollSmoother from '$lib/smoother.js'
 
   gsap.registerPlugin(
     SplitText,
@@ -65,11 +63,6 @@
 <div class="overlay one" bind:this={overlayOne} />
 <div class="overlay two" bind:this={overlayTwo} />
 
-<!-- <div class="overlay color" bind:this={overlayColor}></div> -->
-
-<HeroText />
-<!-- <div class="title">Bloomingdale</div> -->
-
 <div class="content-container"></div>
 <div id="smooth-wrapper">
   <div id="smooth-content">
@@ -116,7 +109,6 @@
     top: 0;
     left: 0;
     width: 100%;
-    padding: 0 var(--gutter);
   }
 
   .overlay {

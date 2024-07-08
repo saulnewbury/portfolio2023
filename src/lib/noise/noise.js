@@ -50,6 +50,20 @@ if (browser) {
     // Update renderer
     renderer.setSize(sizes.width, sizes.height)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+    if (loadingSequenceComplete) {
+      gsap.set(eggMesh.scale, {
+        y: window.innerWidth / 22.6 / 100,
+        x: window.innerWidth / 22.6 / 100,
+        z: window.innerWidth / 22.6 / 100,
+        onComplete: () => {
+          console.log('yeah man')
+        }
+      })
+      gsap.set(eggMesh.position, {
+        // y: (window.innerHeight - window.innerWidth) / 26.6 / 50
+      })
+    }
   })
 
   /**
@@ -226,13 +240,35 @@ export function tick() {
  */
 function zoom() {
   let hasRun = false
-  console.log(camera.position)
-  gsap.to(camera.position, {
-    z: 1.3,
-    delay: 0.5,
-    duration: 1.8,
-    ease: 'power2.inOut'
-  })
+  console.log(eggMesh.position)
+  setTimeout(() => {
+    gsap.to(eggMesh.position, {
+      // z: 1.1,
+      // y: 0.55,
+      y: window.innerWidth / 26.6 / 100,
+      delay: 0.5,
+      duration: 1.8,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        console.log('whats going on')
+      }
+    })
+    console.log(window.innerWidth / 26.6 / 100)
+    gsap.to(eggMesh.scale, {
+      // y: 0.65,
+      // x: 0.65,
+      // z: 0.65,
+      y: window.innerWidth / 22.6 / 100,
+      x: window.innerWidth / 22.6 / 100,
+      z: window.innerWidth / 22.6 / 100,
+      delay: 0.5,
+      duration: 1.8,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        console.log('whats going on')
+      }
+    })
+  }, 0)
 
   gsap.to(ovlyOne, {
     opacity: 0,
