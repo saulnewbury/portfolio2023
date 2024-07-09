@@ -73,13 +73,14 @@
       gsap.to(line, {
         // attr: { d: `M0,100 Q250,${y} 500, 100` }
         // attr: { d: `M000,80 Q 420 80, 840,80` }
-        attr: { d: `M000,80 Q 420 ${y + -10}, 840,80` }
+        attr: { d: `M000,80 Q 420 ${y + -20}, 840,80` }
       })
     }
   }
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
+
 <svg
   on:mouseenter={(e) => handleMouseEnter(e)}
   on:mousemove={handleMouseMove}
@@ -102,7 +103,7 @@
 <style>
   .line {
     position: absolute;
-    top: -7.9vw;
+    top: -7.4vw;
     left: 0;
     stroke: black;
     width: 100%;

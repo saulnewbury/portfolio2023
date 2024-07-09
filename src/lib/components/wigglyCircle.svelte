@@ -44,10 +44,7 @@
     bind:this={wigglyCircle}
   />
   <span
-    class="hire-text text-[4vw] absolute top-[45%] left-[50%] -translate-y-[50%] -translate-x-[50%] -rotate-[25deg]"
+    class="hire-text text-[4vw] absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] -rotate-[25deg]"
     >hire me :)</span
   >
 </div>
-
-<style>
-</style>
