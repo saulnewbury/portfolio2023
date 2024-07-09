@@ -11,10 +11,10 @@
   // refs
   let reveal, container
 
-  delay = delay + 1.5
+  delay = delay + 2
 
   onMount(() => {
-    let d = 2
+    let d = 1
     gsap.set(reveal, { yPercent: 100, opacity: 1 })
     gsap.set(container, { rotate: rotation })
 
@@ -23,13 +23,14 @@
       yPercent: 0,
       duration: d,
       delay: delay,
-      ease: 'expo.out'
+      // ease: 'expo.out',
+      ease: 'power1.Out'
     })
     const box = gsap.to(container, {
       rotate: 0,
       duration: d,
       delay: delay,
-      ease: 'expo.out'
+      ease: 'power1.Out'
     })
 
     if (hasScrollTrigger) {

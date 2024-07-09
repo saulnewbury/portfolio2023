@@ -2,22 +2,30 @@
   import { gsap } from 'gsap'
   import { onMount } from 'svelte'
 
-  export let delay = 0
+  export let delay = 0,
+    reverse = false
 
   let mouseInside, rectDimensions, mousePosition
 
   // refs
   let line
 
-  delay = delay + 1.5
+  delay = delay + 2
 
   onMount(() => {
+    const start = reverse
+      ? 'M 840 80, Q 840 200, 840 80'
+      : 'M000, 80 Q 0 200, 0, 80'
+    const end = reverse
+      ? 'M 0 80, Q 420 80, 840 80'
+      : 'M000, 80 Q 420 80, 840, 80'
+
     gsap.fromTo(
       line,
-      { attr: { d: `M000, 80 Q 0 200, 0, 80` } },
+      { attr: { d: start } },
       {
-        attr: { d: `M000, 80 Q 420 80, 840, 80` },
-        duration: 0.6,
+        attr: { d: end },
+        duration: 0.8,
         delay: delay,
         onStart: () => {
           gsap.set(line, { strokeOpacity: 1 })

@@ -29,14 +29,14 @@
       end: '+=10000px',
       onUpdate: (self) => {
         velo = self.getVelocity()
-        let speed = Math.max(Math.abs(velo * 0.01), 1)
+        let speed = Math.max(Math.min(Math.abs(velo * 0.01), 10), 1)
         gsap.to(action, { timeScale: speed, duration: 2 })
       }
     })
   })
 </script>
 
-<div class="relative w-[15vw] h-full m-auto">
+<div class="relative w-[15vw] h-full m-auto -translate-y-7">
   <img
     src={Star}
     alt="wiggly circle"
