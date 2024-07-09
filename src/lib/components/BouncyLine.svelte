@@ -1,10 +1,30 @@
 <script>
   import { gsap } from 'gsap'
+  import { onMount } from 'svelte'
+
+  export let delay = 0
 
   let mouseInside, rectDimensions, mousePosition
 
   // refs
   let line
+
+  delay = delay + 1.5
+
+  onMount(() => {
+    gsap.fromTo(
+      line,
+      { attr: { d: `M000, 80 Q 0 200, 0, 80` } },
+      {
+        attr: { d: `M000, 80 Q 420 80, 840, 80` },
+        duration: 0.6,
+        delay: delay,
+        onStart: () => {
+          gsap.set(line, { strokeOpacity: 1 })
+        }
+      }
+    )
+  })
 
   function handleMouseEnter(e) {
     console.log('enter')
@@ -23,7 +43,7 @@
     gsap.to(line, {
       // ease: Elastic.easeOut.config(2, 0.5),
       ease: 'elastic.out(1, 0.3)',
-      attr: { d: `M000,80 Q 420 80, 840,80` },
+      attr: { d: `M000,80 Q 420 80, 840, 80` },
       duration: 0.8
     })
   }
@@ -57,12 +77,13 @@
   on:mousemove={handleMouseMove}
   on:mouseleave={handleMouseLeave}
   viewBox="0 0 840 160"
-  class="line app-bounce-line app-bounce-line--index-hero absolute"
+  class="line absolute"
   style="transform-origin: left center; transform: translate(0px, 0px);"
   data-v-d2a8588a=""
   data-v-c96e7496=""
   ><path
     bind:this={line}
+    stroke-opacity="0"
     fill="none"
     stroke-width="1"
     d="M000,80 Q 420 80, 840,80"
@@ -71,9 +92,9 @@
 >
 
 <style>
-  .app-bounce-line {
+  .line {
     position: absolute;
-    top: -6.9vw;
+    top: -7.9vw;
     left: 0;
     stroke: black;
     width: 100%;

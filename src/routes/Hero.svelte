@@ -3,55 +3,59 @@
   import { gsap } from 'gsap'
   import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
 
-  import BouncyLine from '../lib/components/ BouncyLine.svelte'
+  // Components
+  import BouncyLine from '../lib/components/BouncyLine.svelte'
+  import WigglyCircle from '../lib/components/wigglyCircle.svelte'
+  import Reveal from '../lib/components/Reveal.svelte'
 
+  // Assets
   import Peace from '../lib/images/peace.svg'
-  import Star from '../lib/images/wiggly-circle.svg'
 
   // refs
-  let wigglyCircle
+  let reveal, container
+
   onMount(() => {
-    let time = 20
-    let velo
+    gsap.set(reveal, { yPercent: 100, opacity: 1 })
+    gsap.set(container, { rotate: 4 })
 
-    const action = gsap.to(wigglyCircle, {
-      transformOrigin: 'center',
-      rotate: 360,
-      repeat: -1,
-      // ease: 'Power0.easeNone',
-      ease: 'linear',
-      duration: time
+    gsap.to(reveal, {
+      yPercent: 0,
+      duration: 1.5,
+      delay: 1,
+      ease: 'expo.out'
     })
-
-    let limit = 15
-
-    const scrollMeter = ScrollTrigger.create({
-      trigger: '.hero',
-      start: 'top top',
-      end: '+=10000px',
-      onUpdate: (self) => {
-        velo = self.getVelocity()
-        let speed = Math.max(Math.abs(velo * 0.01), 1)
-        gsap.to(action, { timeScale: speed, duration: 2 })
-      }
+    gsap.to(container, {
+      rotate: 0,
+      duration: 1.5,
+      delay: 1,
+      ease: 'expo.out'
     })
   })
 </script>
 
 <section class="hero min-h-full">
   <h1 class="text-[12.8vw] leading-[1] uppercase mt-[20px] mx-[4vw]">
-    <div class="w-[max-content] mb-[3.5vw] ml-[4.6vw]">
-      <BouncyLine />
-      <span class="inline-block"
-        >hello <span>&nbsp; &nbsp; &nbsp; </span>world<span class="exclamation"
-          >!</span
-        ></span
-      >
+    <div class="w-[max-content] mb-[2.2vw] ml-[4.6vw]">
+      <BouncyLine delay={1} />
+      <div class="inline-block">
+        <Reveal
+          html={'<span>hello<span>&nbsp; &nbsp; &nbsp; </span>world<span class="relative after:content-[""] after:block after:bg-red after:h-[1.12vw] after:w-[0.82vw] after:absolute after:bottom-[2.66vw] after:left-[0.4vw]">!</span></span>'}
+          delay={1}
+          rotation={4}
+        />
+
+        <!-- <span
+          >hello<span>&nbsp; &nbsp; &nbsp; </span>world<span
+            class="relative after:content-[''] after:block after:bg-red after:h-[1.12vw] after:w-[0.82vw] after:absolute after:bottom-[2.66vw] after:left-[0.4vw]"
+            >!</span
+          ></span
+        > -->
+      </div>
     </div>
-    <div class=" w-[max-content] mb-[3.5vw] flex">
+    <div class=" w-[max-content] mb-[2.2vw] flex">
       <div class="w-[max-content]">
-        <BouncyLine />
-        <span class="inline-block">folio of saul newbury</span>
+        <BouncyLine delay={1.2} />
+        <Reveal html={'folio of saul newbury'} delay={1.2} rotation={-4} />
       </div>
       <div class="self-center inline-block relative h-full w-[15vw]">
         <img
@@ -60,27 +64,21 @@
           class="h-[14vw] w-[14vw] self-center absolute top-[-1vw] left-0 block"
         />
       </div>
-      <span class="inline-block text-[4vw] w-[8vw] self-end mb-[2rem]"
-        ><span class="text-[red]">(</span> based in bristol
-        <span class="text-[red]">)</span></span
-      >
+      <Reveal
+        html={'<span class="inline-block text-[4vw] w-[8vw] self-end mb-[2rem]"><span class="text-[red]">(</span> based in bristol<span class="text-[red]">)</span></span>'}
+        delay={1.2}
+        rotation={-4}
+      />
     </div>
     <div class="flex justify-between justif-self-[unset]">
-      <div class="relative w-[15vw] h-full m-auto">
-        <img
-          src={Star}
-          alt="wiggly circle"
-          class="w-[15vw] h-[auto]"
-          bind:this={wigglyCircle}
+      <WigglyCircle />
+      <div class="w-[max-content] mb-[2.2vw]">
+        <BouncyLine delay={1.4} />
+        <Reveal
+          html={'<span class="inline-block">front end developer</span>'}
+          delay={1.4}
+          rotation={4}
         />
-        <span
-          class="hire-text text-[4vw] absolute top-[45%] left-[50%] -translate-y-[50%] -translate-x-[50%] -rotate-[25deg]"
-          >hire me :)</span
-        >
-      </div>
-      <div class="w-[max-content] mb-[3.5vw]">
-        <BouncyLine />
-        <span class="inline-block">front end developer</span>
       </div>
     </div>
   </h1>
@@ -108,8 +106,8 @@
     content: '';
     display: block;
     background-color: red;
-    height: 15px;
-    width: 12px;
+    height: 1.12vw;
+    width: 0.82vw;
     position: absolute;
     bottom: 2.66vw;
     left: 0.4vw;

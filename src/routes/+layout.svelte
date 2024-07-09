@@ -20,19 +20,19 @@
   )
 
   // Refs
-  let nav, canvas, overlayOne, overlayTwo
+  let canvas, overlayOne, overlayTwo
 
   onMount(() => {
     window.scrollTo(0, 0)
     initialiseThreeJSScene(canvas, overlayOne, overlayTwo)
 
-    const q = gsap.utils.selector(nav)
+    // const q = gsap.utils.selector(nav)
     setTimeout(() => {
-      gsap.to(q('.brand-name, .right a'), {
-        opacity: 1,
-        duration: 1,
-        stagger: 0.1
-      })
+      // gsap.to(q('.brand'), {
+      //   opacity: 1,
+      //   duration: 1,
+      //   stagger: 0.1
+      // })
     }, 3500)
 
     gsap.fromTo(
@@ -50,17 +50,19 @@
   })
 </script>
 
-<a class="uppercase text-[2.3rem]" href="/">Saul Newbury</a>
-
-<div class="relative h-[1.4rem] w-[3rem] mt-[10px]">
-  <div class="absolute bg-black w-[3rem] h-[.35rem] rounded-sm"></div>
-  <div class="absolute bg-black w-[3rem] h-[.35rem] bottom-0 rounded-sm"></div>
-</div>
-
 <canvas class="webgl" bind:this={canvas} />
 
 <div class="overlay one" bind:this={overlayOne} />
 <div class="overlay two" bind:this={overlayTwo} />
+
+<a class="brand uppercase text-[2.3rem] fixed left-[3vw] top-[25px]" href="/"
+  >Saul Newbury</a
+>
+
+<div class="h-[1.4rem] w-[3rem] mt-[10px] fixed right-[3vw] top-[25px]">
+  <div class="absolute bg-black w-[3rem] h-[.35rem] rounded-sm"></div>
+  <div class="absolute bg-black w-[3rem] h-[.35rem] bottom-0 rounded-sm"></div>
+</div>
 
 <div class="content-container"></div>
 <div id="smooth-wrapper">
