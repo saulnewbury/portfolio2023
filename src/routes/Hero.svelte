@@ -54,8 +54,8 @@
     </div>
     <div class=" w-[max-content] mb-[2.2vw] flex">
       <div class="w-[max-content]">
-        <BouncyLine delay={1.2} />
-        <Reveal html={'folio of saul newbury'} delay={1.2} rotation={-4} />
+        <BouncyLine delay={1.3} />
+        <Reveal html={'folio of saul newbury'} delay={1.3} rotation={-4} />
       </div>
       <div class="self-center inline-block relative h-full w-[15vw]">
         <img
@@ -66,17 +66,17 @@
       </div>
       <Reveal
         html={'<span class="inline-block text-[4vw] w-[8vw] self-end mb-[2rem]"><span class="text-[red]">(</span> based in bristol<span class="text-[red]">)</span></span>'}
-        delay={1.2}
+        delay={1.35}
         rotation={-4}
       />
     </div>
     <div class="flex justify-between justif-self-[unset]">
       <WigglyCircle />
       <div class="w-[max-content] mb-[2.2vw]">
-        <BouncyLine delay={1.4} />
+        <BouncyLine delay={1.6} />
         <Reveal
           html={'<span class="inline-block">front end developer</span>'}
-          delay={1.4}
+          delay={1.6}
           rotation={4}
         />
       </div>
