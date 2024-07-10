@@ -30,7 +30,7 @@
       bind:this={container}
       class="relative project flex justify-between self-center"
     >
-      <BouncyLine {width} {height} zIndex={990 - i} top={-2.9} />
+      <BouncyLine {width} height={height * 1.7} zIndex={990 - i} top={-5.1} />
       <div class="flex">
         <span class="num text-[1vw] mr-[3vw] self-center font-body"
           >({p.num})</span
@@ -40,7 +40,12 @@
         >{p.role}</span
       >
       {#if i + 1 === projects.length}
-        <BouncyLine {width} {height} zIndex={990 - projects.length} top={3} />
+        <BouncyLine
+          {width}
+          height={height * 1.7}
+          zIndex={990 - projects.length}
+          top={0.8}
+        />
       {/if}
     </div>
   {/each}

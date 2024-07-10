@@ -14,6 +14,7 @@
   // refs
   let line, container
 
+  // account for egg intro anim
   delay = delay + 2
 
   $: {
@@ -86,11 +87,8 @@
       x: e.clientX,
       y: e.clientY
     }
-    // console.log(mousePosition.y)
     if (mouseInside) {
-      // console.log(rectDimensions.height)
       let targetCenter = rectDimensions.height / 2
-      // let targetCenter = 80
       let relativeMousePos = mousePosition.y - rectDimensions.top
       let distance = (targetCenter - relativeMousePos) / 2 // half the distance
       let y = targetCenter - distance
@@ -123,14 +121,11 @@
   ></path></svg
 >
 
-<!-- stroke-width="1" -->
-<!-- viewBox="0 0 840 160" -->
-<!-- d="M000,80 Q 420 80, 840,80" -->
 <style>
   .line {
     stroke: black;
     width: 100%;
     z-index: 800;
-    /* top: -6vw; */
+    stroke-width: 0.07vw;
   }
 </style>
