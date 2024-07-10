@@ -5,7 +5,7 @@
   export let delay = 0,
     reverse = false
 
-  let mouseInside, rectDimensions, mousePosition
+  let mouseInside, rectDimensions, mousePosition, container
 
   // refs
   let line
@@ -13,6 +13,16 @@
   delay = delay + 2
 
   onMount(() => {
+    window.addEventListener('resize', () => {
+      const rect = container.getBoundingClientRect()
+      rectDimensions = {
+        height: rect.height,
+        width: rect.widtht,
+        left: rect.left,
+        top: rect.top
+      }
+    })
+
     const start = reverse
       ? 'M 840 80, Q 840 200, 840 80'
       : 'M000, 80 Q 0 200, 0, 80'
@@ -35,9 +45,9 @@
   })
 
   function handleMouseEnter(e) {
-    console.log('enter')
+    // console.log('enter')
     mouseInside = true
-    const rect = e.currentTarget.getBoundingClientRect()
+    const rect = container.getBoundingClientRect()
     rectDimensions = {
       height: rect.height,
       width: rect.widtht,
@@ -61,19 +71,17 @@
       x: e.clientX,
       y: e.clientY
     }
+    // console.log(mousePosition.y)
     if (mouseInside) {
+      // console.log(rectDimensions.height)
       let targetCenter = rectDimensions.height / 2
+      // let targetCenter = 80
       let relativeMousePos = mousePosition.y - rectDimensions.top
-      // let distance = (targetCenter - relativeMousePos) / 2.5 // half the distnce
-      let distance = (targetCenter - relativeMousePos) / 2 // half the distnce
+      let distance = (targetCenter - relativeMousePos) / 2 // half the distance
       let y = targetCenter - distance
 
-      console.log(y)
-
       gsap.to(line, {
-        // attr: { d: `M0,100 Q250,${y} 500, 100` }
-        // attr: { d: `M000,80 Q 420 80, 840,80` }
-        attr: { d: `M000,80 Q 420 ${y + -20}, 840,80` }
+        attr: { d: `M000,80 Q 420 ${y}, 840,80` }
       })
     }
   }
@@ -82,6 +90,7 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 
 <svg
+  bind:this={container}
   on:mouseenter={(e) => handleMouseEnter(e)}
   on:mousemove={handleMouseMove}
   on:mouseleave={handleMouseLeave}
