@@ -58,11 +58,15 @@
           class="h-[14vw] w-[14vw] self-center absolute top-[-1vw] left-0 block"
         />
       </div>
-      <Reveal
-        html={'<span class="inline-block text-[4vw] w-[8vw] self-end mb-[2rem]"><span class="text-[red]">(</span> based in bristol<span class="text-[red]">)</span></span>'}
-        delay={1.3}
-        rotation={-5}
-      />
+      <div class="flex h-full items-start relative">
+        <div class="absolute top-[-2vw] left-0">
+          <Reveal
+            html={'<span class="inline-block text-[4vw] w-[8vw]"><span class="text-[red]">(</span> based in bristol <span class="text-[red]">)</span></span>'}
+            delay={1.3}
+            rotation={-5}
+          />
+        </div>
+      </div>
     </div>
     <div class="row flex justify-between justif-self-[unset]">
       <div class="relative w-[15vw] h-full m-auto">

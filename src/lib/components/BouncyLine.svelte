@@ -8,7 +8,7 @@
     width = 0,
     height = 160,
     zIndex = 900,
-    top = -7.8
+    top = -7.2
 
   let mouseInside, rectDimensions, mousePosition, x, y, mid, start, end, sw
 
