@@ -16,14 +16,11 @@
       transformOrigin: 'center',
       rotate: 360,
       repeat: -1,
-      // ease: 'Power0.easeNone',
       ease: 'linear',
       duration: time
     })
 
-    let limit = 15
-
-    const scrollMeter = ScrollTrigger.create({
+    ScrollTrigger.create({
       trigger: '.hero',
       start: 'top top',
       end: '+=10000px',
@@ -36,7 +33,7 @@
   })
 </script>
 
-<div class="relative w-[15vw] h-full m-auto -translate-y-7">
+<div class="relative w-full h-full">
   <img
     src={Star}
     alt="wiggly circle"

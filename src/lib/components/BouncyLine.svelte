@@ -3,43 +3,31 @@
   import { onMount } from 'svelte'
 
   export let delay = 0,
-    reverse = false
+    reverse = false,
+    width = 0,
+    height = 160,
+    zIndex = 900,
+    top = -7.8
 
-  let mouseInside, rectDimensions, mousePosition, container
+  let mouseInside, rectDimensions, mousePosition, x, y, mid
 
   // refs
-  let line
+  let line, container
 
   delay = delay + 2
 
-  onMount(() => {
-    // window.addEventListener('resize', () => {
-    //   const rect = container.getBoundingClientRect()
-    //   rectDimensions = {
-    //     height: rect.height,
-    //     width: rect.widtht,
-    //     left: rect.left,
-    //     top: rect.top
-    //   }
-    // })
-
-    window.addEventListener('resize', () => {
-      const ele = document.getElementFromPoint()
-      const c = ele.closest(container)
-
-      if (c && !mouseInside) {
-        handleMouseEnter()
-      } else if (!c && mouseInside) {
-        handleMouseLeave()
-      }
-    })
+  $: {
+    mid = height / 2
+    gsap.set(container, { zIndex: zIndex, top: `${top}vw` })
 
     const start = reverse
-      ? 'M 840 80, Q 840 200, 840 80'
-      : 'M000, 80 Q 0 200, 0, 80'
+      ? `M ${width} ${mid}, Q ${width} 200, ${width} ${mid}`
+      : `M000, ${mid} Q 0 200, 0, ${mid}`
     const end = reverse
-      ? 'M 0 80, Q 420 80, 840 80'
-      : 'M000, 80 Q 420 80, 840, 80'
+      ? `M 0 ${mid}, Q ${width / 2} ${mid}, ${width} ${mid}`
+      : `M000, ${mid} Q ${width / 2} ${mid}, ${width}, ${mid}`
+
+    console.log('HERE ' + start, end)
 
     gsap.fromTo(
       line,
@@ -53,10 +41,26 @@
         }
       }
     )
+  }
+
+  onMount(() => {
+    window.addEventListener('mousemove', () => {
+      x = window.clientX
+      y = window.clientY
+    })
+    window.addEventListener('resize', () => {
+      const ele = document.elementFromPoint(x, y)
+      const c = ele.closest(container)
+
+      if (c && !mouseInside) {
+        handleMouseEnter()
+      } else if (!c && mouseInside) {
+        handleMouseLeave()
+      }
+    })
   })
 
   function handleMouseEnter() {
-    // console.log('enter')
     mouseInside = true
     const rect = container.getBoundingClientRect()
     rectDimensions = {
@@ -72,7 +76,7 @@
     gsap.to(line, {
       // ease: Elastic.easeOut.config(2, 0.5),
       ease: 'elastic.out(1, 0.3)',
-      attr: { d: `M000,80 Q 420 80, 840, 80` },
+      attr: { d: `M000,${mid} Q ${width / 2} ${mid}, ${width}, ${mid}` },
       duration: 0.8
     })
   }
@@ -93,7 +97,7 @@
 
       gsap.to(line, {
         attr: {
-          d: `M000,80 Q 420 ${(y / rectDimensions.height) * 160}, 840,80`
+          d: `M000,${mid} Q ${width / 2} ${(y / rectDimensions.height) * height}, ${width},${mid}`
         }
       })
     }
@@ -107,29 +111,26 @@
   on:mouseenter={(e) => handleMouseEnter(e)}
   on:mousemove={handleMouseMove}
   on:mouseleave={handleMouseLeave}
-  viewBox="0 0 840 160"
-  class="line absolute"
+  viewBox={`0 0 ${width} ${height}`}
+  class={`line absolute left-0`}
   style="transform-origin: left center; transform: translate(0px, 0px);"
-  data-v-d2a8588a=""
-  data-v-c96e7496=""
   ><path
     bind:this={line}
     stroke-opacity="0"
     fill="none"
-    stroke-width="1"
-    d="M000,80 Q 420 80, 840,80"
-    data-v-d2a8588a=""
+    stroke-width=".07vw"
+    d={`M000, ${mid} Q ${width / 2} ${mid}, ${width}, ${mid}`}
   ></path></svg
 >
 
+<!-- stroke-width="1" -->
+<!-- viewBox="0 0 840 160" -->
+<!-- d="M000,80 Q 420 80, 840,80" -->
 <style>
   .line {
-    position: absolute;
-    top: -7.4vw;
-    left: 0;
     stroke: black;
     width: 100%;
-    height: 100%;
-    z-index: 990;
+    z-index: 800;
+    /* top: -6vw; */
   }
 </style>

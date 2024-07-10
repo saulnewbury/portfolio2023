@@ -105,7 +105,7 @@
       master.add(textReveal(), '<50%')
 
       if (eggBuilt) {
-        console.log('egg built')
+        // console.log('egg built')
         master.play()
       } else {
         setTimeout(() => {
@@ -119,13 +119,13 @@
         scrub: true,
         markers: true,
         onUpdate: (self) => {
-          console.log(self)
+          // console.log(self)
           if (self.direction === 1 && self.progress > 0.1) {
             master.timeScale(1.8).reverse()
           } else if (self.direction === -1 && self.progress < 0.4) {
-            console.log(
-              'backwards' + ' ' + self.direction + ' ' + self.progress
-            )
+            // console.log(
+            //   'backwards' + ' ' + self.direction + ' ' + self.progress
+            // )
             master.timeScale(1).play()
           }
         }

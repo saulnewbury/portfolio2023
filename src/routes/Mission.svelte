@@ -1,8 +1,5 @@
 <script>
   import Reveal from '../lib/components/Reveal.svelte'
-
-  import { onMount } from 'svelte'
-  import { gsap } from 'gsap'
 </script>
 
 <section class="my-[12vw] mx-[4vw] text-[6vw] uppercase">

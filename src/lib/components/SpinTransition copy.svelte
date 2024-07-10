@@ -60,7 +60,7 @@
       let tlTransition = gsap.timeline({
         defaults: { duration: 0.8, ease: 'power4.Out' },
         onComplete: () => {
-          console.log('complete')
+          // console.log('complete')
           transitionComplete = true
         }
       })
@@ -90,7 +90,7 @@
 
           if (self.progress <= 0.5 && done) {
             reset()
-            console.log('spin back')
+            // console.log('spin back')
             done = false
             gsap.to(sphereMesh.rotation, {
               y: 0,

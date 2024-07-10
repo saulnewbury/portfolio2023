@@ -18,7 +18,7 @@
     gsap.set(reveal, { yPercent: 100, opacity: 1 })
     gsap.set(container, { rotate: rotation })
 
-    console.log(delay)
+    // console.log(delay)
     const text = gsap.to(reveal, {
       yPercent: 0,
       duration: d,

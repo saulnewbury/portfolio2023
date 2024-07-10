@@ -6,7 +6,7 @@ import { eggMesh, ovlyOne, ovlyTwo, loadingSequenceComplete } from './noise'
  */
 export function zoom() {
   let hasRun = false
-  console.log(eggMesh.position)
+  // console.log(eggMesh.position)
   setTimeout(() => {
     gsap.to(eggMesh.position, {
       // z: 1.1,
@@ -16,10 +16,10 @@ export function zoom() {
       duration: 1.8,
       ease: 'power2.inOut',
       onComplete: () => {
-        console.log('whats going on')
+        // console.log('whats going on')
       }
     })
-    console.log(window.innerWidth / 26.6 / 100)
+    // console.log(window.innerWidth / 26.6 / 100)
     gsap.to(eggMesh.scale, {
       // y: 0.65,
       // x: 0.65,
@@ -37,7 +37,7 @@ export function zoom() {
       duration: 1.8,
       ease: 'power2.inOut',
       onComplete: () => {
-        console.log('whats going on')
+        // console.log('whats going on')
       }
     })
   }, 0)
