@@ -13,13 +13,24 @@
   delay = delay + 2
 
   onMount(() => {
+    // window.addEventListener('resize', () => {
+    //   const rect = container.getBoundingClientRect()
+    //   rectDimensions = {
+    //     height: rect.height,
+    //     width: rect.widtht,
+    //     left: rect.left,
+    //     top: rect.top
+    //   }
+    // })
+
     window.addEventListener('resize', () => {
-      const rect = container.getBoundingClientRect()
-      rectDimensions = {
-        height: rect.height,
-        width: rect.widtht,
-        left: rect.left,
-        top: rect.top
+      const ele = document.getElementFromPoint()
+      const c = ele.closest(container)
+
+      if (c && !mouseInside) {
+        handleMouseEnter()
+      } else if (!c && mouseInside) {
+        handleMouseLeave()
       }
     })
 
@@ -44,7 +55,7 @@
     )
   })
 
-  function handleMouseEnter(e) {
+  function handleMouseEnter() {
     // console.log('enter')
     mouseInside = true
     const rect = container.getBoundingClientRect()
@@ -81,7 +92,9 @@
       let y = targetCenter - distance
 
       gsap.to(line, {
-        attr: { d: `M000,80 Q 420 ${y}, 840,80` }
+        attr: {
+          d: `M000,80 Q 420 ${(y / rectDimensions.height) * 160}, 840,80`
+        }
       })
     }
   }
