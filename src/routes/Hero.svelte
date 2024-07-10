@@ -67,7 +67,7 @@
         <BouncyLine delay={1.4} width={threeWidth} height={threeHeight} />
         <div class="inline-block">
           <Reveal
-            html={'<span class="inline-block">front end developer</span>'}
+            html={'<span class="inline-block">frontend developer</span>'}
             delay={1.4}
             rotation={5}
           />
