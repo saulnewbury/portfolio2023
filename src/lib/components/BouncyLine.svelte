@@ -2,6 +2,7 @@
   import { gsap } from 'gsap'
   import { onMount } from 'svelte'
 
+  // props
   export let delay = 0,
     reverse = false,
     width = 0,
@@ -9,7 +10,7 @@
     zIndex = 900,
     top = -7.8
 
-  let mouseInside, rectDimensions, mousePosition, x, y, mid
+  let mouseInside, rectDimensions, mousePosition, x, y, mid, start, end, sw
 
   // refs
   let line, container
@@ -17,20 +18,18 @@
   // account for egg intro anim
   delay = delay + 2
 
-  $: {
+  $: if (width && height && typeof height === 'number') {
     mid = height / 2
     gsap.set(container, { zIndex: zIndex, top: `${top}vw` })
 
-    const start = reverse
+    start = reverse
       ? `M ${width} ${mid}, Q ${width} 200, ${width} ${mid}`
       : `M000, ${mid} Q 0 200, 0, ${mid}`
-    const end = reverse
+    end = reverse
       ? `M 0 ${mid}, Q ${width / 2} ${mid}, ${width} ${mid}`
       : `M000, ${mid} Q ${width / 2} ${mid}, ${width}, ${mid}`
 
-    console.log('HERE ' + start, end)
-
-    gsap.fromTo(
+    const tween = gsap.fromTo(
       line,
       { attr: { d: start } },
       {
@@ -42,24 +41,38 @@
         }
       }
     )
+    const diag = Math.sqrt(width ** 2 + height ** 2)
+    sw = (0.1 * window.innerWidth) / diag
+    console.log('HERE ' + start, end)
   }
 
   onMount(() => {
-    window.addEventListener('mousemove', () => {
-      x = window.clientX
-      y = window.clientY
-    })
-    window.addEventListener('resize', () => {
-      const ele = document.elementFromPoint(x, y)
-      const c = ele.closest(container)
+    window.addEventListener('mousemove', defineXAndY)
+    window.addEventListener('resize', doStuff)
 
-      if (c && !mouseInside) {
-        handleMouseEnter()
-      } else if (!c && mouseInside) {
-        handleMouseLeave()
-      }
-    })
+    return () => {
+      window.removeEventListener('mousemove', defineXAndY)
+      window.removeEventListener('resize', doStuff)
+    }
   })
+
+  function defineXAndY() {
+    x = window.clientX
+    y = window.clientY
+  }
+
+  function doStuff() {
+    const ele = document.elementFromPoint(x, y)
+    const c = ele.closest(container)
+
+    if (c && !mouseInside) {
+      handleMouseEnter()
+    } else if (!c && mouseInside) {
+      handleMouseLeave()
+    }
+    // Cause refresh
+    // strokeWidth = strokeWidth
+  }
 
   function handleMouseEnter() {
     mouseInside = true
@@ -103,29 +116,33 @@
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
+{#if width && height && typeof height === 'number'}
+  <svg
+    bind:this={container}
+    on:mouseenter={(e) => handleMouseEnter(e)}
+    on:mousemove={handleMouseMove}
+    on:mouseleave={handleMouseLeave}
+    viewBox={`0 0 ${width} ${height}`}
+    class={`line absolute left-0`}
+    style="transform-origin: left center; transform: translate(0px, 0px);"
+    ><path
+      bind:this={line}
+      stroke-opacity="0"
+      fill="none"
+      stroke-width={`${sw}%`}
+      d={`M000, ${mid} Q ${width / 2} ${mid}, ${width}, ${mid}`}
+    ></path></svg
+  >
+{/if}
 
-<svg
-  bind:this={container}
-  on:mouseenter={(e) => handleMouseEnter(e)}
-  on:mousemove={handleMouseMove}
-  on:mouseleave={handleMouseLeave}
-  viewBox={`0 0 ${width} ${height}`}
-  class={`line absolute left-0`}
-  style="transform-origin: left center; transform: translate(0px, 0px);"
-  ><path
-    bind:this={line}
-    stroke-opacity="0"
-    fill="none"
-    stroke-width=".07vw"
-    d={`M000, ${mid} Q ${width / 2} ${mid}, ${width}, ${mid}`}
-  ></path></svg
->
-
+<!-- stroke-width={strokeWidth} -->
 <style>
   .line {
     stroke: black;
     width: 100%;
     z-index: 800;
-    stroke-width: 0.07vw;
+    /* width: 100%;
+    height: 100%; */
+    /* stroke-width: 0.07vw; */
   }
 </style>

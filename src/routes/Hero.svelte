@@ -9,7 +9,12 @@
   // Assets
   import Peace from '../lib/images/peace.svg'
 
-  let oneWidth, twoWidth, threeWidth, oneHeight, twoHeight, threeHeight
+  let oneWidth = 0,
+    twoWidth = 0,
+    threeWidth = 0,
+    oneHeight = 0,
+    twoHeight = 0,
+    threeHeight = 0
 
   // refs
   let one, two, three
