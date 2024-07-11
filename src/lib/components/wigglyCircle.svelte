@@ -6,12 +6,33 @@
   import Star from '../images/wiggly-circle.svg'
 
   // refs
-  let wigglyCircle
+  let wigglyCircle, container, text
 
   onMount(() => {
+    // intro
+    gsap.fromTo(
+      container,
+      { x: '-50vw' },
+      { x: '0vw', delay: 3, duration: 1.5 }
+    )
+
+    const tl = gsap.timeline()
+
+    gsap.set(text, { transformOrigin: '20% bottom' })
+    tl.fromTo(
+      text,
+      { rotate: -20 },
+      { rotate: -50, delay: 3, duration: 0.8, ease: 'power1.out' }
+    ).to(text, {
+      rotate: -20,
+      delay: 0.5,
+      duration: 2.7,
+      ease: 'elastic.out'
+    })
+
+    // continuous rotation
     let time = 20
     let velo
-
     const action = gsap.to(wigglyCircle, {
       transformOrigin: 'center',
       rotate: 360,
@@ -33,7 +54,7 @@
   })
 </script>
 
-<div class="relative w-full h-full">
+<div bind:this={container} class="absolute w-full h-full">
   <img
     src={Star}
     alt="wiggly circle"
@@ -41,7 +62,8 @@
     bind:this={wigglyCircle}
   />
   <span
-    class="hire-text text-[4vw] absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] -rotate-[25deg]"
+    bind:this={text}
+    class="w-[max-content] text-[4vw] absolute top-[56%] left-[55%] -translate-y-[50%] -translate-x-[50%] -rotate-[25deg]"
     >hire me :)</span
   >
 </div>

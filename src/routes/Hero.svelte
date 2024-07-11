@@ -24,7 +24,7 @@
     threeWidth = three.getBoundingClientRect().width
     container = three.getBoundingClientRect().height * 0.9
 
-    gsap.fromTo(egg, { opacity: 0 }, { opacity: 1, delay: 3.5, duration: 1 })
+    gsap.fromTo(egg, { opacity: 0 }, { opacity: 0.8, delay: 3, duration: 1 })
   })
 </script>
 
