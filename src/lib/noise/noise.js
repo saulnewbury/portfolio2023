@@ -226,9 +226,16 @@ export function tick() {
  */
 function zoom() {
   let hasRun = false
-  console.log(camera.position)
+  console.log(eggMesh.position)
   gsap.to(camera.position, {
-    z: 1.3,
+    // z: 1.3,
+    z: 0.2,
+    delay: 0.5,
+    duration: 1.8,
+    ease: 'power2.inOut'
+  })
+  gsap.to(eggMesh.position, {
+    y: 10,
     delay: 0.5,
     duration: 1.8,
     ease: 'power2.inOut'

@@ -111,9 +111,9 @@
     position: relative;
   }
 
-  @media screen and (max-width: 768px) {
+  /* @media screen and (max-width: 768px) {
     .content {
       padding: 0 var(--gutter-mob);
     }
-  }
+  } */
 </style>

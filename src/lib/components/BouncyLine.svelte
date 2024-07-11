@@ -10,7 +10,15 @@
     zIndex = 900,
     top = -7.2
 
-  let mouseInside, rectDimensions, mousePosition, x, y, mid, start, end, sw
+  let mouseInside,
+    rectDimensions,
+    mousePosition,
+    x = 0,
+    y = 0,
+    mid,
+    start,
+    end,
+    sw
 
   // refs
   let line, container
@@ -29,7 +37,7 @@
       ? `M 0 ${mid}, Q ${width / 2} ${mid}, ${width} ${mid}`
       : `M000, ${mid} Q ${width / 2} ${mid}, ${width}, ${mid}`
 
-    const tween = gsap.fromTo(
+    gsap.fromTo(
       line,
       { attr: { d: start } },
       {
@@ -70,8 +78,6 @@
     } else if (!c && mouseInside) {
       handleMouseLeave()
     }
-    // Cause refresh
-    // strokeWidth = strokeWidth
   }
 
   function handleMouseEnter() {

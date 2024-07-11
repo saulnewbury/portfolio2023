@@ -8,46 +8,51 @@
 
   // Assets
   import Peace from '../lib/images/peace.svg'
+  import Egg from '../lib/images/egg.png'
 
   let oneWidth = 0,
     twoWidth = 0,
     threeWidth = 0,
-    oneHeight = 0,
-    twoHeight = 0,
-    threeHeight = 0
+    container = 0
 
   // refs
-  let one, two, three
+  let one, two, three, egg
 
   onMount(() => {
     oneWidth = one.getBoundingClientRect().width
     twoWidth = two.getBoundingClientRect().width
     threeWidth = three.getBoundingClientRect().width
-    oneHeight = one.getBoundingClientRect().height
-    twoHeight = two.getBoundingClientRect().height
-    threeHeight = three.getBoundingClientRect().height
+    container = three.getBoundingClientRect().height * 0.9
+
+    gsap.fromTo(egg, { opacity: 0 }, { opacity: 1, delay: 3.5, duration: 1 })
   })
 </script>
 
 <section class="hero min-h-full">
   <h1 class="text-[12.8vw] leading-[1] uppercase mt-[20px] mx-[4vw]">
     <div bind:this={one} class="row w-[max-content] mb-[2.2vw] ml-[4.6vw]">
-      <BouncyLine delay={1} width={oneWidth} height={oneHeight} />
-      <div class="inline-block">
+      <BouncyLine delay={1} width={oneWidth} height={container} />
+      <div class="relative">
         <Reveal
-          html={'<span>hello<span>&nbsp; &nbsp; &nbsp; </span>world<span class="relative after:content-[""] after:block after:bg-red after:h-[1.12vw] after:w-[0.82vw] after:absolute after:bottom-[2.66vw] after:left-[0.4vw]">!</span></span>'}
+          html={'<span>hello<span class="ml-[2.5vw]">&nbsp; &nbsp; &nbsp; </span>world<span class="relative after:content-[""] after:block after:bg-red after:h-[1.12vw] after:w-[0.82vw] after:absolute after:bottom-[2.66vw] after:left-[0.4vw]">!</span></span>'}
           delay={1}
           rotation={4}
+        />
+        <img
+          bind:this={egg}
+          src={Egg}
+          alt="egg"
+          class="w-[9.5vw] absolute top-[5px] left-[50%] -translate-x-[73%] mix-blend-difference opacity-0"
         />
       </div>
     </div>
     <div class="row w-[max-content] mb-[2.2vw] flex">
-      <div bind:this={two} class="inline-block">
+      <div bind:this={two}>
         <BouncyLine
           delay={1.2}
           reverse="true"
           width={twoWidth}
-          height={twoHeight}
+          height={container}
         />
         <Reveal html={'folio of saul newbury'} delay={1.2} rotation={-5} />
       </div>
@@ -73,7 +78,7 @@
         <WigglyCircle />
       </div>
       <div bind:this={three}>
-        <BouncyLine delay={1.4} width={threeWidth} height={threeHeight} />
+        <BouncyLine delay={1.4} width={threeWidth} height={container} />
         <div class="inline-block">
           <Reveal
             html={'<span class="inline-block">frontend developer</span>'}
