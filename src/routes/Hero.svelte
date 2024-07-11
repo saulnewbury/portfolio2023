@@ -9,6 +9,7 @@
   // Assets
   import Peace from '../lib/images/peace.svg'
   import Egg from '../lib/images/egg.png'
+  import { elasticIn } from 'svelte/easing'
 
   let oneWidth = 0,
     twoWidth = 0,
@@ -16,7 +17,7 @@
     container = 0
 
   // refs
-  let one, two, three, egg
+  let one, two, three, egg, peace
 
   onMount(() => {
     oneWidth = one.getBoundingClientRect().width
@@ -25,6 +26,18 @@
     container = three.getBoundingClientRect().height * 0.9
 
     gsap.fromTo(egg, { opacity: 0 }, { opacity: 0.8, delay: 3, duration: 1 })
+
+    gsap.fromTo(
+      peace,
+      { rotate: 360, scale: 0 },
+      {
+        rotate: 0,
+        scale: 1,
+        duration: 2.5,
+        delay: 3.5,
+        ease: 'elastic.out(1,1)'
+      }
+    )
   })
 </script>
 
@@ -58,9 +71,10 @@
       </div>
       <div class="self-center inline-block relative w-[15vw] h-full">
         <img
+          bind:this={peace}
           src={Peace}
           alt="peace sign"
-          class="h-[14vw] w-[14vw] self-center absolute top-[-1vw] left-0 block"
+          class="h-[14vw] w-[14vw] self-center absolute top-[-1vw] left-0 block scale-0"
         />
       </div>
       <div class="flex h-full items-start relative">
