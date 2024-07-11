@@ -51,7 +51,7 @@
     )
     const diag = Math.sqrt(width ** 2 + height ** 2)
     sw = (0.1 * window.innerWidth) / diag
-    console.log('HERE ' + start, end)
+    // console.log('HERE ' + start, end)
   }
 
   onMount(() => {
