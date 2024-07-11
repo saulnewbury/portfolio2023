@@ -86,25 +86,24 @@
   })
 
   function handleMouseEnter(e) {
-    e.currentTarget.dataset.mouseIn = true
+    console.log('ENTER')
+    e.currentTarget.dataset.mousein = true
+
     gsap.to(clipPathElement, {
       clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
       duration: 0.5
     })
   }
   function handleMouseLeave(e) {
-    console.log(e.currentTarget.dataset.mouseIn)
-    e.currentTarget.dataset.mouseIn = false
-    console.log(e.currentTarget.dataset.mouseIn)
+    console.log('LEAVE')
+    e.currentTarget.dataset.mousein = false
 
     setTimeout(() => {
       const elements = Array.from(document.querySelectorAll('.projectRow'))
       const val = elements.some((ele) => {
-        ele.dataset.mouseIn === true
+        ele.dataset.mousein === true
       })
-
       if (!val) {
-        console.log('bla')
         gsap.to(clipPathElement, {
           clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)',
           duration: 0.5
@@ -150,7 +149,7 @@
           class="projectRow w-full flex justify-between relative z-20"
           on:mouseenter={handleMouseEnter}
           on:mouseleave={handleMouseLeave}
-          data-mouseIn={false}
+          data-mousein={false}
         >
           <div class="flex h-[max-content] w-[max-content]">
             <span class="num text-[1vw] mr-[3vw] self-center font-body"
