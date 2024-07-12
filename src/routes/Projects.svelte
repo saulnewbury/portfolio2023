@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte'
   import BouncyLine from '../lib/components/BouncyLine.svelte'
+  import { portal } from 'svelte-portal'
   import { gsap } from 'gsap'
 
   import veronica from '../lib/images/projects/veronica-iii.webp'
@@ -42,6 +43,10 @@
     }
   ]
 
+  // array of bouncy lines. me at container, iterate through bouncy line children ,and see if me should be delivered by any of them. is it inside the bounding rect
+  // me at parent, which c needs a copy of me, becaase they're all e targets, you can call dispatch e method on those es and pass the same me into them
+
+  // or 4e of bouncy lines, if that e is in return set from document.elementsFromPoint, if it is, dispatch e to it
   const images = [bloomingdale, veronica, oakhanger]
 
   let width,
@@ -57,7 +62,8 @@
     throttleTimer,
     elements,
     px,
-    py
+    py,
+    prevMouseInside
 
   // refs
   let section, container, projectsCard
@@ -91,8 +97,6 @@
       px = e.pageX
       py = e.pageY
 
-      console.log(px, py)
-
       xTo(x + 40)
       yTo(y - relPosition)
     })
@@ -102,15 +106,13 @@
     })
 
     window.addEventListener('scroll', () => {
-      throttle(doIt, 10)
+      throttle(doIt, 200)
     })
 
     elements = Array.from(document.querySelectorAll('.projectRow'))
   })
 
   function throttle(callback, time) {
-    xTo(x)
-    yTo(y)
     if (throttleTimer) return
     throttleTimer = true
     setTimeout(() => {
@@ -122,25 +124,25 @@
   // scroll, tt false pass, tt set to true, tout created, after .4s run fn and set tt false.
 
   function doIt() {
-    // console.log('do it')
-
     const mouseInside = elements.some((el) => {
-      return (
-        y > el.getBoundingClientRect().top &&
-        y < el.getBoundingClientRect().bottom
-      )
+      const rect = el.getBoundingClientRect()
+      return y > rect.top && y < rect.bottom
     })
+
+    if (mouseInside === prevMouseInside) return (prevMouseInside = mouseInside)
 
     if (mouseInside) {
       // position projects cards
       gsap.to(clipPathElement, {
+        overwrite: true,
         clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
-        duration: 0.5
+        duration: 0.3
       })
+      prevMouseInside = mouseInside
     } else {
       gsap.to(clipPathElement, {
         clipPath: 'polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)',
-        duration: 0.5,
+        duration: 0.3,
         onComplete: () => {
           gsap.set(clipPathElement, {
             clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)'
@@ -156,17 +158,20 @@
     const val = elements.some((ele) => {
       ele.dataset.mousein == 'true'
     })
+    prevMouseInside = val
     if (val) return
     gsap.to(clipPathElement, {
       clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
       duration: 0.5
     })
   }
+
   function handleMouseLeave(e) {
     e.currentTarget.dataset.mousein = false
     setTimeout(() => {
       const elements = Array.from(document.querySelectorAll('.projectRow'))
       const val = elements.some((ele) => ele.dataset.mousein == 'true')
+      prevMouseInside = val
       if (!val) {
         gsap.to(clipPathElement, {
           clipPath: 'polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)',
@@ -185,26 +190,21 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <section class="uppercase text-[4vw] p-0" bind:this={section}>
-  <div class="fixed h-full w-full top-0 left-0">
-    <div bind:this={projectsCard} class="absolute h-[20rem] w-[14rem] z-[900]">
-      <div
-        bind:this={clipPathElement}
-        class="flex overflow-hidden h-full w-full"
-      >
-        {#each projects as project}
-          <!-- <div
-            style={`background-image: url(${project.image}); background-size: cover`}
-            class={`h-full w-full absolute top-0 left-0 rounded-md`}
-          ></div> -->
-          <div class="rounded-md">
-            <img
-              class="projectCardImage absolute top-0 left-0 rounded-md"
-              src={project.image}
-              alt={project.alt}
-            />
-          </div>
-        {/each}
-      </div>
+  <div
+    bind:this={projectsCard}
+    use:portal={document.body}
+    class="fixed h-[20rem] w-[14rem] z-[900]"
+  >
+    <div bind:this={clipPathElement} class="flex overflow-hidden h-full w-full">
+      {#each projects as project}
+        <div class="rounded-md">
+          <img
+            class="projectCardImage absolute top-0 left-0 rounded-md"
+            src={project.image}
+            alt={project.alt}
+          />
+        </div>
+      {/each}
     </div>
   </div>
 

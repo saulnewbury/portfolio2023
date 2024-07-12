@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte'
   import { gsap } from 'gsap'
+
   // Components
   import BouncyLine from '../lib/components/BouncyLine.svelte'
   import WigglyCircle from '../lib/components/WigglyCircle.svelte'
