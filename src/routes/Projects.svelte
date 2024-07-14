@@ -15,7 +15,6 @@
       name: 'BIS',
       role: 'developer',
       image: bloomingdale,
-      url: '../lib/images/projects/veronica-iii.webp',
       alt: 'student doing art'
     },
     {
@@ -23,7 +22,6 @@
       name: 'Jenni Cadman',
       role: 'developer and designer',
       image: veronica,
-      url: '../lib/images/projects/bloomingdale.webp',
       alt: 'Embroidery artwork'
     },
     {
@@ -31,7 +29,6 @@
       name: 'Oakhanger Metalworks',
       role: 'developer and designer',
       image: oakhanger,
-      url: '../lib/images/projects/urchin1.webp',
       alt: 'lamp made to look like a golden sea urchin'
     },
     {
@@ -46,9 +43,6 @@
   // array of bouncy lines. me at container, iterate through bouncy line children ,and see if me should be delivered by any of them. is it inside the bounding rect
   // me at parent, which c needs a copy of me, becaase they're all e targets, you can call dispatch e method on those es and pass the same me into them
 
-  // or 4e of bouncy lines, if that e is in return set from document.elementsFromPoint, if it is, dispatch e to it
-  const images = [bloomingdale, veronica, oakhanger]
-
   let width,
     height,
     x,
@@ -57,16 +51,16 @@
     yTo,
     relPosition,
     clipPathElement,
-    elTop,
-    elBottom,
     throttleTimer,
     elements,
-    px,
-    py,
-    prevMouseInside
+    prevMouseInside,
+    bouncyLines,
+    enter,
+    move,
+    leave
 
   // refs
-  let section, container, projectsCard
+  let container, projectsCard
 
   onMount(() => {
     // Width and height values for bouncy line
@@ -93,13 +87,13 @@
       x = e.clientX
       y = e.clientY
 
-      // coords for positioning projects cards
-      px = e.pageX
-      py = e.pageY
-
       xTo(x + 40)
       yTo(y - relPosition)
     })
+
+    enter = new Event('mouseenter', { bubbles: false, cancelable: false })
+    move = new Event('mousemove', { bubbles: false, cancelable: false })
+    leave = new Event('mouseleave', { bubbles: false, cancelable: false })
 
     gsap.set(clipPathElement, {
       clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)'
@@ -153,6 +147,10 @@
   }
 
   function handleMouseEnter(e) {
+    e.stopPropagation()
+    bouncyLines = Array.from(document.querySelectorAll('.bouncy-line'))
+
+    // handle reveal
     e.currentTarget.dataset.mousein = true
     const elements = Array.from(document.querySelectorAll('.projectRow'))
     const val = elements.some((ele) => {
@@ -164,6 +162,18 @@
       clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
       duration: 0.5
     })
+
+    // bouncyLines.forEach((ele) => {
+    //   const list = document.elementsFromPoint(x, y).slice(1)
+    //   const doesIncl = list.includes(ele)
+    //   if (doesIncl) {
+    //     console.log('DOES INCLUDE')
+    //     // ele.dispatchEvent(enter)
+    //   }
+    // })
+
+    // handle reveal event propogation
+    // or 4e of bouncy lines, if that e is in return set from document.elementsFromPoint, if it is, dispatch e to it
   }
 
   function handleMouseLeave(e) {
@@ -185,11 +195,21 @@
         })
       }
     }, 100)
+
+    // bouncyLines = Array.from(document.querySelectorAll('.bouncy-line'))
+    // bouncyLines.forEach((ele) => {
+    //   const list = document.elementsFromPoint(x, y).slice(1)
+    //   const doesIncl = list.includes(ele)
+    //   if (doesIncl) {
+    //     console.log('DOES INCLUDE')
+    //     ele.dispatchEvent(leave)
+    //   }
+    // })
   }
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<section class="uppercase text-[4vw] p-0" bind:this={section}>
+<section class="uppercase text-[4vw] p-0">
   <div
     bind:this={projectsCard}
     use:portal={document.body}

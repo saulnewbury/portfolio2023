@@ -14,11 +14,12 @@
     rectDimensions,
     mousePosition,
     x = 0,
-    y = 0,
     mid,
     start,
     end,
-    sw
+    sw,
+    bouncyLines,
+    y = null
 
   // refs
   let line, container
@@ -51,7 +52,8 @@
     )
     const diag = Math.sqrt(width ** 2 + height ** 2)
     sw = (0.1 * window.innerWidth) / diag
-    // console.log('HERE ' + start, end)
+
+    bouncyLines = Array.from(document.querySelectorAll('.bouncy-line'))
   }
 
   onMount(() => {
@@ -64,14 +66,45 @@
     }
   })
 
-  function defineXAndY() {
-    x = window.clientX
-    y = window.clientY
+  function defineXAndY(e) {
+    x = e.clientX
+    y = e.clientY
+
+    const mouseInside = bouncyLines.some((el) => {
+      const rect = el.getBoundingClientRect()
+      // console.log(rect)
+      if (y > rect.top && y < rect.bottom) {
+        rectDimensions = {
+          height: rect.height,
+          width: rect.widtht,
+          left: rect.left,
+          top: rect.top
+        }
+        return true
+      } else {
+        return false
+      }
+    })
+
+    if (mouseInside) {
+      let targetCenter = rectDimensions.height / 2
+      let relativeMousePos = y - rectDimensions.top
+      let distance = (targetCenter - relativeMousePos) / 2 // half the distance
+      let y = targetCenter - distance
+
+      console.log(`${(y / rectDimensions.height) * height}`)
+
+      gsap.to(line, {
+        attr: {
+          d: `M000,${mid} Q ${width / 2} ${(y / rectDimensions.height) * height}, ${width},${mid}`
+        }
+      })
+    }
   }
 
   function doStuff() {
     const ele = document.elementFromPoint(x, y)
-    const c = ele.closest(container)
+    const c = ele?.closest(container)
 
     if (c && !mouseInside) {
       handleMouseEnter()
@@ -81,14 +114,14 @@
   }
 
   function handleMouseEnter() {
-    mouseInside = true
-    const rect = container.getBoundingClientRect()
-    rectDimensions = {
-      height: rect.height,
-      width: rect.widtht,
-      left: rect.left,
-      top: rect.top
-    }
+    // mouseInside = true
+    // const rect = container.getBoundingClientRect()
+    // rectDimensions = {
+    //   height: rect.height,
+    //   width: rect.widtht,
+    //   left: rect.left,
+    //   top: rect.top
+    // }
   }
 
   function handleMouseLeave() {
@@ -102,22 +135,22 @@
   }
 
   function handleMouseMove(e) {
-    mousePosition = {
-      x: e.clientX,
-      y: e.clientY
-    }
-    if (mouseInside) {
-      let targetCenter = rectDimensions.height / 2
-      let relativeMousePos = mousePosition.y - rectDimensions.top
-      let distance = (targetCenter - relativeMousePos) / 2 // half the distance
-      let y = targetCenter - distance
-
-      gsap.to(line, {
-        attr: {
-          d: `M000,${mid} Q ${width / 2} ${(y / rectDimensions.height) * height}, ${width},${mid}`
-        }
-      })
-    }
+    // mousePosition = {
+    //   x: e.clientX,
+    //   y: e.clientY
+    // }
+    // if (mouseInside) {
+    //   let targetCenter = rectDimensions.height / 2
+    //   let relativeMousePos = mousePosition.y - rectDimensions.top
+    //   let distance = (targetCenter - relativeMousePos) / 2 // half the distance
+    //   let y = targetCenter - distance
+    //   console.log(`${(y / rectDimensions.height) * height}`)
+    //   gsap.to(line, {
+    //     attr: {
+    //       d: `M000,${mid} Q ${width / 2} ${(y / rectDimensions.height) * height}, ${width},${mid}`
+    //     }
+    //   })
+    // }
   }
 </script>
 
@@ -129,7 +162,7 @@
     on:mousemove={handleMouseMove}
     on:mouseleave={handleMouseLeave}
     viewBox={`0 0 ${width} ${height}`}
-    class={`line absolute left-0`}
+    class={`bouncy-line line absolute left-0`}
     style="transform-origin: left center; transform: translate(0px, 0px);"
     ><path
       bind:this={line}
