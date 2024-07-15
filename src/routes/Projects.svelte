@@ -53,11 +53,7 @@
     clipPathElement,
     throttleTimer,
     elements,
-    prevMouseInside,
-    bouncyLines,
-    enter,
-    move,
-    leave
+    prevMouseInside
 
   // refs
   let container, projectsCard
@@ -90,10 +86,6 @@
       xTo(x + 40)
       yTo(y - relPosition)
     })
-
-    enter = new Event('mouseenter', { bubbles: false, cancelable: false })
-    move = new Event('mousemove', { bubbles: false, cancelable: false })
-    leave = new Event('mouseleave', { bubbles: false, cancelable: false })
 
     gsap.set(clipPathElement, {
       clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)'
@@ -148,7 +140,6 @@
 
   function handleMouseEnter(e) {
     e.stopPropagation()
-    bouncyLines = Array.from(document.querySelectorAll('.bouncy-line'))
 
     // handle reveal
     e.currentTarget.dataset.mousein = true
@@ -162,18 +153,6 @@
       clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
       duration: 0.5
     })
-
-    // bouncyLines.forEach((ele) => {
-    //   const list = document.elementsFromPoint(x, y).slice(1)
-    //   const doesIncl = list.includes(ele)
-    //   if (doesIncl) {
-    //     console.log('DOES INCLUDE')
-    //     // ele.dispatchEvent(enter)
-    //   }
-    // })
-
-    // handle reveal event propogation
-    // or 4e of bouncy lines, if that e is in return set from document.elementsFromPoint, if it is, dispatch e to it
   }
 
   function handleMouseLeave(e) {
@@ -195,16 +174,6 @@
         })
       }
     }, 100)
-
-    // bouncyLines = Array.from(document.querySelectorAll('.bouncy-line'))
-    // bouncyLines.forEach((ele) => {
-    //   const list = document.elementsFromPoint(x, y).slice(1)
-    //   const doesIncl = list.includes(ele)
-    //   if (doesIncl) {
-    //     console.log('DOES INCLUDE')
-    //     ele.dispatchEvent(leave)
-    //   }
-    // })
   }
 </script>
 

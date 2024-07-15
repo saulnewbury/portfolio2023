@@ -6,20 +6,21 @@
   export let delay = 0,
     reverse = false,
     width = 0,
-    height = 160,
+    height = 20,
     zIndex = 900,
     top = -7.2
 
   let mouseInside,
-    rectDimensions,
-    mousePosition,
+    dim,
     x = 0,
+    y = null,
     mid,
     start,
     end,
     sw,
     bouncyLines,
-    y = null
+    current,
+    prev
 
   // refs
   let line, container
@@ -57,100 +58,96 @@
   }
 
   onMount(() => {
-    window.addEventListener('mousemove', defineXAndY)
-    window.addEventListener('resize', doStuff)
+    window.addEventListener('mousemove', animation)
+    // window.addEventListener('resize', doStuff)
 
     return () => {
-      window.removeEventListener('mousemove', defineXAndY)
-      window.removeEventListener('resize', doStuff)
+      window.removeEventListener('mousemove', animation)
+      // window.removeEventListener('resize', doStuff)
     }
   })
 
-  function defineXAndY(e) {
+  function animation(e) {
     x = e.clientX
     y = e.clientY
 
-    const mouseInside = bouncyLines.some((el) => {
-      const rect = el.getBoundingClientRect()
-      // console.log(rect)
-      if (y > rect.top && y < rect.bottom) {
-        rectDimensions = {
-          height: rect.height,
-          width: rect.widtht,
-          left: rect.left,
-          top: rect.top
-        }
-        return true
-      } else {
-        return false
+    const { el, r } = getElementUnderMouse(x, y)
+
+    current = el
+
+    if (current) {
+      dim = { height: r.height, top: r.top }
+
+      if (!prev || current === prev) {
+        console.log('hi')
+        if (!prev) prev = current
+        insideAnimation(
+          current.children[0],
+          y,
+          current.dataset.width,
+          current.dataset.height
+        )
+      } else if (prev && current !== prev) {
+        console.log('hi and bye')
+        insideAnimation(
+          current.children[0],
+          y,
+          current.dataset.width,
+          current.dataset.height
+        )
+        leaveAnimation(
+          prev.children[0],
+          prev.dataset.width,
+          prev.dataset.height
+        )
+        prev = current
       }
-    })
-
-    if (mouseInside) {
-      let targetCenter = rectDimensions.height / 2
-      let relativeMousePos = y - rectDimensions.top
-      let distance = (targetCenter - relativeMousePos) / 2 // half the distance
-      let y = targetCenter - distance
-
-      console.log(`${(y / rectDimensions.height) * height}`)
-
-      gsap.to(line, {
-        attr: {
-          d: `M000,${mid} Q ${width / 2} ${(y / rectDimensions.height) * height}, ${width},${mid}`
-        }
-      })
+    } else if (!current && prev) {
+      console.log('bye')
+      leaveAnimation(prev.children[0], prev.dataset.width, prev.dataset.height)
+      prev = null
+      current = null
+    } else {
+      console.log('nada')
+      dim = null
+      // do nothing
     }
   }
 
-  function doStuff() {
-    const ele = document.elementFromPoint(x, y)
-    const c = ele?.closest(container)
-
-    if (c && !mouseInside) {
-      handleMouseEnter()
-    } else if (!c && mouseInside) {
-      handleMouseLeave()
+  function getElementUnderMouse(x, y) {
+    let obj = {}
+    for (let i = 0; i < bouncyLines.length; i++) {
+      const r = bouncyLines[i].getBoundingClientRect()
+      const el = bouncyLines[i]
+      if (y > r.top && y < r.bottom && x > r.left && x < r.right) {
+        obj = { el, r }
+      }
     }
+    return obj
   }
 
-  function handleMouseEnter() {
-    // mouseInside = true
-    // const rect = container.getBoundingClientRect()
-    // rectDimensions = {
-    //   height: rect.height,
-    //   width: rect.widtht,
-    //   left: rect.left,
-    //   top: rect.top
-    // }
-  }
-
-  function handleMouseLeave() {
-    mouseInside = false
-    gsap.to(line, {
-      // ease: Elastic.easeOut.config(2, 0.5),
-      ease: 'elastic.out(1, 0.3)',
-      attr: { d: `M000,${mid} Q ${width / 2} ${mid}, ${width}, ${mid}` },
-      duration: 0.8
+  function insideAnimation(el, y, w, h) {
+    let targetCenter = dim.height / 2
+    let relativeMousePos = y - dim.top
+    let distance = (targetCenter - relativeMousePos) / 2 // half the distance
+    let num = targetCenter - distance
+    gsap.to(el, {
+      overwrite: true,
+      ease: 'elastic.out(1.5, 0.3)',
+      attr: {
+        d: `M000, ${h / 2} Q ${w / 2} ${(num / dim.height) * h}, ${w},${h / 2}`
+      },
+      duration: 2
     })
   }
 
-  function handleMouseMove(e) {
-    // mousePosition = {
-    //   x: e.clientX,
-    //   y: e.clientY
-    // }
-    // if (mouseInside) {
-    //   let targetCenter = rectDimensions.height / 2
-    //   let relativeMousePos = mousePosition.y - rectDimensions.top
-    //   let distance = (targetCenter - relativeMousePos) / 2 // half the distance
-    //   let y = targetCenter - distance
-    //   console.log(`${(y / rectDimensions.height) * height}`)
-    //   gsap.to(line, {
-    //     attr: {
-    //       d: `M000,${mid} Q ${width / 2} ${(y / rectDimensions.height) * height}, ${width},${mid}`
-    //     }
-    //   })
-    // }
+  function leaveAnimation(el, w, h) {
+    gsap.to(el, {
+      overwrite: true,
+      ease: 'elastic.out(1.5, 0.3)',
+      attr: { d: `M000, ${h / 2} Q ${w / 2} ${h / 2}, ${w}, ${h / 2}` },
+      duration: 1
+    })
   }
 </script>
 
@@ -158,12 +155,11 @@
 {#if width && height && typeof height === 'number'}
   <svg
     bind:this={container}
-    on:mouseenter={(e) => handleMouseEnter(e)}
-    on:mousemove={handleMouseMove}
-    on:mouseleave={handleMouseLeave}
     viewBox={`0 0 ${width} ${height}`}
     class={`bouncy-line line absolute left-0`}
     style="transform-origin: left center; transform: translate(0px, 0px);"
+    data-width={width}
+    data-height={height}
     ><path
       bind:this={line}
       stroke-opacity="0"
@@ -174,14 +170,9 @@
   >
 {/if}
 
-<!-- stroke-width={strokeWidth} -->
 <style>
   .line {
     stroke: black;
     width: 100%;
-    z-index: 800;
-    /* width: 100%;
-    height: 100%; */
-    /* stroke-width: 0.07vw; */
   }
 </style>
