@@ -6,7 +6,7 @@
   export let delay = 0,
     reverse = false,
     width = 0,
-    height = 20,
+    height = 160,
     zIndex = 900,
     top = -7.2
 
