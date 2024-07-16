@@ -178,7 +178,7 @@
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<section class="uppercase text-[4vw] p-0">
+<section class="uppercase text-[3.6rem] p-0">
   <div
     bind:this={projectsCard}
     use:portal={document.body}
@@ -223,7 +223,7 @@
               data-mousein={false}
             >
               <div class="flex h-[max-content] w-[max-content]">
-                <span class="num text-[1vw] mr-[3vw] self-center font-body"
+                <span class="num text-base mr-[3vw] self-center font-body"
                   >({p.num})</span
                 ><span>{p.name}</span>
               </div>
