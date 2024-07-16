@@ -77,6 +77,8 @@
 
     window.addEventListener('resize', () => {
       relPosition = projectsCard.getBoundingClientRect().height / 2
+      width = container.getBoundingClientRect().width
+      height = container.getBoundingClientRect().height
     })
 
     window.addEventListener('mousemove', (e) => {
@@ -213,7 +215,7 @@
               {width}
               height={height * 1.7}
               zIndex={10 - i}
-              top={-5.1}
+              top="-4.5rem"
             />
             <!-- svelte-ignore a11y-mouse-events-have-key-events -->
             <div
@@ -236,7 +238,7 @@
                 {width}
                 height={height * 1.7}
                 zIndex={10 - projects.length}
-                top={0.8}
+                top="0.8rem"
               />
             {/if}
           </div>

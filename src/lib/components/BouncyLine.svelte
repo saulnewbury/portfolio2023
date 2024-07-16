@@ -8,19 +8,18 @@
     width = 0,
     height = 160,
     zIndex = 900,
-    top = -7.2
+    top = '-7.2vw'
 
   let mouseInside,
     dim,
     x = 0,
     y = null,
     mid,
-    start,
-    end,
     sw,
     bouncyLines,
     current,
-    prev
+    prev,
+    introDone = false
 
   // refs
   let line, container
@@ -30,31 +29,36 @@
 
   $: if (width && height && typeof height === 'number') {
     mid = height / 2
-    gsap.set(container, { zIndex: zIndex, top: `${top}vw` })
+    gsap.set(container, { zIndex: zIndex, top: top })
+    bouncyLines = Array.from(document.querySelectorAll('.bouncy-line'))
 
-    start = reverse
-      ? `M ${width} ${mid}, Q ${width} 200, ${width} ${mid}`
-      : `M000, ${mid} Q 0 200, 0, ${mid}`
-    end = reverse
-      ? `M 0 ${mid}, Q ${width / 2} ${mid}, ${width} ${mid}`
-      : `M000, ${mid} Q ${width / 2} ${mid}, ${width}, ${mid}`
+    if (container && !introDone) {
+      gsap.set(container, { zIndex: zIndex, top: top })
+      const start = reverse
+        ? `M ${width} ${mid}, Q ${width} 200, ${width} ${mid}`
+        : `M000, ${mid} Q 0 200, 0, ${mid}`
+      const end = reverse
+        ? `M 0 ${mid}, Q ${width / 2} ${mid}, ${width} ${mid}`
+        : `M000, ${mid} Q ${width / 2} ${mid}, ${width}, ${mid}`
 
-    gsap.fromTo(
-      line,
-      { attr: { d: start } },
-      {
-        attr: { d: end },
-        duration: 0.8,
-        delay: delay,
-        onStart: () => {
-          gsap.set(line, { strokeOpacity: 1 })
+      gsap.fromTo(
+        line,
+        { attr: { d: start } },
+        {
+          attr: { d: end },
+          duration: 0.8,
+          delay: delay,
+          onStart: () => {
+            gsap.set(line, { strokeOpacity: 1 })
+          }
         }
-      }
-    )
+      )
+
+      introDone = true
+    }
+
     const diag = Math.sqrt(width ** 2 + height ** 2)
     sw = (0.1 * window.innerWidth) / diag
-
-    bouncyLines = Array.from(document.querySelectorAll('.bouncy-line'))
   }
 
   onMount(() => {
