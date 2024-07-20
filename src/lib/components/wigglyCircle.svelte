@@ -10,25 +10,35 @@
 
   onMount(() => {
     // intro
-    gsap.fromTo(
-      container,
-      { x: '-50vw' },
-      { x: '0vw', delay: 3, duration: 1.5 }
-    )
+
+    const mm = gsap.matchMedia()
+
+    mm.add('(max-width: 768px)', () => {
+      // TODO: if intro anim done set delay to 0
+
+      gsap.fromTo(
+        container,
+        { scale: 0 },
+        { scale: 1.3, delay: 3, duration: 1, ease: 'power1.out' }
+      )
+    })
+    mm.add('(min-width: 769px)', () => {
+      gsap.fromTo(
+        container,
+        { scale: 0 },
+        { scale: 1, delay: 3, duration: 1, ease: 'power1.out' }
+      )
+    })
+
+    gsap.set(text, { xPercent: -50, yPercent: -50 })
 
     const tl = gsap.timeline()
 
-    gsap.set(text, { transformOrigin: '20% bottom' })
     tl.fromTo(
       text,
-      { rotate: -20 },
-      { rotate: -50, delay: 3, duration: 0.8, ease: 'power1.out' }
-    ).to(text, {
-      rotate: -20,
-      delay: 0.5,
-      duration: 2.7,
-      ease: 'elastic.out'
-    })
+      { rotate: -360 },
+      { rotate: -25, delay: 3, duration: 1.5, ease: 'elastic.out(1,1)' }
+    )
 
     // continuous rotation
     let time = 20
@@ -54,16 +64,16 @@
   })
 </script>
 
-<div bind:this={container} class="absolute w-full h-full">
+<div bind:this={container} class="absolute w-full">
   <img
     src={Star}
     alt="wiggly circle"
-    class="w-[15vw] h-[auto]"
+    class="w-[19vw] md:w-[15vw] h-[auto]"
     bind:this={wigglyCircle}
   />
   <span
     bind:this={text}
-    class="w-[max-content] text-[4vw] absolute top-[56%] left-[55%] -translate-y-[50%] -translate-x-[50%] -rotate-[25deg]"
+    class="w-[max-content] text-[4vw] absolute top-[50%] left-[50%] -rotate-[25deg]"
     >hire me :)</span
   >
 </div>

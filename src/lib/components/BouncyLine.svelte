@@ -25,7 +25,6 @@
   let line, container
 
   // account for egg intro anim
-  delay = delay + 2
 
   $: if (width && height && typeof height === 'number') {
     mid = height / 2
@@ -83,7 +82,6 @@
       dim = { height: r.height, top: r.top }
 
       if (!prev || current === prev) {
-        console.log('hi')
         if (!prev) prev = current
         insideAnimation(
           current.children[0],
@@ -92,7 +90,6 @@
           current.dataset.height
         )
       } else if (prev && current !== prev) {
-        console.log('hi and bye')
         insideAnimation(
           current.children[0],
           y,
@@ -107,12 +104,10 @@
         prev = current
       }
     } else if (!current && prev) {
-      console.log('bye')
       leaveAnimation(prev.children[0], prev.dataset.width, prev.dataset.height)
       prev = null
       current = null
     } else {
-      console.log('nada')
       dim = null
       // do nothing
     }

@@ -153,7 +153,7 @@
     if (val) return
     gsap.to(clipPathElement, {
       clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
-      duration: 0.5
+      duration: 0.3
     })
   }
 
@@ -166,7 +166,7 @@
       if (!val) {
         gsap.to(clipPathElement, {
           clipPath: 'polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)',
-          duration: 0.5,
+          duration: 0.3,
           onComplete: () => {
             // resets on complete
             gsap.set(clipPathElement, {

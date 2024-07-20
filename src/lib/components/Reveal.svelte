@@ -4,14 +4,12 @@
   import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
 
   export let html = '',
-    delay = 0,
+    delay = 2,
     rotation = 0,
     hasScrollTrigger = false
 
   // refs
   let reveal, container
-
-  delay = delay + 2
 
   onMount(() => {
     let d = 1
@@ -22,7 +20,7 @@
     const text = gsap.to(reveal, {
       yPercent: 0,
       duration: d,
-      delay: delay,
+      delay,
       // ease: 'expo.out',
       ease: 'power1.Out'
     })
