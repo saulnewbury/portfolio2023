@@ -48,14 +48,15 @@
           duration: 0.8,
           delay: delay,
           strokeOpacity: 1,
-          onComplete: () => (introDone = true)
+          onComplete: () => {
+            introDone = true
+          }
         }
       )
     }
 
     const diag = Math.sqrt(width ** 2 + height ** 2)
     sw = (0.1 * window.innerWidth) / diag
-    // introDone = true
   }
 
   onMount(() => {
