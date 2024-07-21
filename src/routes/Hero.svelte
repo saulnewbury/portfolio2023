@@ -29,10 +29,13 @@
     //   md = false
     // })
 
-    oneWidth = one.getBoundingClientRect().width
-    twoWidth = two.getBoundingClientRect().width
-    threeWidth = three.getBoundingClientRect().width
-    container = three.getBoundingClientRect().height * 0.9
+    // give browser time
+    setTimeout(() => {
+      oneWidth = one.getBoundingClientRect().width
+      twoWidth = two.getBoundingClientRect().width
+      threeWidth = three.getBoundingClientRect().width
+      container = three.getBoundingClientRect().height * 0.9
+    }, 100)
 
     gsap.fromTo(egg, { opacity: 0 }, { opacity: 0.8, delay: 3, duration: 1 })
 

@@ -41,7 +41,7 @@
 
       gsap.fromTo(
         line,
-        { attr: { d: start, strokeOpacity: 1, immediateRender: false } },
+        { attr: { d: start, strokeOpacity: 1 } },
         {
           immediateRender: false,
           attr: { d: end },
@@ -55,15 +55,13 @@
 
     const diag = Math.sqrt(width ** 2 + height ** 2)
     sw = (0.1 * window.innerWidth) / diag
+    // introDone = true
   }
 
   onMount(() => {
     window.addEventListener('mousemove', animation)
-    // window.addEventListener('resize', doStuff)
-
     return () => {
       window.removeEventListener('mousemove', animation)
-      // window.removeEventListener('resize', doStuff)
     }
   })
 
@@ -113,12 +111,9 @@
 
   function getElementUnderMouse(x, y) {
     let obj = {}
-    for (let i = 0; i < bouncyLines.length; i++) {
-      const r = bouncyLines[i].getBoundingClientRect()
-      const el = bouncyLines[i]
-      if (y > r.top && y < r.bottom && x > r.left && x < r.right) {
-        obj = { el, r }
-      }
+    const r = container.getBoundingClientRect()
+    if (y > r.top && y < r.bottom && x > r.left && x < r.right) {
+      obj = { el: container, r }
     }
     return obj
   }

@@ -19,7 +19,7 @@
 
 <!-- Sections -->
 <Hero />
-<Mission />
+<!-- <Mission /> -->
 <Projects />
 
 <section>Contact</section>
