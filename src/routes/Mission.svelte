@@ -1,27 +1,20 @@
 <script>
-  import { gsap } from 'gsap'
   import Reveal from '../lib/components/Reveal.svelte'
   import { afterUpdate, onMount } from 'svelte'
 
-  let md,
-    delay = 0
+  import { md } from '../lib/stores.js'
 
-  onMount(() => {
-    const mm = gsap.matchMedia()
-    mm.add('(min-width: 768px)', () => {
-      md = true
-    })
-    mm.add('(max-width: 768px)', () => {
-      md = false
-    })
-  })
+  let delay = 0
+
+  console.log($md)
+  onMount(() => {})
 
   afterUpdate(() => {
     delay = 0
   })
 </script>
 
-{#if md}
+{#if $md}
   <section class="my-[12vw] mx-[4vw] text-[6vw] uppercase">
     <p class="leading-[1] w-[72vw]">
       <Reveal
@@ -46,7 +39,7 @@
       />
     </p>
   </section>
-{:else if !md}
+{:else}
   <section class="my-[12vw] mx-[4vw] text-[11vw] uppercase">
     <p class="leading-[1] w-[72vw]">
       <Reveal

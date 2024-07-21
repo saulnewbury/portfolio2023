@@ -10,7 +10,6 @@
   // Assets
   import Peace from '../lib/images/peace.svg'
   import Egg from '../lib/images/egg.png'
-  import { elasticIn } from 'svelte/easing'
 
   let oneWidth = 0,
     twoWidth = 0,
@@ -22,13 +21,13 @@
   let one, two, three, egg, peace
 
   onMount(() => {
-    const mm = gsap.matchMedia()
-    mm.add('(min-width: 769px)', () => {
-      md = true
-    })
-    mm.add('(max-width: 768px)', () => {
-      md = false
-    })
+    // const mm = gsap.matchMedia()
+    // mm.add('(min-width: 769px)', () => {
+    //   md = true
+    // })
+    // mm.add('(max-width: 768px)', () => {
+    //   md = false
+    // })
 
     oneWidth = one.getBoundingClientRect().width
     twoWidth = two.getBoundingClientRect().width

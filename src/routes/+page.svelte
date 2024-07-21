@@ -19,8 +19,8 @@
 
 <!-- Sections -->
 <Hero />
-<Mission />
-<Projects />
+<!-- <Mission /> -->
+<!-- <Projects /> -->
 
 <section>Contact</section>
 

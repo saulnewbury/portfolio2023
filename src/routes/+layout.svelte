@@ -26,15 +26,6 @@
     window.scrollTo(0, 0)
     initialiseThreeJSScene(canvas, overlayOne, overlayTwo)
 
-    // const q = gsap.utils.selector(nav)
-    setTimeout(() => {
-      // gsap.to(q('.brand'), {
-      //   opacity: 1,
-      //   duration: 1,
-      //   stagger: 0.1
-      // })
-    }, 3500)
-
     gsap.fromTo(
       overlayOne,
       {
