@@ -31,7 +31,7 @@
 
     if (container && !introDone) {
       bouncyLines = Array.from(document.querySelectorAll('.bouncy-line'))
-      gsap.set(container, { zIndex, top })
+      gsap.set(container, { zIndex: zIndex, top: top })
       const start = reverse
         ? `M ${width} ${mid}, Q ${width} 200, ${width} ${mid}`
         : `M000, ${mid} Q 0 200, 0, ${mid}`
@@ -41,16 +41,18 @@
 
       gsap.fromTo(
         line,
-        { attr: { d: start, strokeOpacity: 1, immediateRender: false } },
+        { attr: { d: start } },
         {
-          immediateRender: false,
           attr: { d: end },
           duration: 0.8,
           delay: delay,
-          strokeOpacity: 1,
-          onComplete: () => (introDone = true)
+          onStart: () => {
+            gsap.set(line, { strokeOpacity: 1 })
+          }
         }
       )
+
+      introDone = true
     }
 
     const diag = Math.sqrt(width ** 2 + height ** 2)
@@ -68,7 +70,6 @@
   })
 
   function animation(e) {
-    if (!introDone) return
     x = e.clientX
     y = e.clientY
 
