@@ -1,13 +1,21 @@
 import { gsap } from 'gsap'
 import { md } from './stores'
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
 
-const mm = gsap.matchMedia()
+let mm
 
-mm.add('(min: 769px)', () => {
-  console.log('large')
-  md.update(() => true)
-})
-mm.add('(max: 768px)', () => {
-  console.log('small')
-  md.update(() => false)
-})
+export function addQueries() {
+  if (!mm) {
+    mm = gsap.matchMedia()
+
+    mm.add('(min-width: 769px)', () => {
+      console.log('large')
+      md.update(() => true)
+      ScrollTrigger.refresh()
+    })
+    mm.add('(max-width: 768px)', () => {
+      console.log('small')
+      md.update(() => false)
+    })
+  }
+}

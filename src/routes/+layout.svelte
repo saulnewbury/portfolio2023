@@ -8,6 +8,7 @@
   import { ScrollSmoother } from 'gsap/dist/ScrollSmoother'
   import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin'
   import { GSDevTools } from 'gsap/dist/GSDevTools'
+  import '../lib/mediaQueries.js'
 
   // components
 

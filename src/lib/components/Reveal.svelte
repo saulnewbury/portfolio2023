@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte'
   import { gsap } from 'gsap'
+  import { md } from '../stores'
   import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
 
   export let html = '',
@@ -10,6 +11,12 @@
 
   // refs
   let reveal, container
+
+  $: {
+    if (md || !md) {
+      ScrollTrigger.refresh()
+    }
+  }
 
   onMount(() => {
     let d = 1
@@ -35,7 +42,8 @@
       ScrollTrigger.create({
         animation: text,
         trigger: container,
-        start: 'top 80%'
+        start: 'top 80%',
+        markers: true
       })
 
       ScrollTrigger.create({

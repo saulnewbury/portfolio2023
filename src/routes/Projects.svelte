@@ -60,8 +60,10 @@
 
   onMount(() => {
     // Width and height values for bouncy line
-    width = container.getBoundingClientRect().width
-    height = container.getBoundingClientRect().height
+    setTimeout(() => {
+      width = container.getBoundingClientRect().width
+      height = container.getBoundingClientRect().height
+    }, 200)
 
     // projects to follow mouse
     xTo = gsap.quickTo(projectsCard, 'left', {
@@ -219,7 +221,7 @@
             />
             <!-- svelte-ignore a11y-mouse-events-have-key-events -->
             <div
-              class="projectRow w-full flex justify-between relative z-20"
+              class="projectRow w-full flex justify-between relative z-20 flex-col md:flex-row"
               on:mouseover={handleMouseEnter}
               on:mouseleave={handleMouseLeave}
               data-mousein={false}

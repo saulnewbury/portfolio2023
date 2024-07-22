@@ -1,13 +1,20 @@
+<script context="module">
+  import { addQueries } from '../lib/mediaQueries.js'
+</script>
+
 <script>
-  import Reveal from '../lib/components/Reveal.svelte'
   import { afterUpdate, onMount } from 'svelte'
+  import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
+
+  import Reveal from '../lib/components/Reveal.svelte'
 
   import { md } from '../lib/stores.js'
 
   let delay = 0
 
-  console.log($md)
-  onMount(() => {})
+  onMount(() => {
+    addQueries()
+  })
 
   afterUpdate(() => {
     delay = 0
@@ -15,67 +22,71 @@
 </script>
 
 {#if $md}
-  <section class="my-[12vw] mx-[4vw] text-[6vw] uppercase">
-    <p class="leading-[1] w-[72vw]">
-      <Reveal
-        html={"<span class='inline-block mb-[10px]'>i'm interested in how great design and motion can</span>"}
-        rotation={4}
-        hasScrollTrigger={true}
-        {delay}
-      />
-      <!-- <span class="inline-block mb-[10px]">i'm interested in how great design and motion can</span> -->
-      <Reveal
-        html={"<span class='inline-block mb-[10px]'>work together to create experiences that are immersive,</span>"}
-        rotation={-4}
-        hasScrollTrigger={true}
-        {delay}
-      />
-      <!-- <span class="inline-block mb-[10px]">work together to create experiences that are fun,</span> -->
-      <Reveal
-        html={'<span class="inline-block mb-[1rem]">playful, and interactive.</span>'}
-        rotation={4}
-        hasScrollTrigger={true}
-        {delay}
-      />
-    </p>
-  </section>
+  {#key 'true'}
+    <section class="my-[12vw] mx-[4vw] text-[6vw] uppercase">
+      <p class="leading-[1] w-[72vw]">
+        <Reveal
+          html={"<span class='inline-block mb-[10px]'>i'm interested in how great design and motion can</span>"}
+          rotation={4}
+          hasScrollTrigger={true}
+          {delay}
+        />
+        <!-- <span class="inline-block mb-[10px]">i'm interested in how great design and motion can</span> -->
+        <Reveal
+          html={"<span class='inline-block mb-[10px]'>work together to create experiences that are immersive,</span>"}
+          rotation={-4}
+          hasScrollTrigger={true}
+          {delay}
+        />
+        <!-- <span class="inline-block mb-[10px]">work together to create experiences that are fun,</span> -->
+        <Reveal
+          html={'<span class="inline-block mb-[1rem]">playful, and interactive.</span>'}
+          rotation={4}
+          hasScrollTrigger={true}
+          {delay}
+        />
+      </p>
+    </section>
+  {/key}
 {:else}
-  <section class="my-[12vw] mx-[4vw] text-[11vw] uppercase">
-    <p class="leading-[1] w-[72vw]">
-      <Reveal
-        html={"<span class='inline-block mb-[10px]'>I'm interested in how great</span>"}
-        rotation={4}
-        hasScrollTrigger={true}
-        {delay}
-      />
-      <!-- <span class="inline-block mb-[10px]">i'm interested in how great design and motion can</span> -->
-      <Reveal
-        html={"<span class='inline-block mb-[10px]'>design and motion can work</span>"}
-        rotation={-4}
-        hasScrollTrigger={true}
-        {delay}
-      />
-      <!-- <span class="inline-block mb-[10px]">work together to create experiences that are fun,</span> -->
-      <Reveal
-        html={'<span class="inline-block mb-[1rem]">together to create experiences</span>'}
-        rotation={4}
-        hasScrollTrigger={true}
-        {delay}
-      />
-      <!-- <span class="inline-block mb-[10px]">work together to create experiences that are fun,</span> -->
-      <Reveal
-        html={'<span class="inline-block mb-[1rem]">that are immersive, playful</span>'}
-        rotation={4}
-        hasScrollTrigger={true}
-        {delay}
-      />
-      <!-- <span class="inline-block mb-[10px]">work together to create experiences that are fun,</span> -->
-      <Reveal
-        html={'<span class="inline-block mb-[1rem]">and interactive</span>'}
-        rotation={4}
-        hasScrollTrigger={true}
-        {delay}
-      />
-    </p>
-  </section>
+  {#key 'false'}
+    <section class="my-[12vw] mx-[4vw] text-[11vw] uppercase">
+      <p class="leading-[1] w-[72vw]">
+        <Reveal
+          html={"<span class='inline-block mb-[0.4rem]'>I'm interested in how great</span>"}
+          rotation={4}
+          hasScrollTrigger={true}
+          {delay}
+        />
+        <!-- <span class="inline-block mb-[10px]">i'm interested in how great design and motion can</span> -->
+        <Reveal
+          html={"<span class='inline-block mb-[0.4rem]'>design and motion can work</span>"}
+          rotation={-4}
+          hasScrollTrigger={true}
+          {delay}
+        />
+        <!-- <span class="inline-block mb-[10px]">work together to create experiences that are fun,</span> -->
+        <Reveal
+          html={'<span class="inline-block mb-[0.4rem]">together to create experiences</span>'}
+          rotation={4}
+          hasScrollTrigger={true}
+          {delay}
+        />
+        <!-- <span class="inline-block mb-[10px]">work together to create experiences that are fun,</span> -->
+        <Reveal
+          html={'<span class="inline-block mb-[0.4rem]">that are immersive, playful</span>'}
+          rotation={4}
+          hasScrollTrigger={true}
+          {delay}
+        />
+        <!-- <span class="inline-block mb-[10px]">work together to create experiences that are fun,</span> -->
+        <Reveal
+          html={'<span class="inline-block mb-[0.4rem]">and interactive</span>'}
+          rotation={4}
+          hasScrollTrigger={true}
+          {delay}
+        />
+      </p>
+    </section>
+  {/key}
 {/if}
