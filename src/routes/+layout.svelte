@@ -1,7 +1,7 @@
 <script>
   import './app.css'
   import { initialiseThreeJSScene } from '$lib/noise/noise.js'
-  import { onMount } from 'svelte'
+  import { onMount, afterUpdate } from 'svelte'
   import { gsap } from 'gsap'
   import { SplitText } from 'gsap/dist/SplitText'
   import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
@@ -39,6 +39,12 @@
       }
     )
     gsap.from(canvas, { opacity: 0, duration: 1, delay: 0.2 })
+  })
+
+  afterUpdate(() => {
+    setTimeout(() => {
+      ScrollTrigger.refresh()
+    }, 400)
   })
 </script>
 

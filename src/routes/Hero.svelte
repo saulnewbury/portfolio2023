@@ -71,7 +71,7 @@
         />
       </div>
     </div>
-    <div class="row w-[max-content] mb-[2.2vw] flex">
+    <div class="row mb-[2.2vw] flex justify-between w-full">
       <div bind:this={two}>
         <BouncyLine
           delay={3.2}
@@ -87,18 +87,18 @@
           <Reveal html={'folio of'} delay={3.2} rotation={-5} />
         {/if}
       </div>
-      <div class="self-center inline-block relative w-[15vw] h-full">
+      <!-- <div class="self-center inline-block relative w-[15vw] h-full">
         <img
           bind:this={peace}
           src={Peace}
           alt="peace sign"
           class="h-[14vw] w-[14vw] self-center absolute top-[-1vw] left-0 block scale-0"
         />
-      </div>
+      </div> -->
       <div class="flex h-full items-start relative">
-        <div class="absolute top-[-2vw] left-0">
+        <div class="absolute left-0">
           <Reveal
-            html={'<span class="inline-block text-[4vw] w-[8vw]"><span class="text-[red]">(</span> based in bristol <span class="text-[red]">)</span></span>'}
+            html={'<span class="inline-block text-[4vw]"><span class="text-[red]">(</span> based in bristol <span class="text-[red]">)</span></span>'}
             delay={3.3}
             rotation={-5}
           />
