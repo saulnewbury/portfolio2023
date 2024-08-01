@@ -30,14 +30,14 @@
       role: 'developer and designer',
       image: oakhanger,
       alt: 'lamp made to look like a golden sea urchin'
+    },
+    {
+      num: '04',
+      name: 'Barn Configurator',
+      role: 'developer and designer',
+      image: barnCongigurator,
+      alt: 'view of graphical barn door'
     }
-    // {
-    //   num: '04',
-    //   name: 'Barn Configurator',
-    //   role: 'developer and designer',
-    //   image: barnCongigurator,
-    //   alt: 'view of graphical barn door'
-    // }
   ]
 
   // array of bouncy lines. me at container, iterate through bouncy line children ,and see if me should be delivered by any of them. is it inside the bounding rect
@@ -50,12 +50,10 @@
     xTo,
     yTo,
     relPosition,
-    clipPathElement,
     throttleTimer,
     projectRows,
-    prev,
-    clipPaths,
-    clipPath
+    prev = null,
+    clipPaths
 
   // refs
   let container, projectsCard
@@ -103,7 +101,7 @@
     })
 
     window.addEventListener('scroll', () => {
-      throttle(revealProjectCards, 200)
+      throttle(revealProjectCards, 20)
     })
   })
 
@@ -119,11 +117,15 @@
   // scroll, tt false pass, tt set to true, tout created, after .4s run fn and set tt false.
 
   function revealProjectCards() {
+    let clipPathElement
     // Get project over which mouse lies
     const project = projectRows.find((el) => {
       const rect = el.getBoundingClientRect()
       return y > rect.top && y < rect.bottom
     })
+
+    // console.log(project, prev)
+    if (!project && !prev) return
 
     // Get corresponding clipPath
     if (project) {
@@ -132,44 +134,52 @@
       )
     }
 
-    console.log(clipPathElement, prev)
+    // if clipPathElement exists run enter animation on it (but not if it's the same as prevClipPathElement)
+    // assign clipPathElement the prevClipPathElement
+    // if prev clipPath element exists run exit anim
 
+    // If the clipPathElement and prev are the same do nothing
+    console.log(clipPathElement === prev)
     if (clipPathElement === prev) return (prev = clipPathElement)
+    // console.log('past the guard')
 
-    if (clipPathElement) {
-      console.log('enter anim')
-      gsap.to(clipPathElement, {
-        overwrite: true,
-        clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
-        duration: 0.3
-      })
-    }
-
-    if (prev && prev !== clipPathElement) {
-      console.log('prev - leave anim')
+    if (prev) {
+      console.log('exit anim', prev)
+      let temp = prev
+      // console.log('prev - leave anim')
       setTimeout(() => {
-        gsap.to(prev, {
+        gsap.to(temp, {
           clipPath: 'polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)',
           duration: 0.3,
           onComplete: () => {
-            gsap.set(prev, {
+            gsap.set(temp, {
               clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)'
             })
           }
         })
-      }, 100)
+      }, 99)
+      prev = null
     }
 
-    prev = clipPathElement
+    if (clipPathElement) {
+      console.log('enter anim', clipPathElement)
+      setTimeout(() => {
+        gsap.to(clipPathElement, {
+          overwrite: true,
+          clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+          duration: 0.3
+        })
+      }, 100)
+      prev = clipPathElement
+    }
+
+    // prev = clipPathElement
 
     // if project is the same as prevProject
   }
 
   function handleMouseEnter(e) {
     e.stopPropagation()
-
-    // Handle reveal
-    e.currentTarget.dataset.mousein = true
 
     const clipPath = clipPaths.find(
       (p) => p.dataset.project === e.currentTarget.dataset.project
@@ -182,8 +192,6 @@
   }
 
   function handleMouseLeave(e) {
-    e.currentTarget.dataset.mousein = false
-
     const clipPath = clipPaths.find(
       (p) => p.dataset.project === e.currentTarget.dataset.project
     )
@@ -208,10 +216,10 @@
   <div
     bind:this={projectsCard}
     use:portal={document.body}
-    class="fixed h-[20rem] w-[14rem] z-[900]"
+    class="fixed h-[20rem] w-[15rem] z-[900]"
   >
     {#each projects as project, i}
-      <div class="rounded-md w-full h-full absolute top-0 left-0">
+      <div class="rounded-md w-full h-full absolute top-0 left-0 rotate-3">
         <div
           class="flex overflow-hidden h-full w-full clip-paths"
           data-project={i}
