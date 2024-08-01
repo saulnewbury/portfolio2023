@@ -4,6 +4,7 @@
 
   // Components
   import BouncyLine from '../lib/components/BouncyLine.svelte'
+  import WigglyCircle from '../lib/components/WigglyCircle.svelte'
   import Reveal from '../lib/components/Reveal.svelte'
 
   import { loadingSequenceComplete } from '../lib/noise/noise.js'
@@ -91,6 +92,12 @@
         </div>
       </div>
     </div>
+  </div>
+  <!-- Wiggly Circle -->
+  <div
+    class="relative w-[15vw] h-full md:flex items-center mx-[auto] order-2 md:order-1 md:w-[15vw] py-[15vh]"
+  >
+    <WigglyCircle />
   </div>
 </section>
 

@@ -26,7 +26,7 @@
       gsap.fromTo(
         container,
         { scale: 0 },
-        { scale: 1.3, delay, duration: 1, ease: 'power1.out' }
+        { scale: 2.3, delay, duration: 1, ease: 'power1.out' }
       )
     })
     mm.add('(min-width: 769px)', () => {
