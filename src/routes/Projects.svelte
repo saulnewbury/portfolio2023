@@ -49,6 +49,8 @@
     y,
     xTo,
     yTo,
+    vXTo,
+    vYTo,
     relPosition,
     throttleTimer,
     projectRows,
@@ -56,7 +58,7 @@
     clipPaths
 
   // refs
-  let container, projectsCard
+  let container, projectsCard, view
 
   onMount(() => {
     // Width and height values for bouncy line
@@ -67,6 +69,8 @@
 
     clipPaths = Array.from(document.querySelectorAll('.clip-paths'))
     projectRows = Array.from(document.querySelectorAll('.projectRow'))
+
+    gsap.set(view, { opacity: 0 })
 
     clipPaths.forEach((cp) => {
       gsap.set(cp, {
@@ -84,6 +88,15 @@
       ease: 'power1.out'
     })
 
+    vXTo = gsap.quickTo(view, 'left', {
+      duration: 0.2,
+      ease: 'power1.out'
+    })
+    vYTo = gsap.quickTo(view, 'top', {
+      duration: 0.2,
+      ease: 'power1.out'
+    })
+
     relPosition = projectsCard.getBoundingClientRect().height / 2
 
     window.addEventListener('resize', () => {
@@ -98,6 +111,8 @@
 
       xTo(x + 40)
       yTo(y - relPosition)
+      vXTo(x - 25)
+      vYTo(y - 20)
     })
 
     window.addEventListener('scroll', () => {
@@ -124,8 +139,11 @@
       return y > rect.top && y < rect.bottom
     })
 
-    // console.log(project, prev)
-    if (!project && !prev) return
+    // do nothing and make sure view lable is hidden
+    if (!project && !prev) return gsap.to(view, { opacity: 0, duration: 0.3 })
+
+    // show view label
+    gsap.to(view, { opacity: 1, duration: 0.3 })
 
     // Get corresponding clipPath
     if (project) {
@@ -134,19 +152,13 @@
       )
     }
 
-    // if clipPathElement exists run enter animation on it (but not if it's the same as prevClipPathElement)
-    // assign clipPathElement the prevClipPathElement
-    // if prev clipPath element exists run exit anim
-
     // If the clipPathElement and prev are the same do nothing
     console.log(clipPathElement === prev)
     if (clipPathElement === prev) return (prev = clipPathElement)
     // console.log('past the guard')
 
     if (prev) {
-      console.log('exit anim', prev)
       let temp = prev
-      // console.log('prev - leave anim')
       setTimeout(() => {
         gsap.to(temp, {
           clipPath: 'polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)',
@@ -162,7 +174,6 @@
     }
 
     if (clipPathElement) {
-      console.log('enter anim', clipPathElement)
       setTimeout(() => {
         gsap.to(clipPathElement, {
           overwrite: true,
@@ -172,14 +183,13 @@
       }, 100)
       prev = clipPathElement
     }
-
-    // prev = clipPathElement
-
-    // if project is the same as prevProject
   }
 
-  function handleMouseEnter(e) {
+  function handleMouseOver(e) {
     e.stopPropagation()
+
+    e.currentTarget.dataset.mousein = true
+    gsap.to(view, { opacity: 1 })
 
     const clipPath = clipPaths.find(
       (p) => p.dataset.project === e.currentTarget.dataset.project
@@ -192,6 +202,14 @@
   }
 
   function handleMouseLeave(e) {
+    // if mouse isn't in any of the rows hide 'view' label
+    e.currentTarget.dataset.mousein = false
+    const isInside = projectRows.some((p) => {
+      if (p !== e.currentTarget) return p.dataset.mousein === 'true'
+    })
+    if (!isInside) gsap.to(view, { opacity: 0 })
+
+    // animate clip path to hide images
     const clipPath = clipPaths.find(
       (p) => p.dataset.project === e.currentTarget.dataset.project
     )
@@ -216,10 +234,10 @@
   <div
     bind:this={projectsCard}
     use:portal={document.body}
-    class="fixed h-[20rem] w-[15rem] z-[900]"
+    class="fixed h-[20rem] w-[15rem] z-[900] pointer-events-none"
   >
     {#each projects as project, i}
-      <div class="rounded-md w-full h-full absolute top-0 left-0 rotate-3">
+      <div class="rounded-md w-full h-full absolute top-0 left-0 rotate-6">
         <div
           class="flex overflow-hidden h-full w-full clip-paths"
           data-project={i}
@@ -240,6 +258,14 @@
         <span class="text-[2vw] text-red">•</span>
         <span>Projects</span>
       </div>
+      <div
+        class="fixed font-body bg-white rounded-full px-[0.8rem] pointer-events-none"
+        bind:this={view}
+        use:portal={document.body}
+      >
+        view
+      </div>
+      <!-- svelte-ignore a11y-mouse-events-have-key-events -->
       <div class="h-[max-content]">
         {#each projects as p, i}
           <div
@@ -255,7 +281,7 @@
             <!-- svelte-ignore a11y-mouse-events-have-key-events -->
             <div
               class="projectRow w-full flex justify-between relative z-20 flex-col md:flex-row"
-              on:mouseover={handleMouseEnter}
+              on:mouseover={handleMouseOver}
               on:mouseleave={handleMouseLeave}
               data-project={i}
               data-mousein={false}
