@@ -42,7 +42,7 @@
 
 <section class="hero min-h-full">
   <div
-    class="heading text-[24.8vw] md:text-[12.8vw] leading-[1] uppercase mt-[20px] md:mx-[4vw]"
+    class="heading text-[24.8vw] md:text-[12.8vw] leading-[1] uppercase mt-[20px] px-[6vw]"
   >
     <div
       bind:this={one}

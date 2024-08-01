@@ -53,16 +53,21 @@
 <div class="overlay one" bind:this={overlayOne} />
 <div class="overlay two" bind:this={overlayTwo} />
 
-<a class="brand uppercase text-[2.3rem] fixed left-[3vw] top-[25px]" href="/"
-  >Saul Newbury</a
+<!-- Logo -->
+<a
+  class="brand uppercase text-[2.3rem] fixed left-[6vw] md:left-[3vw] top-[25px]"
+  href="/">Saul Newbury</a
 >
 
-<div class="h-[1.4rem] w-[3rem] mt-[10px] fixed right-[3vw] top-[25px]">
+<!-- Hamburger menu -->
+<div
+  class="h-[1.4rem] w-[3rem] mt-[10px] fixed right-[6vw] md:right-[3vw] top-[25px]"
+>
   <div class="absolute bg-black w-[3rem] h-[.35rem] rounded-sm"></div>
   <div class="absolute bg-black w-[3rem] h-[.35rem] bottom-0 rounded-sm"></div>
 </div>
 
-<div class="content-container"></div>
+<!-- Content -->
 <div id="smooth-wrapper">
   <div id="smooth-content">
     <div class="content">

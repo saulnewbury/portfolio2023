@@ -201,7 +201,7 @@
     </div>
   </div>
 
-  <div class="w-full h-[100vh] px-[8vw] flex items-center">
+  <div class="w-full h-[100vh] px-[6vw] md:px-[3vw] flex items-center">
     <div class="w-full">
       <div class="font-body text-base mb-[3vw] flex-co">
         <span class="text-[2vw] text-red">•</span>
@@ -227,11 +227,12 @@
               data-mousein={false}
             >
               <div class="flex h-[max-content] w-[max-content]">
-                <span class="num text-base mr-[3vw] self-center font-body"
+                <span class="text-base mr-[3vw] self-center font-body"
                   >({p.num})</span
                 ><span>{p.name}</span>
               </div>
-              <span class="role normal-case font-body text-base self-center"
+              <span
+                class="normal-case font-body text-base self-center hidden md:inline"
                 >{p.role}</span
               >
             </div>

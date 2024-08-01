@@ -22,7 +22,7 @@
 
 {#if $md}
   {#key 'true'}
-    <section class="my-[12vw] mx-[4vw] text-[6vw] uppercase">
+    <section class="my-[12vw] md:px-[3vw] px-[6vw] text-[6vw] uppercase">
       <p class="leading-[1] w-[72vw]">
         <Reveal
           html={"<span class='inline-block mb-[10px]'>i'm interested in how great design and motion can</span>"}

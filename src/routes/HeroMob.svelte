@@ -43,7 +43,7 @@
   })
 </script>
 
-<section class="hero min-h-full px-[3vw]">
+<section class="hero min-h-full px-[6vw]">
   <div class="heading text-[19.8vw] leading-[1] uppercase mt-[40px]">
     <!-- Hello World -->
     <div
@@ -77,29 +77,7 @@
         />
         <Reveal html={'folio of saul newbury'} delay={3.2} rotation={-5} />
       </div>
-      <!-- <div class="flex h-full items-start relative">
-        <div class="absolute left-0">
-          <Reveal
-            html={'<span class="inline-block text-[4vw]"><span class="text-[red]">(</span> based in bristol <span class="text-[red]">)</span></span>'}
-            delay={3.3}
-            rotation={-5}
-          />
-        </div>
-      </div> -->
     </div>
-    <!-- Saul Newbury -->
-    <!-- <div class="row mb-[5.2vw] flex justify-between w-full">
-      <div bind:this={three}>
-        <BouncyLine
-          delay={3.2}
-          reverse="true"
-          width={threeWidth}
-          height={container}
-          {top}
-        />
-        <Reveal html={'saul newbury'} delay={3.2} rotation={-5} />
-      </div>
-    </div> -->
     <!-- Frontend developer-->
     <div class="row flex justify-between justif-self-[unset]">
       <div bind:this={three} class="order-1">
