@@ -140,10 +140,10 @@
     })
 
     // do nothing and make sure view lable is hidden
-    if (!project && !prev) return gsap.to(view, { opacity: 0, duration: 0.3 })
+    if (!project && !prev) return gsap.to(view, { opacity: 0, duration: 0.2 })
 
     // show view label
-    gsap.to(view, { opacity: 1, duration: 0.3 })
+    gsap.to(view, { opacity: 1, duration: 0.2 })
 
     // Get corresponding clipPath
     if (project) {
@@ -189,7 +189,7 @@
     e.stopPropagation()
 
     e.currentTarget.dataset.mousein = true
-    gsap.to(view, { opacity: 1 })
+    gsap.to(view, { opacity: 1, duration: 0.2 })
 
     const clipPath = clipPaths.find(
       (p) => p.dataset.project === e.currentTarget.dataset.project
@@ -199,6 +199,9 @@
       clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
       duration: 0.3
     })
+
+    // hover effect
+    gsap.to(e.currentTarget, { color: 'red' })
   }
 
   function handleMouseLeave(e) {
@@ -207,7 +210,7 @@
     const isInside = projectRows.some((p) => {
       if (p !== e.currentTarget) return p.dataset.mousein === 'true'
     })
-    if (!isInside) gsap.to(view, { opacity: 0 })
+    if (!isInside) gsap.to(view, { opacity: 0, duration: 0.2 })
 
     // animate clip path to hide images
     const clipPath = clipPaths.find(
@@ -226,6 +229,9 @@
         }
       })
     }, 100)
+
+    // hover effect
+    gsap.to(e.currentTarget, { color: 'black' })
   }
 </script>
 
@@ -234,7 +240,7 @@
   <div
     bind:this={projectsCard}
     use:portal={document.body}
-    class="fixed h-[20rem] w-[15rem] z-[900] pointer-events-none"
+    class="fixed h-[23rem] w-[17rem] z-[900] pointer-events-none"
   >
     {#each projects as project, i}
       <div class="rounded-md w-full h-full absolute top-0 left-0 rotate-6">
