@@ -30,14 +30,14 @@
       role: 'developer and designer',
       image: oakhanger,
       alt: 'lamp made to look like a golden sea urchin'
+    },
+    {
+      num: '04',
+      name: 'Barn Configurator',
+      role: 'developer and designer',
+      image: barnCongigurator,
+      alt: 'view of graphical barn door'
     }
-    // {
-    //   num: '04',
-    //   name: 'Barn Configurator',
-    //   role: 'developer and designer',
-    //   image: barnCongigurator,
-    //   alt: 'view of graphical barn door'
-    // }
   ]
 
   // array of bouncy lines. me at container, iterate through bouncy line children ,and see if me should be delivered by any of them. is it inside the bounding rect
@@ -52,10 +52,8 @@
     relPosition,
     clipPathElement,
     throttleTimer,
-    projectRows,
-    prev,
-    clipPaths,
-    clipPath
+    elements,
+    prevMouseInside
 
   // refs
   let container, projectsCard
@@ -66,15 +64,6 @@
       width = container.getBoundingClientRect().width
       height = container.getBoundingClientRect().height
     }, 200)
-
-    clipPaths = Array.from(document.querySelectorAll('.clip-paths'))
-    projectRows = Array.from(document.querySelectorAll('.projectRow'))
-
-    clipPaths.forEach((cp) => {
-      gsap.set(cp, {
-        clipPath: 'polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)'
-      })
-    })
 
     // projects to follow mouse
     xTo = gsap.quickTo(projectsCard, 'left', {
@@ -102,9 +91,15 @@
       yTo(y - relPosition)
     })
 
+    gsap.set(clipPathElement, {
+      clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)'
+    })
+
     window.addEventListener('scroll', () => {
       throttle(revealProjectCards, 200)
     })
+
+    elements = Array.from(document.querySelectorAll('.projectRow'))
   })
 
   function throttle(callback, time) {
@@ -119,50 +114,33 @@
   // scroll, tt false pass, tt set to true, tout created, after .4s run fn and set tt false.
 
   function revealProjectCards() {
-    // Get project over which mouse lies
-    const project = projectRows.find((el) => {
+    const mouseInside = elements.some((el) => {
       const rect = el.getBoundingClientRect()
       return y > rect.top && y < rect.bottom
     })
 
-    // Get corresponding clipPath
-    if (project) {
-      clipPathElement = clipPaths.find(
-        (cp) => cp.dataset.project === project.dataset.project
-      )
-    }
+    // if mouseInside is the same as prevMouseInside
+    if (mouseInside === prevMouseInside) return (prevMouseInside = mouseInside)
 
-    console.log(clipPathElement, prev)
-
-    if (clipPathElement === prev) return (prev = clipPathElement)
-
-    if (clipPathElement) {
-      console.log('enter anim')
+    if (mouseInside) {
+      // position projects cards
       gsap.to(clipPathElement, {
         overwrite: true,
         clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
         duration: 0.3
       })
+      prevMouseInside = mouseInside
+    } else {
+      gsap.to(clipPathElement, {
+        clipPath: 'polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)',
+        duration: 0.3,
+        onComplete: () => {
+          gsap.set(clipPathElement, {
+            clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)'
+          })
+        }
+      })
     }
-
-    if (prev && prev !== clipPathElement) {
-      console.log('prev - leave anim')
-      setTimeout(() => {
-        gsap.to(prev, {
-          clipPath: 'polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)',
-          duration: 0.3,
-          onComplete: () => {
-            gsap.set(prev, {
-              clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)'
-            })
-          }
-        })
-      }, 100)
-    }
-
-    prev = clipPathElement
-
-    // if project is the same as prevProject
   }
 
   function handleMouseEnter(e) {
@@ -170,35 +148,42 @@
 
     // Handle reveal
     e.currentTarget.dataset.mousein = true
-
-    const clipPath = clipPaths.find(
-      (p) => p.dataset.project === e.currentTarget.dataset.project
-    )
-
-    gsap.to(clipPath, {
+    const elements = Array.from(document.querySelectorAll('.projectRow'))
+    const val = elements.some((ele) => {
+      ele.dataset.mousein == 'true'
+    })
+    prevMouseInside = val
+    if (val) return
+    gsap.to(clipPathElement, {
       clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
       duration: 0.3
     })
+
+    // Select card
+    // reorder stack
+
+    // if prev card move left out of view and set to start right of cards viewbox
+    // current move into view.
   }
 
   function handleMouseLeave(e) {
     e.currentTarget.dataset.mousein = false
-
-    const clipPath = clipPaths.find(
-      (p) => p.dataset.project === e.currentTarget.dataset.project
-    )
-
     setTimeout(() => {
-      gsap.to(clipPath, {
-        clipPath: 'polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)',
-        duration: 0.3,
-        onComplete: () => {
-          // resets on complete
-          gsap.set(clipPath, {
-            clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)'
-          })
-        }
-      })
+      const elements = Array.from(document.querySelectorAll('.projectRow'))
+      const val = elements.some((ele) => ele.dataset.mousein == 'true')
+      prevMouseInside = val
+      if (!val) {
+        gsap.to(clipPathElement, {
+          clipPath: 'polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)',
+          duration: 0.3,
+          onComplete: () => {
+            // resets on complete
+            gsap.set(clipPathElement, {
+              clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)'
+            })
+          }
+        })
+      }
     }, 100)
   }
 </script>
@@ -210,20 +195,17 @@
     use:portal={document.body}
     class="fixed h-[20rem] w-[14rem] z-[900]"
   >
-    {#each projects as project, i}
-      <div class="rounded-md w-full h-full absolute top-0 left-0">
-        <div
-          class="flex overflow-hidden h-full w-full clip-paths"
-          data-project={i}
-        >
+    <div bind:this={clipPathElement} class="flex overflow-hidden h-full w-full">
+      {#each projects as project}
+        <div class="rounded-md">
           <img
-            class="projectCardImage absolute top-0 left-0 rounded-md object-cover w-full h-full"
+            class="projectCardImage absolute top-0 left-0 rounded-md"
             src={project.image}
             alt={project.alt}
           />
         </div>
-      </div>
-    {/each}
+      {/each}
+    </div>
   </div>
 
   <div class="w-full h-[100vh] px-[6vw] md:px-[3vw] flex items-center">
@@ -249,7 +231,6 @@
               class="projectRow w-full flex justify-between relative z-20 flex-col md:flex-row"
               on:mouseover={handleMouseEnter}
               on:mouseleave={handleMouseLeave}
-              data-project={i}
               data-mousein={false}
             >
               <div class="flex h-[max-content] w-[max-content]">
