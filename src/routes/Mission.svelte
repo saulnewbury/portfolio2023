@@ -4,7 +4,6 @@
 
 <script>
   import { afterUpdate, onMount } from 'svelte'
-  import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
 
   import Reveal from '../lib/components/Reveal.svelte'
 

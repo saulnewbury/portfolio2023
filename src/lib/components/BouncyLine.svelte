@@ -2,6 +2,8 @@
   import { gsap } from 'gsap'
   import { onMount } from 'svelte'
 
+  import { loadingSequenceComplete } from '../noise/noise.js'
+
   // props
   export let delay = 0,
     reverse = false,
@@ -10,13 +12,11 @@
     zIndex = 900,
     top = '-7.2vw'
 
-  let mouseInside,
-    dim,
+  let dim,
     x = 0,
     y = null,
     mid,
     sw,
-    bouncyLines,
     current,
     prev,
     introDone = false
@@ -24,13 +24,13 @@
   // refs
   let line, container
 
-  // account for egg intro anim
-
   $: if (width && height && typeof height === 'number') {
+    if (loadingSequenceComplete) {
+      delay = 0.5
+    }
     mid = height / 2
 
     if (container && !introDone) {
-      bouncyLines = Array.from(document.querySelectorAll('.bouncy-line'))
       gsap.set(container, { zIndex, top })
       const start = reverse
         ? `M ${width} ${mid}, Q ${width} 200, ${width} ${mid}`

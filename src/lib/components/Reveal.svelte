@@ -4,8 +4,10 @@
   import { md } from '../stores'
   import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
 
+  import { loadingSequenceComplete } from '../noise/noise.js'
+
   export let html = '',
-    delay = 2,
+    delay,
     rotation = 0,
     hasScrollTrigger = false
 
@@ -19,6 +21,10 @@
   }
 
   onMount(() => {
+    if (loadingSequenceComplete) {
+      delay = delay - 2.5
+    }
+
     let d = 1
     gsap.set(reveal, { yPercent: 100, opacity: 1 })
     gsap.set(container, { rotate: rotation })
@@ -42,8 +48,8 @@
       ScrollTrigger.create({
         animation: text,
         trigger: container,
-        start: 'top 80%',
-        markers: true
+        start: 'top 80%'
+        // markers: true
       })
 
       ScrollTrigger.create({
