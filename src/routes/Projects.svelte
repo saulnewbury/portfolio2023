@@ -63,8 +63,9 @@
   onMount(() => {
     // Width and height values for bouncy line
     setTimeout(() => {
-      width = container.getBoundingClientRect().width
-      height = container.getBoundingClientRect().height
+      const rect = container.getBoundingClientRect()
+      width = rect.width
+      height = rect.height
     }, 200)
 
     clipPaths = Array.from(document.querySelectorAll('.clip-paths'))
@@ -101,8 +102,9 @@
 
     window.addEventListener('resize', () => {
       relPosition = projectsCard.getBoundingClientRect().height / 2
-      width = container.getBoundingClientRect().width
-      height = container.getBoundingClientRect().height
+      const rect = container.getBoundingClientRect()
+      width = rect.width
+      height = rect.height
     })
 
     window.addEventListener('mousemove', (e) => {

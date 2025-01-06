@@ -46,6 +46,10 @@
       ScrollTrigger.refresh()
     }, 400)
   })
+
+  function handleClick() {
+    console.log('clicked')
+  }
 </script>
 
 <canvas class="webgl" bind:this={canvas} />
@@ -61,10 +65,19 @@
 
 <!-- Hamburger menu -->
 <div
-  class="h-[1.4rem] w-[3rem] mt-[10px] fixed right-[6vw] md:right-[3vw] top-[25px]"
+  on:click={handleClick}
+  class="h-[1.4rem] w-[3rem] mt-[10px] fixed right-[6vw] md:right-[3vw] top-[25px] z-[999] cursor-pointer"
 >
-  <div class="absolute bg-black w-[3rem] h-[.35rem] rounded-sm"></div>
-  <div class="absolute bg-black w-[3rem] h-[.35rem] bottom-0 rounded-sm"></div>
+  <!-- parallel -->
+  <!-- <div class="absolute bg-black w-[3rem] h-[.35rem] rounded-sm"></div>
+  <div class="absolute bg-black w-[3rem] h-[.35rem] bottom-0 rounded-sm"></div> -->
+  <!-- Cross -->
+  <div
+    class="absolute bg-black w-[3rem] h-[.35rem] bottom-[0.52rem] rounded-sm rotate-45"
+  ></div>
+  <div
+    class="absolute bg-black w-[3rem] h-[.35rem] bottom-[0.52rem] rounded-sm -rotate-45"
+  ></div>
 </div>
 
 <!-- Content -->
