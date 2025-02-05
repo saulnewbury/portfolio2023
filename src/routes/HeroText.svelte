@@ -59,10 +59,10 @@
     // Animate characters
     function splitTheText() {
       mainText = isMobile
-        ? q('.mobile h1')
+        ? q('.mobile .line')
         : isTablet
-          ? q('.tablet h1')
-          : q('.desktop h1')
+          ? q('.tablet .line')
+          : q('.desktop .line')
       splitText = new SplitText(mainText, {
         type: 'lines, chars'
       })
@@ -102,7 +102,14 @@
         return tl
       }
 
-      master.add(textReveal(), '<50%')
+      function rolesReveal() {
+        const tl = gsap.timeline()
+
+        tl.from(q('.details'), { opacity: 0, duration: 1 })
+        return tl
+      }
+
+      master.add(textReveal(), '<50%').add(rolesReveal(), '<80%')
 
       if (eggBuilt) {
         console.log('egg built')
@@ -110,60 +117,79 @@
       } else {
         setTimeout(() => {
           master.play()
-        }, 3600) // 3000
+        }, 3200) // 3000
       }
-
-      ScrollTrigger.create({
-        start: 1,
-        end: '90%',
-        scrub: true,
-        markers: true,
-        onUpdate: (self) => {
-          console.log(self)
-          if (self.direction === 1 && self.progress > 0.1) {
-            master.timeScale(1.8).reverse()
-          } else if (self.direction === -1 && self.progress < 0.4) {
-            console.log(
-              'backwards' + ' ' + self.direction + ' ' + self.progress
-            )
-            master.timeScale(1).play()
-          }
-        }
-      })
     }
   })
 </script>
 
 <div bind:this={container} class="container">
   <div class={'text desktop ' + (isDesktop ? 'show' : '')}>
-    <h1>I'm Saul Newbury, a Creative Developer, interested in how</h1>
-    <h1>great design, asthetics and motion can work together to create</h1>
-    <h1>experiences that are fun, playful and memorable.</h1>
+    <div class="line">Fluidity is the catalyst of creative endeavour, with</div>
+    <div class="line">
+      each conversation and adjustment embodying resilience,
+    </div>
+    <div class="line">
+      collaboration, and a steadfast focus on user experience.
+    </div>
+    <div class="details">
+      <p>Saul Newbury</p>
+      &nbsp;&nbsp;•&nbsp;&nbsp;
+      <p>Designer / Developer</p>
+      &nbsp;&nbsp; • &nbsp;&nbsp;
+      <a class="cv" href="/cv-saulnewbury-2025.pdf" target="_blank" donwload
+        >C.V.</a
+      ><br />
+    </div>
+    <!-- <p>* Designer / Developer</p> -->
   </div>
   <div class={'text tablet ' + (isTablet ? 'show' : '')}>
-    <h1>Hello world! I'm Saul, a Creative Developer,</h1>
-    <h1>interested in how great design, asthetics and</h1>
-    <h1>motion can work together to create experiences</h1>
-    <h1>that are fun, playful and memorable.</h1>
+    <div class="line">Fluidity is the catalyst for creative endeavour,</div>
+    <div class="line">with each dialogue and adjustment embodying</div>
+    <div class="line">resilience, collaboration, and a steadfast</div>
+    <div class="line">focus on user experience.</div>
+    <div class="details">
+      <p>Saul Newbury</p>
+      &nbsp;&nbsp;•&nbsp;&nbsp;
+      <p>Designer / Developer</p>
+      &nbsp;&nbsp; • &nbsp;&nbsp;
+      <a class="cv" href="/cv-saulnewbury-2025.pdf" target="_blank" donwload
+        >C.V.</a
+      ><br />
+    </div>
   </div>
   <div class={'text mobile ' + (isMobile ? 'show' : '')}>
-    <h1>Hello world! I'm Saul,</h1>
-    <h1>a Creative Developer, interested</h1>
-    <h1>in how great design, asthetics</h1>
-    <h1>and motion can work together</h1>
-    <h1>to create experiences that are</h1>
-    <h1>fun, playful and memorable.</h1>
+    <div class="line">Fluidity is the catalyst</div>
+    <div class="line">of creative endeavour, with</div>
+    <div class="line">each conversation and adjustment,</div>
+    <div class="line">embodying resilience, collaboration,</div>
+    <div class="line">and unwavering focus on</div>
+    <div class="line">user experience.</div>
+    <div class="details">
+      <p>Saul Newbury</p>
+      &nbsp;&nbsp;•&nbsp;&nbsp;
+      <p>Designer / Developer</p>
+      &nbsp;&nbsp; • &nbsp;&nbsp;
+      <a class="cv" href="/cv-saulnewbury-2025.pdf" target="_blank" donwload
+        >C.V.</a
+      ><br />
+    </div>
   </div>
 </div>
 
 <style>
   .container {
-    padding-left: var(--gutter);
+    --base: 10;
+    /* padding-left: var(--gutter); */
     height: 100vh;
     width: 100vw;
     display: flex;
+    padding-top: 100px;
     align-items: center;
+    justify-content: center;
     position: fixed;
+    flex-direction: column;
+    /* text-align: center; */
     /* mix-blend-mode: color-burn; */
   }
 
@@ -179,23 +205,34 @@
     visibility: visible;
   }
 
-  .container :global(h1) {
+  .container :global(.text > .line) {
     opacity: 0;
     overflow: hidden;
-    font-size: clamp(1.8rem, 3.1vw, 3rem);
-    margin-bottom: 0.02em;
+    font-size: clamp(1.8rem, 3.1vw, 2.5rem);
     max-width: 32em;
-    line-height: 1.12em;
+    line-height: 1.2em;
+  }
+
+  .cv {
+    text-decoration: underline;
+  }
+
+  .container :global(.details) {
+    /* font-weight: bold; */
+    /* justify-content: center; */
+    display: flex;
+    margin-top: 35px;
+    line-height: 1.5;
+    align-self: flex-start;
   }
   @media screen and (max-width: 1055px) {
-    .container :global(h1) {
+    .container :global(.text > .line) {
       font-size: clamp(1.8rem, 3.7vw, 2.2rem);
     }
   }
 
   @media screen and (max-width: 768px) {
-    .container :global(h1) {
-      /* font-size: 7vw; */
+    .container :global(.text > .line) {
       font-size: clamp(1.8rem, 6vw, 2.2rem);
     }
   }

@@ -71,7 +71,7 @@
         start: 'top 80%',
         end: 'top top',
         scrub: 0.5,
-        markers: true,
+        // markers: true,
         onEnter: () => {
           gsap.to(window, {
             duration: 0.8,

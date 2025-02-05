@@ -275,8 +275,8 @@ export function heroToHead(section) {
       eggHead = self.progress === 1 ? true : false
       if (self.progress === 1) gsap.to(eggMesh.position, { y: 0.092 })
     },
-    scrub: 5,
-    markers: true
+    scrub: 5
+    // markers: true
   })
 
   tlTransition

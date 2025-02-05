@@ -53,12 +53,22 @@
 </script>
 
 <nav bind:this={nav}>
-  <a class="brand-name" href="/">Saul Newbury</a>
+  <a class="brand-name" href="/"></a>
+  <!-- <a class="brand-name" href="mailto:hello@saulnewbury.com">Get in touch &gt;</a
+  > -->
 
   <div class="right">
-    <a href="/projects">Projects</a>
+    <!-- <a href="/cv-saulnewbury-2025.pdf" target="_blank" donwload>C.V.</a><br /> -->
+    <a href="mailto:hello@saulnewbury.com">Contact</a>
   </div>
 </nav>
+
+<!-- <div class="bottom">
+  <p>Saul Newbury</p>
+  <p>Designer / Developer</p>
+  <a href="/cv-saulnewbury.2025.pdf">Download C.V.</a><br />
+  <a href="mailto:hello@saulnewbury.com">Get in touch &gt;</a>
+</div> -->
 
 <canvas class="webgl" bind:this={canvas} />
 
@@ -68,16 +78,18 @@
 <!-- <div class="overlay color" bind:this={overlayColor}></div> -->
 
 <HeroText />
+
 <!-- <div class="title">Bloomingdale</div> -->
 
-<div class="content-container"></div>
-<div id="smooth-wrapper">
+<!-- <div class="content-container"></div> -->
+
+<!-- <div id="smooth-wrapper">
   <div id="smooth-content">
     <div class="content">
       <slot />
     </div>
   </div>
-</div>
+</div> -->
 
 <style>
   /* nav */
@@ -102,6 +114,7 @@
 
   .right a:not(:last-child) {
     margin-right: 0.5rem;
+    text-align: right;
   }
 
   .webgl {
@@ -109,6 +122,16 @@
     top: 0;
     left: 0;
     outline: none;
+  }
+
+  div.bottom {
+    /* font-size: 3em; */
+    /* font-size: clamp(1.2rem, 3.1vw, 2rem); */
+    line-height: 1.6;
+    position: absolute;
+    bottom: 3.5rem;
+    right: var(--gutter);
+    z-index: 100;
   }
 
   .content {
