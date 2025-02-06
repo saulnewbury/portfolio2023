@@ -2,9 +2,7 @@
   import { onMount } from 'svelte'
   import { gsap } from 'gsap'
   import { SplitText } from 'gsap/dist/SplitText'
-  import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
   import { eggBuilt } from '$lib/noise/noise.js'
-  import { tweened } from 'svelte/motion'
 
   // refs
   let container
@@ -187,8 +185,9 @@
     padding-top: 100px;
     align-items: center;
     justify-content: center;
-    position: fixed;
+    position: relative;
     flex-direction: column;
+    margin: auto;
     /* text-align: center; */
     /* mix-blend-mode: color-burn; */
   }

@@ -1,5 +1,6 @@
 <script>
   import './global.css'
+
   import { initialiseThreeJSScene } from '$lib/noise/noise.js'
   import { onMount } from 'svelte'
   import { gsap } from 'gsap'
@@ -11,7 +12,6 @@
 
   // components
   import HeroText from './HeroText.svelte'
-  import scrollSmoother from '$lib/smoother.js'
 
   gsap.registerPlugin(
     SplitText,
