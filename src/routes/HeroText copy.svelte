@@ -124,7 +124,7 @@
     <div
       class="line opacity-0 overflow-hidden text-[clamp(1.8rem,3.1vw,2.5rem)] max-w-[32em] leading-[1.2em]"
     >
-      Fluidity is the catalyst for creative endeavours, with
+      Fluidity is the catalyst of creative endeavour, with
     </div>
     <div
       class="line opacity-0 overflow-hidden text-[clamp(1.8rem,3.1vw,2.5rem)] max-w-[32em] leading-[1.2em]"
@@ -134,12 +134,12 @@
     <div
       class="line opacity-0 overflow-hidden text-[clamp(1.8rem,3.1vw,2.5rem)] max-w-[32em] leading-[1.2em]"
     >
-      collaboration, and an unwavering focus on user experience.
+      collaboration, and a steadfast focus on user experience.
     </div>
     <div class="details flex mt-8 self-start">
-      <p>Designer & Developer</p>
+      <p>Saul Newbury</p>
       <span class="mx-2">•</span>
-      <p>Bristol UK</p>
+      <p>Designer / Developer</p>
       <span class="mx-2">•</span>
       <a
         class="underline"

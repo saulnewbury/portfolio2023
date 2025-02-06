@@ -53,7 +53,7 @@
 </script>
 
 <nav bind:this={nav}>
-  <a class="brand-name" href="/"></a>
+  <a class="brand-name" href="/">Saul Newbury</a>
   <!-- <a class="brand-name" href="mailto:hello@saulnewbury.com">Get in touch &gt;</a
   > -->
 
