@@ -139,7 +139,7 @@
     <div class="details flex mt-8 self-start">
       <p>Designer & Developer</p>
       <span class="mx-2">•</span>
-      <p>Bristol UK</p>
+      <p>Bristol (UK) Based</p>
       <span class="mx-2">•</span>
       <a
         class="underline"
@@ -172,9 +172,9 @@
       focus on user experience.
     </div>
     <div class="details flex mt-8 self-start">
-      <p>Saul Newbury</p>
+      <p>Designer & Developer</p>
       <span class="mx-2">•</span>
-      <p>Designer / Developer</p>
+      <p>Bristol (UK) Based</p>
       <span class="mx-2">•</span>
       <a
         class="underline"
@@ -217,9 +217,9 @@
       user experience.
     </div>
     <div class="details flex mt-8 self-start">
-      <p>Saul Newbury</p>
+      <p>Designer & Developer</p>
       <span class="mx-2">•</span>
-      <p>Designer / Developer</p>
+      <p>Bristol (UK) Based</p>
       <span class="mx-2">•</span>
       <a
         class="underline"
