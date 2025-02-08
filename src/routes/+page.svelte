@@ -3,7 +3,8 @@
   import { gsap } from 'gsap'
   import { ScrollSmoother } from 'gsap/dist/ScrollSmoother'
   import Balance from '../lib/components/Balance.svelte'
-  import Projects from '../lib/components/Projects.svelte'
+  // import Projects from '../lib/components/Projects.svelte'
+  import Projects from './Projects.svelte'
   import SpinTransition from '../lib/components/SpinTransition.svelte'
 
   gsap.registerPlugin(ScrollSmoother)
