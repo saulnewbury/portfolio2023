@@ -1,13 +1,28 @@
 <script>
   import { onMount } from 'svelte'
   import BouncyLine from '../lib/components/BouncyLine.svelte'
-  import { portal } from 'svelte-portal'
   import { gsap } from 'gsap'
 
   import veronica from '../lib/images/projects/veronica-iii.webp'
   import bloomingdale from '../lib/images/projects/bloomingdale.webp'
   import oakhanger from '../lib/images/projects/urchin1.webp'
   import barnCongigurator from '../lib/images/projects/barn-configurator.png'
+
+  export const csr = true // CSR = Client Side Rendering
+
+  function portal(element, target = document.body) {
+    if (!target) return
+
+    target.appendChild(element)
+
+    return {
+      destroy() {
+        if (element.parentNode) {
+          element.parentNode.removeChild(element)
+        }
+      }
+    }
+  }
 
   const projects = [
     {
@@ -266,6 +281,7 @@
         <span class="text-[2vw] text-red">•</span>
         <span>Projects</span>
       </div>
+
       <div
         class="fixed font-body bg-white rounded-full px-[0.8rem] pointer-events-none"
         bind:this={view}
@@ -273,6 +289,7 @@
       >
         view
       </div>
+
       <!-- svelte-ignore a11y-mouse-events-have-key-events -->
       <div class="h-[max-content]">
         {#each projects as p, i}
