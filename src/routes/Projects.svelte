@@ -5,7 +5,8 @@
 
   import veronica from '../lib/images/projects/veronica-iii.webp'
   import bloomingdale from '../lib/images/projects/bloomingdale.webp'
-  import oakhanger from '../lib/images/projects/urchin1.webp'
+  import oakhanger from '../lib/images/projects/blue-urchin.webp'
+  import dorsetInframeCabinetry from '../lib/images/projects/bathroom.webp'
   // import barnCongigurator from '../lib/images/projects/barn-configurator.png'
 
   export const csr = true // CSR = Client Side Rendering
@@ -27,27 +28,34 @@
   const projects = [
     {
       num: '01',
+      name: 'Dorset Inframe Cabinetry',
+      roles: ['development', 'design', 'management'],
+      image: dorsetInframeCabinetry,
+      alt: 'bathroom showcasing inframe cabinetry'
+    },
+    {
+      num: '02',
+      name: 'Oakhanger Metalworks',
+      roles: ['development', 'design', 'management'],
+      image: oakhanger,
+      alt: 'lamp made to look like a golden sea urchin'
+    },
+    {
+      num: '03',
       name: 'BIS',
-      role: 'developer',
+      roles: ['development', 'management'],
       image: bloomingdale,
       alt: 'student doing art'
     },
     {
-      num: '02',
+      num: '04',
       name: 'Jenni Cadman',
-      role: 'developer and designer',
+      roles: ['development', 'design', 'management'],
       image: veronica,
       alt: 'Embroidery artwork'
-    },
-    {
-      num: '03',
-      name: 'Oakhanger Metalworks',
-      role: 'developer and designer',
-      image: oakhanger,
-      alt: 'lamp made to look like a golden sea urchin'
     }
     // {
-    //   num: '04',
+    //   num: '05',
     //   name: 'Barn Configurator',
     //   role: 'developer and designer',
     //   image: barnCongigurator,
@@ -58,9 +66,7 @@
   // array of bouncy lines. me at container, iterate through bouncy line children ,and see if me should be delivered by any of them. is it inside the bounding rect
   // me at parent, which c needs a copy of me, becaase they're all e targets, you can call dispatch e method on those es and pass the same me into them
 
-  let width,
-    height,
-    x,
+  let x,
     y,
     xTo,
     yTo,
@@ -128,8 +134,8 @@
 
       xTo(x + 40)
       yTo(y - relPosition)
-      vXTo(x - 25)
-      vYTo(y - 20)
+      vXTo(x - 36)
+      vYTo(y - 50)
     })
 
     window.addEventListener('scroll', () => {
@@ -218,9 +224,20 @@
     })
   }
 
+  function handleMouseEnter(e) {
+    const expBg = e.currentTarget.querySelectorAll('.expandingBg')
+    gsap.fromTo(
+      expBg,
+      { transform: 'scaleX(0%)' },
+      { transform: 'scaleX(100%)' }
+    )
+  }
+
   function handleMouseLeave(e) {
     // if mouse isn't in any of the rows hide 'view' label
     e.currentTarget.dataset.mousein = false
+    const expBg = e.currentTarget.querySelectorAll('.expandingBg')
+    gsap.to(expBg, { scaleX: 0 })
     const isInside = projectRows.some((p) => {
       if (p !== e.currentTarget) return p.dataset.mousein === 'true'
     })
@@ -254,7 +271,9 @@
     class="fixed h-[23rem] w-[17rem] z-[900] pointer-events-none"
   >
     {#each projects as project, i}
-      <div class="rounded-md w-full h-full absolute top-0 left-0 rotate-6">
+      <div
+        class="rounded-md w-full h-full absolute top-0 left-0 rotate-6 opacity-[0.9]"
+      >
         <div
           class="flex overflow-hidden h-full w-full clip-paths"
           data-project={i}
@@ -272,59 +291,57 @@
   <div class="w-full h-[100vh] px-[10vw] flex items-center">
     <div class="w-full">
       <div class="font-body text-base mb-[3vw] flex-co">
-        <span class="text-[2vw] text-red">•</span>
-        <span class="uppercase">Projects</span>
+        <span class="text-[1.5vw] text-[red]">•</span>&nbsp;
+        <span class="">Projects</span>
       </div>
 
       <div
-        class="fixed font-body bg-white rounded-full px-[0.8rem] pointer-events-none"
+        class="fixed font-body border-[black] border-dotted rounded-full h-[5em] w-[5em] px-[0.8rem] py-[0.3rem] pointer-events-none flex items-center justify-center mix-blend-multiply"
         bind:this={view}
         use:portal={document.body}
       >
-        view
+        <span> view </span>
       </div>
 
       <!-- svelte-ignore a11y-mouse-events-have-key-events -->
-      <div class="h-[max-content]">
+      <div class="h-[max-content] cursor-none">
         {#each projects as p, i}
           <div
             bind:this={container}
             class="relative project flex justify-between self-center"
           >
-            <!-- <BouncyLine
-              {width}
-              height={height * 1.7}
-              zIndex={10 - i}
-              top="-3.7rem"
-            /> -->
             <!-- svelte-ignore a11y-mouse-events-have-key-events -->
             <div
-              class={`projectRow w-full flex justify-between relative z-20 flex-col md:flex-row p-4 border-t-[0.5px] border-solid border-black hover:text-[red] ${projects.length - 1 === i ? 'border-b-[0.5px]' : ''}`}
+              class={`projectRow w-full flex items-center justify-between relative z-20 flex-col md:flex-col p-4 border-t-[1px] border-dotted border-black  ${projects.length - 1 === i ? 'border-b-[1px]' : ''}`}
               on:mouseover={handleMouseOver}
               on:mouseleave={handleMouseLeave}
+              on:mouseenter={handleMouseEnter}
               data-project={i}
               data-mousein={false}
             >
               <div
-                class="flex h-[max-content] w-[max-content] text-[clamp(1.8rem,2.73vw,2.8rem)]"
+                class="expandingBg absolute h-full w-full z-0 bottom-[0] left-0 scale-x-[0%] px-4 bg-[#ff07070c] origin-left"
+              ></div>
+              <div
+                class="relative z-3 self-start flex h-[max-content] w-[max-content] text-[clamp(1.8rem,2.1vw,2.8rem)] mb-3 mix-blend-difference"
               >
-                <span class="text-base mr-[3vw] self-center font-body"
-                  >({p.num})</span
-                ><span>{p.name}</span>
+                <span class="mr-[15vw] font-body w-[1.3em] text-base"
+                  >{p.num}</span
+                >
+                <span>{p.name}</span>
               </div>
-              <span
-                class="normal-case font-body text-base self-center hidden md:inline"
-                >{p.role}</span
+              <div
+                class="relative z-3 flex self-start ml-[calc(0.2em+15vw)] pb-1 mix-blend-exclusion"
               >
+                {#each p.roles as r}
+                  <span
+                    data-role
+                    class="normal-case align-middle font-body text-sm self-center inline-block border-solid border-[black] border-[1px] text-[inherit] rounded-full px-4 pt-[0.2em] pb-[0.24em] mr-2"
+                    >{r}</span
+                  >
+                {/each}
+              </div>
             </div>
-            <!-- {#if i + 1 === projects.length}
-              <BouncyLine
-                {width}
-                height={height * 1.7}
-                zIndex={10 - projects.length}
-                top="0.6rem"
-              />
-            {/if} -->
           </div>
         {/each}
       </div>

@@ -154,7 +154,7 @@
       <span class="mx-2">•</span>
 
       <p class="time text-[#000000]">
-        Bristol &nbsp;<Time />
+        Bristol &nbsp;(<span class="text-[red]"><Time /></span>)
       </p>
       <span class="mx-2">•</span>
       <a
