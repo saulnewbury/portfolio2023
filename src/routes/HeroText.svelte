@@ -148,8 +148,6 @@
       collaboration, and an unwavering focus on user experience.
     </div>
     <div class="relative details flex mt-8 self-start items-center">
-      <!-- <p>Saul Newbury</p>
-      <span class="mx-2">•</span> -->
       <p>Designer & Developer</p>
       <span class="mx-2">•</span>
       <p>Bristol (UK)</p>
@@ -161,13 +159,6 @@
         download>C V</a
       >
     </div>
-    <!-- <button
-      class="absolute px-6 py-3 rounded-full border-solid border-black mt-10 hover:bg-black hover:mix-blend-hard-light *:hover:text-red-300"
-    >
-      <a class="h-full w-full" href="mailto:hello@saulnewbury.com"
-        >Get in Touch</a
-      >
-    </button> -->
   </div>
 
   <div

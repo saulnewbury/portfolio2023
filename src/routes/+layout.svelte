@@ -65,16 +65,9 @@
 <div class="overlay one" bind:this={overlayOne} />
 <div class="overlay two" bind:this={overlayTwo} />
 
-<HeroText />
-
-<!-- <div class="title">Bloomingdale</div> -->
-<!-- <div class="content-container"></div> -->
-
 <div id="smooth-wrapper">
   <div id="smooth-content">
-    <div class="content">
-      <slot />
-    </div>
+    <slot />
   </div>
 </div>
 
@@ -91,8 +84,6 @@
 
   a.brand-name {
     opacity: 0;
-    /* font-size: 1.2rem;
-    font-weight: 600; */
   }
 
   .right a {
@@ -109,24 +100,6 @@
     top: 0;
     left: 0;
     outline: none;
-  }
-
-  div.bottom {
-    /* font-size: 3em; */
-    /* font-size: clamp(1.2rem, 3.1vw, 2rem); */
-    line-height: 1.6;
-    position: absolute;
-    bottom: 3.5rem;
-    right: var(--gutter);
-    z-index: 100;
-  }
-
-  .content {
-    /* pointer-events: none; */
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 0 var(--gutter);
   }
 
   .overlay {
@@ -148,36 +121,12 @@
     background-color: rgba(0, 0, 0, 0.6);
     mix-blend-mode: overlay;
   }
-  .title {
-    font-size: 20vw;
-    font-size: 12vw;
-    position: fixed;
-    /* top: 10vh; */
-    bottom: 10vh;
-    left: var(--gutter);
-    z-index: 909;
-    mix-blend-mode: color-burn;
-    color: black;
-    line-height: 0.8;
-  }
-
-  .overlay.color {
-    position: fixed;
-    height: 100vh;
-    background-color: rgb(72, 71, 71);
-    opacity: 0.8;
-    mix-blend-mode: difference;
-  }
 
   #smooth-wrapper {
     position: relative;
   }
 
   @media screen and (max-width: 768px) {
-    .content {
-      padding: 0 var(--gutter-mob);
-    }
-
     nav {
       padding: 2rem var(--gutter-mob) 0;
     }

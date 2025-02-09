@@ -247,7 +247,7 @@
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<section class="text-[5.6rem] p-0">
+<section class="text-[5.6rem] px-[var(--gutter)]">
   <div
     bind:this={projectsCard}
     use:portal={document.body}
