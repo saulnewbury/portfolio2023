@@ -150,13 +150,11 @@
     <div class="relative details flex mt-8 self-start items-center">
       <p>Designer & Developer</p>
       <span class="mx-2">•</span>
-      <p>Bristol (UK)</p>
-      <span class="mx-2">•</span>
       <a
-        class="underline"
+        class="underline hover:text-[red]"
         href="/cv-saulnewbury-2025.pdf"
-        target="_blank"
-        download>C V</a
+        donwload
+        target="_blank">C V</a
       >
     </div>
   </div>
@@ -186,16 +184,10 @@
       focus on user experience.
     </div>
     <div class="details flex mt-8 self-start">
-      <p>Designer & Developer</p>
+      <p>Designer (2014) & Developer (2021)</p>
       <span class="mx-2">•</span>
       <p>Bristol (UK)</p>
       <span class="mx-2">•</span>
-      <a
-        class="underline"
-        href="/cv-saulnewbury-2025.pdf"
-        target="_blank"
-        download>C V</a
-      >
     </div>
   </div>
 
