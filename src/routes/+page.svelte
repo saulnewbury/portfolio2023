@@ -5,6 +5,8 @@
   import HeroText from './HeroText.svelte'
   import Projects from './Projects.svelte'
 
+  import SpinTransition from '$lib/components/SpinTransition'
+
   gsap.registerPlugin(ScrollSmoother)
 
   onMount(() => {

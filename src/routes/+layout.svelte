@@ -10,11 +10,6 @@
   import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin'
   import { GSDevTools } from 'gsap/dist/GSDevTools'
 
-  import Time from './Time.svelte'
-
-  // components
-  import HeroText from './HeroText.svelte'
-
   gsap.registerPlugin(
     SplitText,
     ScrollTrigger,
