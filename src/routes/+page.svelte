@@ -23,8 +23,8 @@
 <section class="hero"></section>
 
 <!-- <Balance /> -->
-<SpinTransition />
-<Projects />
+<!-- <SpinTransition />
+<Projects /> -->
 
 <style>
   section {

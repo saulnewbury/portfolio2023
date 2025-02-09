@@ -10,6 +10,8 @@
   import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin'
   import { GSDevTools } from 'gsap/dist/GSDevTools'
 
+  import Time from './Time.svelte'
+
   // components
   import HeroText from './HeroText.svelte'
 
@@ -30,7 +32,7 @@
 
     const q = gsap.utils.selector(nav)
     setTimeout(() => {
-      gsap.to(q('.brand-name, .right a'), {
+      gsap.to('.brand-name, .right a, .time', {
         opacity: 1,
         duration: 1,
         stagger: 0.1
@@ -53,22 +55,35 @@
 </script>
 
 <nav bind:this={nav}>
-  <a class="brand-name" href="/">Saul Newbury</a>
-  <!-- <a class="brand-name" href="mailto:hello@saulnewbury.com">Get in touch &gt;</a
-  > -->
+  <a
+    class="brand-name border-b-[1px] border-black border-solid flex items-center hover:text-[red] hover:border-[red]"
+    style={{ color: 'red' }}
+    href="mailto:hello@saulnewbury.com"
+  >
+    <span class="mr-1">
+      <svg
+        width={`${23 * 0.6}`}
+        height={`${21 * 0.6}`}
+        viewBox={`0 0 ${23} ${21}`}
+        fill="current"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M22.2071 13.7071C22.5976 13.3166 22.5976 12.6834 22.2071 12.2929L15.8431 5.92893C15.4526 5.53841 14.8195 5.53841 14.4289 5.92893C14.0384 6.31946 14.0384 6.95262 14.4289 7.34315L20.0858 13L14.4289 18.6569C14.0384 19.0474 14.0384 19.6805 14.4289 20.0711C14.8195 20.4616 15.4526 20.4616 15.8431 20.0711L22.2071 13.7071ZM0.5 0.5V9H2.5V0.5H0.5ZM5.5 14H21.5V12H5.5V14ZM0.5 9C0.5 11.7614 2.73858 14 5.5 14V12C3.84315 12 2.5 10.6569 2.5 9H0.5Z"
+          fill="currentColor"
+        />
+      </svg>
+    </span>
+    <span>Get in touch</span></a
+  >
 
   <div class="right">
-    <!-- <a href="/cv-saulnewbury-2025.pdf" target="_blank" donwload>C.V.</a><br /> -->
-    <a href="mailto:hello@saulnewbury.com">Contact</a>
+    <a href="/">Contact</a>
   </div>
 </nav>
-
-<!-- <div class="bottom">
-  <p>Saul Newbury</p>
-  <p>Designer / Developer</p>
-  <a href="/cv-saulnewbury.2025.pdf">Download C.V.</a><br />
-  <a href="mailto:hello@saulnewbury.com">Get in touch &gt;</a>
-</div> -->
+<div class="bottom">
+  <p class="time text-[#000000]"><Time /></p>
+</div>
 
 <canvas class="webgl" bind:this={canvas} />
 
@@ -108,7 +123,8 @@
     font-weight: 600; */
   }
 
-  .right a {
+  .right a,
+  .time {
     opacity: 0;
   }
 
