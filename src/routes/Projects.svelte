@@ -1,6 +1,5 @@
 <script>
   import { onMount } from 'svelte'
-  import BouncyLine from '../lib/components/BouncyLine.svelte'
   import { gsap } from 'gsap'
 
   import veronica from '../lib/images/projects/veronica-iii.webp'
@@ -66,7 +65,9 @@
   // array of bouncy lines. me at container, iterate through bouncy line children ,and see if me should be delivered by any of them. is it inside the bounding rect
   // me at parent, which c needs a copy of me, becaase they're all e targets, you can call dispatch e method on those es and pass the same me into them
 
-  let x,
+  let width,
+    height,
+    x,
     y,
     xTo,
     yTo,
@@ -135,7 +136,7 @@
       xTo(x + 40)
       yTo(y - relPosition)
       vXTo(x - 36)
-      vYTo(y - 50)
+      vYTo(y - 40)
     })
 
     window.addEventListener('scroll', () => {
@@ -159,7 +160,7 @@
     // Get project over which mouse lies
     const project = projectRows.find((el) => {
       const rect = el.getBoundingClientRect()
-      return y > rect.top && y < rect.bottom
+      return y > rect.top && y < rect.bottom && x > rect.left && x < rect.right
     })
 
     // do nothing and make sure view lable is hidden
@@ -208,7 +209,8 @@
     }
   }
 
-  function handleMouseOver(e) {
+  function handleMouseEnter(e) {
+    console.log('over my friend')
     e.stopPropagation()
 
     e.currentTarget.dataset.mousein = true
@@ -218,13 +220,15 @@
       (p) => p.dataset.project === e.currentTarget.dataset.project
     )
 
-    gsap.to(clipPath, {
-      clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
-      duration: 0.3
-    })
-  }
+    gsap.fromTo(
+      clipPath,
+      { clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)' },
+      {
+        clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+        duration: 0.3
+      }
+    )
 
-  function handleMouseEnter(e) {
     const expBg = e.currentTarget.querySelectorAll('.expandingBg')
     gsap.fromTo(
       expBg,
@@ -238,6 +242,7 @@
     e.currentTarget.dataset.mousein = false
     const expBg = e.currentTarget.querySelectorAll('.expandingBg')
     gsap.to(expBg, { scaleX: 0 })
+
     const isInside = projectRows.some((p) => {
       if (p !== e.currentTarget) return p.dataset.mousein === 'true'
     })
@@ -272,7 +277,7 @@
   >
     {#each projects as project, i}
       <div
-        class="rounded-md w-full h-full absolute top-0 left-0 rotate-6 opacity-[0.9]"
+        class="rounded-md w-full h-full absolute top-0 left-0 rotate-6 opacity-[1]"
       >
         <div
           class="flex overflow-hidden h-full w-full clip-paths"
@@ -292,7 +297,7 @@
     <div class="w-full">
       <div class="font-body text-base mb-[3vw] flex-co">
         <span class="text-[1.5vw] text-[red]">•</span>&nbsp;
-        <span class="">Projects</span>
+        <span>Projects</span>
       </div>
 
       <div
@@ -313,7 +318,6 @@
             <!-- svelte-ignore a11y-mouse-events-have-key-events -->
             <div
               class={`projectRow w-full flex items-center justify-between relative z-20 flex-col md:flex-col p-4 border-t-[1px] border-dotted border-black  ${projects.length - 1 === i ? 'border-b-[1px]' : ''}`}
-              on:mouseover={handleMouseOver}
               on:mouseleave={handleMouseLeave}
               on:mouseenter={handleMouseEnter}
               data-project={i}

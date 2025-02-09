@@ -9,7 +9,7 @@
 
   let section
 
-  let eggMesh, sphereMesh, sizes
+  let eggMesh, sphereMesh, sizes, xToEgg, rToEgg
 
   gsap.registerPlugin(ScrollToPlugin, CustomEase)
 
@@ -46,7 +46,7 @@
 
     function transitionSetup() {
       let tlTransition = gsap.timeline({
-        defaults: { duration: 0.8, ease: 'power4.Out' }
+        defaults: { duration: 5, ease: 'power2.inOut' }
       })
 
       ScrollTrigger.create({
