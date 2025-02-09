@@ -69,21 +69,21 @@
       ScrollTrigger.create({
         animation: tlTransition,
         trigger: section,
-        start: 'top 80%',
+        start: 'top 100%',
         end: 'top top',
         scrub: 0.5,
         // markers: true,
         onEnter: () => {
           gsap.to(window, {
             duration: 0.8,
-            scrollTo: section
+            ease: 'power1.inOut'
           })
         },
         onEnterBack: () => {
           transitionComplete = false
           gsap.to(window, {
             duration: 0.7,
-            scrollTo: 0
+            ease: 'power1.inOut'
           })
         },
         onUpdate: (self) => {
@@ -96,15 +96,15 @@
             gsap.to(sphereMesh.rotation, {
               y: 0,
               duration: 3,
-              ease: 'power2.out'
+              ease: 'power2.inOut'
             })
           }
           if (self.progress > 0.5 && !done) {
             done = true
             gsap.to(sphereMesh.rotation, {
-              y: Math.PI * 4,
-              duration: 3,
-              ease: 'power2.out'
+              y: -(Math.PI * 0.2),
+              duration: 10,
+              ease: 'power2.inOut'
             })
           }
         }
@@ -114,10 +114,10 @@
         // .to(eggMesh.scale, { x: 0.2, duration: 2.5 }, '<')
         // .to(eggMesh.scale, { y: 0.2, duration: 2.5 }, '<')
         // .to(eggMesh.scale, { z: 0.2, duration: 2.5 }, '<')
-        .to(eggMesh.scale, { x: 0.1, duration: 2.5 }, '<')
-        .to(eggMesh.scale, { y: 0.1, duration: 2.5 }, '<')
-        .to(eggMesh.scale, { z: 0.1, duration: 2.5 }, '<')
-        .to(eggMesh.position, { y: 0.4, duration: 2.5 }, '<')
+        .to(eggMesh.scale, { x: 1.5, duration: 2.5 }, '<')
+        .to(eggMesh.scale, { y: 1.5, duration: 2.5 }, '<')
+        .to(eggMesh.scale, { z: 1.5, duration: 2.5 }, '<')
+        .to(eggMesh.position, { x: 0.6, duration: 2.5 }, '<')
     }
 
     /**

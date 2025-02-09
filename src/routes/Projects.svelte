@@ -6,7 +6,7 @@
   import veronica from '../lib/images/projects/veronica-iii.webp'
   import bloomingdale from '../lib/images/projects/bloomingdale.webp'
   import oakhanger from '../lib/images/projects/urchin1.webp'
-  import barnCongigurator from '../lib/images/projects/barn-configurator.png'
+  // import barnCongigurator from '../lib/images/projects/barn-configurator.png'
 
   export const csr = true // CSR = Client Side Rendering
 
@@ -45,14 +45,14 @@
       role: 'developer and designer',
       image: oakhanger,
       alt: 'lamp made to look like a golden sea urchin'
-    },
-    {
-      num: '04',
-      name: 'Barn Configurator',
-      role: 'developer and designer',
-      image: barnCongigurator,
-      alt: 'view of graphical barn door'
     }
+    // {
+    //   num: '04',
+    //   name: 'Barn Configurator',
+    //   role: 'developer and designer',
+    //   image: barnCongigurator,
+    //   alt: 'view of graphical barn door'
+    // }
   ]
 
   // array of bouncy lines. me at container, iterate through bouncy line children ,and see if me should be delivered by any of them. is it inside the bounding rect
@@ -216,9 +216,6 @@
       clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
       duration: 0.3
     })
-
-    // hover effect
-    gsap.to(e.currentTarget, { color: 'red' })
   }
 
   function handleMouseLeave(e) {
@@ -246,14 +243,11 @@
         }
       })
     }, 100)
-
-    // hover effect
-    gsap.to(e.currentTarget, { color: 'black' })
   }
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<section class="uppercase text-[3.6rem] p-0">
+<section class="text-[5.6rem] p-0">
   <div
     bind:this={projectsCard}
     use:portal={document.body}
@@ -275,11 +269,11 @@
     {/each}
   </div>
 
-  <div class="w-full h-[100vh] px-[6vw] md:px-[3vw] flex items-center">
+  <div class="w-full h-[100vh] px-[10vw] flex items-center">
     <div class="w-full">
       <div class="font-body text-base mb-[3vw] flex-co">
         <span class="text-[2vw] text-red">•</span>
-        <span>Projects</span>
+        <span class="uppercase">Projects</span>
       </div>
 
       <div
@@ -297,21 +291,23 @@
             bind:this={container}
             class="relative project flex justify-between self-center"
           >
-            <BouncyLine
+            <!-- <BouncyLine
               {width}
               height={height * 1.7}
               zIndex={10 - i}
-              top="-4.5rem"
-            />
+              top="-3.7rem"
+            /> -->
             <!-- svelte-ignore a11y-mouse-events-have-key-events -->
             <div
-              class="projectRow w-full flex justify-between relative z-20 flex-col md:flex-row"
+              class={`projectRow w-full flex justify-between relative z-20 flex-col md:flex-row p-4 border-t-[0.5px] border-solid border-black hover:text-[red] ${projects.length - 1 === i ? 'border-b-[0.5px]' : ''}`}
               on:mouseover={handleMouseOver}
               on:mouseleave={handleMouseLeave}
               data-project={i}
               data-mousein={false}
             >
-              <div class="flex h-[max-content] w-[max-content]">
+              <div
+                class="flex h-[max-content] w-[max-content] text-[clamp(1.8rem,2.73vw,2.8rem)]"
+              >
                 <span class="text-base mr-[3vw] self-center font-body"
                   >({p.num})</span
                 ><span>{p.name}</span>
@@ -321,14 +317,14 @@
                 >{p.role}</span
               >
             </div>
-            {#if i + 1 === projects.length}
+            <!-- {#if i + 1 === projects.length}
               <BouncyLine
                 {width}
                 height={height * 1.7}
                 zIndex={10 - projects.length}
-                top="0.8rem"
+                top="0.6rem"
               />
-            {/if}
+            {/if} -->
           </div>
         {/each}
       </div>

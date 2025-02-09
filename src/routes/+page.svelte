@@ -24,7 +24,7 @@
 <section class="hero"></section>
 
 <!-- <Balance /> -->
-<SpinTransition />
+<!-- <SpinTransition /> -->
 <Projects />
 
 <style>

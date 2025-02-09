@@ -126,21 +126,24 @@
 
 <div
   bind:this={container}
-  class="h-screen w-screen flex items-center justify-center relative flex-col m-auto pt-24"
+  class="h-screen w-screen flex justify-center relative flex-col pt-24 px-[var(--gutter)]"
 >
-  <div class={'text desktop ' + (isDesktop ? 'visible' : 'invisible absolute')}>
+  <div
+    class={'text desktop  pl-[10vw] ' +
+      (isDesktop ? 'visible' : 'invisible absolute')}
+  >
     <div
-      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,3.1vw,2.5rem)] max-w-[32em] leading-[1.2em]"
+      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,2.73vw,2.8rem)] max-w-[32em] leading-[1.2em]"
     >
       Fluidity is the catalyst for creative endeavour, with
     </div>
     <div
-      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,3.1vw,2.5rem)] max-w-[32em] leading-[1.2em]"
+      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,2.73vw,2.8rem)] max-w-[32em] leading-[1.2em]"
     >
       each conversation and adjustment embodying resilience,
     </div>
     <div
-      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,3.1vw,2.5rem)] max-w-[32em] leading-[1.2em]"
+      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,2.73vw,2.8rem)] max-w-[32em] leading-[1.2em]"
     >
       collaboration, and an unwavering focus on user experience.
     </div>
@@ -167,7 +170,10 @@
     </button> -->
   </div>
 
-  <div class={'text tablet ' + (isTablet ? 'visible' : 'invisible absolute')}>
+  <div
+    class={'text tablet pl-[8vw] ' +
+      (isTablet ? 'visible' : 'invisible absolute')}
+  >
     <div
       class="line opacity-0 overflow-hidden text-[clamp(1.8rem,3.7vw,2.2rem)] max-w-[32em] leading-[1.2em]"
     >
@@ -202,39 +208,42 @@
     </div>
   </div>
 
-  <div class={'text mobile ' + (isMobile ? 'visible' : 'invisible absolute')}>
+  <div
+    class={'text mobile pl-[8vw] ' +
+      (isMobile ? 'visible' : 'invisible absolute')}
+  >
     <div
-      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,6vw,2.2rem)] max-w-[32em] leading-[1.2em]"
+      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,5vw,2.2rem)] max-w-[32em] leading-[1.2em]"
     >
       Fluidity is the catalyst
     </div>
     <div
-      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,6vw,2.2rem)] max-w-[32em] leading-[1.2em]"
+      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,5vw,2.2rem)] max-w-[32em] leading-[1.2em]"
     >
       of creative endeavour
     </div>
     <div
-      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,6vw,2.2rem)] max-w-[32em] leading-[1.2em]"
+      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,5vw,2.2rem)] max-w-[32em] leading-[1.2em]"
     >
       with each conversation,
     </div>
     <div
-      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,6vw,2.2rem)] max-w-[32em] leading-[1.2em]"
+      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,5vw,2.2rem)] max-w-[32em] leading-[1.2em]"
     >
       and adjustment embodying
     </div>
     <div
-      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,6vw,2.2rem)] max-w-[32em] leading-[1.2em]"
+      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,5vw,2.2rem)] max-w-[32em] leading-[1.2em]"
     >
       resilience, collaboration,
     </div>
     <div
-      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,6vw,2.2rem)] max-w-[32em] leading-[1.2em]"
+      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,5vw,2.2rem)] max-w-[32em] leading-[1.2em]"
     >
       and an unwavering focus on
     </div>
     <div
-      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,6vw,2.2rem)] max-w-[32em] leading-[1.2em]"
+      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,5vw,2.2rem)] max-w-[32em] leading-[1.2em]"
     >
       user experience.
     </div>
