@@ -4,6 +4,8 @@
   import { SplitText } from 'gsap/dist/SplitText'
   import { eggBuilt } from '$lib/noise/noise.js'
 
+  import Time from './Time.svelte'
+
   // refs
   let container
 
@@ -150,6 +152,11 @@
     <div class="relative details flex mt-8 self-start items-center">
       <p>Designer & Developer</p>
       <span class="mx-2">•</span>
+
+      <p class="time text-[#000000]">
+        Bristol &nbsp;<Time />
+      </p>
+      <span class="mx-2">•</span>
       <a
         class="underline hover:text-[red]"
         href="/cv-saulnewbury-2025.pdf"
@@ -183,11 +190,15 @@
     >
       focus on user experience.
     </div>
-    <div class="details flex mt-8 self-start">
-      <p>Designer (2014) & Developer (2021)</p>
+    <div class="relative details flex mt-8 self-start items-center">
+      <p>Designer & Developer</p>
       <span class="mx-2">•</span>
-      <p>Bristol (UK)</p>
-      <span class="mx-2">•</span>
+      <a
+        class="underline hover:text-[red]"
+        href="/cv-saulnewbury-2025.pdf"
+        donwload
+        target="_blank">C V</a
+      >
     </div>
   </div>
 
