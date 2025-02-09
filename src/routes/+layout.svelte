@@ -81,9 +81,9 @@
     <a href="/">Contact</a>
   </div>
 </nav>
-<div class="bottom">
+<!-- <div class="bottom">
   <p class="time text-[#000000]"><Time /></p>
-</div>
+</div> -->
 
 <canvas class="webgl" bind:this={canvas} />
 
