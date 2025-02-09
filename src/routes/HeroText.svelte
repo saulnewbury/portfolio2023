@@ -180,10 +180,16 @@
       focus on user experience.
     </div>
     <div class="details flex mt-8 self-start">
-      <p>Designer (2014) & Developer (2021)</p>
+      <p>Designer & Developer</p>
       <span class="mx-2">•</span>
       <p>Bristol (UK)</p>
       <span class="mx-2">•</span>
+      <a
+        class="underline"
+        href="/cv-saulnewbury-2025.pdf"
+        target="_blank"
+        download>C V</a
+      >
     </div>
   </div>
 

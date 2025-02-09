@@ -78,7 +78,7 @@
   >
 
   <div class="right">
-    <a href="/">Contact</a>
+    <a href="/">Saul Newbury</a>
   </div>
 </nav>
 <!-- <div class="bottom">
