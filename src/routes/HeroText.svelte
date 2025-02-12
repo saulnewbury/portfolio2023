@@ -145,8 +145,8 @@
       collaboration, and an unwavering focus on user experience.
     </div>
     <div class="relative details flex mt-8 self-start">
-      <p>Saul Newbury</p>
-      <span class="mx-2">•</span>
+      <!-- <p>Saul Newbury</p>
+      <span class="mx-2">•</span> -->
       <p>Designer & Developer</p>
       <span class="mx-2">•</span>
       <a
