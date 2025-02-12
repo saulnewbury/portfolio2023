@@ -5,7 +5,7 @@
   import HeroText from './HeroText.svelte'
   import Projects from './Projects.svelte'
 
-  import Transition from '$lib/components/Transition.svelte'
+  import EggTransition from '$lib/components/EggTransition.svelte'
 
   // import Experiment from './Experiment.svelte'
 
@@ -21,7 +21,7 @@
 </script>
 
 <HeroText />
-<Transition />
+<EggTransition />
 <Projects />
 <!-- <Experiment /> -->
 

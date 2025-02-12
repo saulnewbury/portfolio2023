@@ -316,7 +316,8 @@
             class="relative project flex justify-between self-center"
           >
             <!-- svelte-ignore a11y-mouse-events-have-key-events -->
-            <div
+            <a
+              href={`/projects/${p.num}`}
               class={`projectRow w-full flex items-center justify-between relative z-20 flex-col md:flex-col p-4 border-t-[1px] border-dotted border-black  ${projects.length - 1 === i ? 'border-b-[1px]' : ''}`}
               on:mouseleave={handleMouseLeave}
               on:mouseenter={handleMouseEnter}
@@ -345,7 +346,7 @@
                   >
                 {/each}
               </div>
-            </div>
+            </a>
           </div>
         {/each}
       </div>
