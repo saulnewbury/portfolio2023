@@ -55,7 +55,7 @@
 </script>
 
 <nav bind:this={nav}>
-  <a
+  <!-- <a
     class="brand-name border-b-[1px] border-black border-solid flex items-center hover:text-[red] hover:border-[red]"
     style={{ color: 'red' }}
     href="mailto:hello@saulnewbury.com"
@@ -75,10 +75,14 @@
       </svg>
     </span>
     <span>Get in touch</span></a
-  >
-
+  > -->
+  <a class="brand-name" href="/">Saul Newbury</a>
   <div class="right">
-    <a href="/">Saul Newbury</a>
+    <a
+      class="tracking-widest hover:underline"
+      href="/cv-saulnewbury-2025.pdf"
+      target="_blank">C.V</a
+    >
   </div>
 </nav>
 <!-- <div class="bottom">

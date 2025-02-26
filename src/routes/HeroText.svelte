@@ -130,31 +130,31 @@
 >
   <div class={'text desktop ' + (isDesktop ? 'visible' : 'invisible absolute')}>
     <div
-      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,3.1vw,2.5rem)] max-w-[32em] leading-[1.2em]"
+      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,2.3vw,2.2rem)] leading-[1.2em]"
     >
-      Fluidity is the catalyst for creative endeavour, with
+      Hey everyone! I'm Saul, a Web Designer and Developer who
     </div>
     <div
-      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,3.1vw,2.5rem)] max-w-[32em] leading-[1.2em]"
+      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,2.3vw,2.2rem)] leading-[1.2em]"
     >
-      each conversation and adjustment embodying resilience,
+      thrives at the intersection of fluidity and creativity, where excellent
     </div>
     <div
-      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,3.1vw,2.5rem)] max-w-[32em] leading-[1.2em]"
+      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,2.3vw,2.2rem)] leading-[1.2em]"
     >
-      collaboration, and an unwavering focus on user experience.
+      design reflects resilience, collaboration, and a sharp focus on
     </div>
+    <div
+      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,2.3vw,2.2rem)] leading-[1.2em]"
+    >
+      user experience. For any info just <a
+        class="text-[red] mix-blend-difference"
+        href="mailto:hello@saulnewbury.com">contact me</a
+      >!
+    </div>
+
     <div class="relative details flex mt-8 self-start">
-      <!-- <p>Saul Newbury</p>
-      <span class="mx-2">•</span> -->
-      <p>Designer & Developer</p>
-      <span class="mx-2">•</span>
-      <a
-        class="underline hover:text-[red]"
-        href="/cv-saulnewbury-2025.pdf"
-        donwload
-        target="_blank">C V</a
-      >
+      <p>Based in Bristol (UK)</p>
     </div>
   </div>
 
@@ -162,84 +162,84 @@
     <div
       class="line opacity-0 overflow-hidden text-[clamp(1.8rem,3.7vw,2.2rem)] max-w-[32em] leading-[1.2em]"
     >
-      Fluidity is the catalyst for creative endeavour,
+      Hey everyone! I'm Saul, a Web Designer
     </div>
     <div
       class="line opacity-0 overflow-hidden text-[clamp(1.8rem,3.7vw,2.2rem)] max-w-[32em] leading-[1.2em]"
     >
-      with each dialogue and adjustment embodying
+      and Developer who thrives at the intersection
     </div>
     <div
       class="line opacity-0 overflow-hidden text-[clamp(1.8rem,3.7vw,2.2rem)] max-w-[32em] leading-[1.2em]"
     >
-      resilience, collaboration, and an unwavering
+      of fluidity and creativity, where excellent design
+    </div>
+    <div
+      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,3.7vw,2.2rem)] max-w-[32em] leading-[1.2em]"
+    >
+      reflects resilience, collaboration, and a sharp
     </div>
     <div
       class="line opacity-0 overflow-hidden text-[clamp(1.8rem,3.7vw,2.2rem)] max-w-[32em] leading-[1.2em]"
     >
       focus on user experience.
     </div>
+    <br /> <br />
+    <div
+      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,3.7vw,2.2rem)] max-w-[32em] leading-[1.2em]"
+    >
+      For any info just <a
+        class="text-[red] mix-blend-difference"
+        href="mailto:hello@saulnewbury.com">contact me</a
+      >!
+    </div>
     <div class="details flex mt-8 self-start">
-      <p>Designer & Developer</p>
-      <span class="mx-2">•</span>
-      <p>Bristol (UK)</p>
-      <span class="mx-2">•</span>
-      <a
-        class="underline"
-        href="/cv-saulnewbury-2025.pdf"
-        target="_blank"
-        download>C V</a
-      >
+      <p>Based in Bristol (UK)</p>
     </div>
   </div>
 
   <div class={'text mobile ' + (isMobile ? 'visible' : 'invisible absolute')}>
     <div
-      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,6vw,2.2rem)] max-w-[32em] leading-[1.2em]"
+      class="line opacity-0 overflow-hidden text-[clamp(1.5rem,3.7vw,2.5rem)] max-w-[32em] leading-[1.2em]"
     >
-      Fluidity is the catalyst
+      Hey everyone! I'm Saul,
     </div>
     <div
-      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,6vw,2.2rem)] max-w-[32em] leading-[1.2em]"
+      class="line opacity-0 overflow-hidden text-[clamp(1.5rem,3.7vw,2.5rem)] max-w-[32em] leading-[1.2em]"
     >
-      of creative endeavour
+      a Web Designer and Developer who
     </div>
     <div
-      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,6vw,2.2rem)] max-w-[32em] leading-[1.2em]"
+      class="line opacity-0 overflow-hidden text-[clamp(1.5rem,3.7vw,2.5rem)] max-w-[32em] leading-[1.2em]"
     >
-      with each conversation,
+      thrives at the intersection of fluidity and
     </div>
     <div
-      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,6vw,2.2rem)] max-w-[32em] leading-[1.2em]"
+      class="line opacity-0 overflow-hidden text-[clamp(1.5rem,3.7vw,2.5rem)] max-w-[32em] leading-[1.2em]"
     >
-      and adjustment embodying
+      creativity, where excellent design reflects
     </div>
     <div
-      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,6vw,2.2rem)] max-w-[32em] leading-[1.2em]"
+      class="line opacity-0 overflow-hidden text-[clamp(1.5rem,3.7vw,2.5rem)] max-w-[32em] leading-[1.2em]"
     >
-      resilience, collaboration,
+      resilience, collaboration, and a sharp
     </div>
     <div
-      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,6vw,2.2rem)] max-w-[32em] leading-[1.2em]"
+      class="line opacity-0 overflow-hidden text-[clamp(1.5rem,3.7vw,2.5rem)] max-w-[32em] leading-[1.2em]"
     >
-      and an unwavering focus on
+      focus on user experience.
     </div>
+    <br /> <br />
     <div
-      class="line opacity-0 overflow-hidden text-[clamp(1.8rem,6vw,2.2rem)] max-w-[32em] leading-[1.2em]"
+      class="line opacity-0 overflow-hidden text-[clamp(1.5rem,3.7vw,2.5rem)] max-w-[32em] leading-[1.2em]"
     >
-      user experience.
+      For any info just <a
+        class="text-[red] mix-blend-difference"
+        href="mailto:hello@saulnewbury.com">contact me</a
+      >!
     </div>
     <div class="details flex mt-8 self-start">
-      <p>Designer & Developer</p>
-      <span class="mx-2">•</span>
-      <p>Bristol (UK)</p>
-      <span class="mx-2">•</span>
-      <a
-        class="underline"
-        href="/cv-saulnewbury-2025.pdf"
-        target="_blank"
-        download>C V</a
-      >
+      <p>Based in Bristol (UK)</p>
     </div>
   </div>
 </div>
